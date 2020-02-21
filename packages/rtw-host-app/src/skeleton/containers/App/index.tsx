@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
+import { SettingUser } from '@/pages/UserCenter/containers/SettingUser';
+import { UserProfile } from '@/pages/UserCenter/containers/UserProfile';
 import { Exception403, Exception404 } from '@/skeleton';
 import store from '@/skeleton/env/store';
 
@@ -60,6 +62,16 @@ export class App extends React.Component<IAppProps, IAppState> {
               <Redirect to={routes[0].path} />
             </Route>
             {routes.map(r => this.renderRoute(r.key, getManifest()[r.key]))}
+            <Route
+              exact={true}
+              path={'/user/profile'}
+              component={UserProfile}
+            />
+            <Route
+              exact={true}
+              path={`/user/setting`}
+              component={SettingUser}
+            />
             <Route path="/403" component={() => <Exception403 />} />
             <Route component={() => <Exception404 />} />
           </Switch>

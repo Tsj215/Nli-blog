@@ -41,6 +41,44 @@
 @shadowNavigation: 0 6px 12px @shadowColor;
 @shadowModal: 0 10px 20px @shadowColor;
 
+.appContainer {
+  height: 100%;
+  padding: 12px;
+  background: white;
+  border-radius: 4px;
+  box-shadow: @shadowCover;
+}
+
+.appCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexStart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flexEnd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spaceAround {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 // Type scale.
 .subtitleTypeScale() {
   font-weight: @fontWeightRegular;
