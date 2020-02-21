@@ -1,1 +1,1 @@
-export { Exception } from './decorators/exception/Exception';
+export * from './decorators';
