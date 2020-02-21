@@ -22,6 +22,12 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
     if (key === 'logout') {
       console.log('logout');
       return;
+    } else if (key === 'center') {
+      history.push('user/profile');
+      return;
+    } else if (key === 'settings') {
+      history.push('/user/setting');
+      return;
     }
     history.push(`/`);
   };
@@ -40,7 +46,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
             <Icon type="user" />
             <FormattedMessage
               id="menu.account.center"
-              defaultMessage="account center"
+              defaultMessage="个人中心"
             />
           </Menu.Item>
         )}
@@ -49,7 +55,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
             <Icon type="setting" />
             <FormattedMessage
               id="menu.account.settings"
-              defaultMessage="account settings"
+              defaultMessage="个人设置"
             />
           </Menu.Item>
         )}
@@ -57,7 +63,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
 
         <Menu.Item key="logout">
           <Icon type="logout" />
-          <FormattedMessage id="menu.account.logout" defaultMessage="logout" />
+          <FormattedMessage id="menu.account.logout" defaultMessage="登出" />
         </Menu.Item>
       </Menu>
     );

@@ -1,0 +1,66 @@
+@import '~@/skeleton/styles/variables.less';
+
+.container {
+  .appContainer;
+
+  padding: 0;
+  box-shadow: none;
+
+  .userInfo {
+    .appCenter;
+
+    justify-content: space-between;
+    padding: 0 200px;
+    background-color: #f0f2f5;
+
+    .signature {
+      width: 340px;
+      height: 200px;
+      align-self: flex-end;
+      background-color: #eee;
+
+      .sigHeader {
+        .spaceBetween;
+
+        height: 32px;
+        padding: 8px;
+        background-color: #e3e3e3;
+
+        .editSig {
+          color: #a8a8a8;
+          font-size: 12px;
+          cursor: pointer;
+          padding: 2px 4px;
+          border-radius: 4px;
+        }
+
+        .editSig:hover {
+          color: #8a6d3b;
+          background-color: #fcf8e3;
+        }
+
+        :global(.ant-badge-status-dot) {
+          width: 10px;
+          height: 10px;
+        }
+      }
+
+      .sigContent {
+        padding: 12px;
+        font-size: 14px;
+        color: #7d7d7d;
+
+        .sigBtns {
+          .flexEnd;
+
+          font-size: 12px;
+          margin-top: 12px;
+        }
+      }
+    }
+  }
+
+  .content {
+    padding: 24px 220px;
+  }
+}
