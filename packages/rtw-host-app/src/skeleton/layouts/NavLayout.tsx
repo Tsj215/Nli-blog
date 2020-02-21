@@ -8,11 +8,11 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import { formatMessage } from '@/i18n';
+import { getMenus } from '@/manifest';
 import { checkPermissions } from '@/skeleton/auth';
 import { getAuthority, setAuthority } from '@/skeleton/auth/authority';
 
 import { RightContent } from '../components/GlobalHeader/RightContent';
-import { menu } from '../menu';
 
 import { NavContext } from './NavContext';
 
@@ -79,7 +79,7 @@ export const NavLayout: React.FC<NavLayoutProps> = props => {
           {...props}
           collapsed={collapse}
           layout="topmenu"
-          route={menu}
+          route={getMenus() as any}
           logo={
             <div className={styles.logo}>
               <Icon type="robot" className={styles.logoIcon} />

@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
+import { Exception403, Exception404 } from '@/skeleton';
 import store from '@/skeleton/env/store';
 
-import { Module, manifest } from '../../../manifest';
-import { Exception404 } from '../../components/exception/404';
+import { Module, getManifest, getMenus } from '../../../manifest';
 import { NavLayout } from '../../layouts/NavLayout';
 import AppContainer from '../AppContainer';
 
@@ -49,16 +49,18 @@ export class App extends React.Component<IAppProps, IAppState> {
 
   render() {
     const { location } = this.props;
-    const routes = Object.keys(manifest);
+    const rootMenu = getMenus();
+    const routes = rootMenu.routes;
 
     return (
       <section className={styles.container}>
         <NavLayout matchedPath={location.pathname} disableContentMargin={false}>
           <Switch>
             <Route exact={true} path="/">
-              <Redirect to={routes[0]} />
+              <Redirect to={routes[0].path} />
             </Route>
-            {routes.map(r => this.renderRoute(r, manifest[r]))}
+            {routes.map(r => this.renderRoute(r.key, getManifest()[r.key]))}
+            <Route path="/403" component={() => <Exception403 />} />
             <Route component={() => <Exception404 />} />
           </Switch>
         </NavLayout>

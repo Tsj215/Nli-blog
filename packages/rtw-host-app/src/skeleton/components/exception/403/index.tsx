@@ -1,10 +1,10 @@
 import { Button, Result } from 'antd';
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { formatMessage } from '@/i18n';
 
-export default () => (
+export const Exception403 = () => (
   <Result
     status="403"
     title="403"
@@ -20,7 +20,7 @@ export default () => (
         <Button type="primary">
           {formatMessage({
             id: 'exception-403.exception.back',
-            defaultMessage: 'Back Home',
+            defaultMessage: '返回首页',
           })}
         </Button>
       </Link>
