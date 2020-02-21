@@ -1,7 +1,8 @@
 import { MenuDataItem } from '@ant-design/pro-layout';
 import { ComponentType } from 'react';
 
-import { menu as PageAmenu } from '@/pages/page-a/meta';
+// import { menu as PageAmenu } from '@/pages/page-a/meta';
+import { menu as moyunMenu } from '@/pages/MoCloud/meta';
 
 import { Home } from './pages/page-home/index';
 
@@ -26,10 +27,10 @@ export const getManifest = () => {
       type: 'app',
       component: Home,
     },
-    'page-a': {
-      id: 'page-a',
+    moyun: {
+      id: 'moyun',
       type: 'app',
-      loader: () => import(/* webpackChunkName: "page-a" */ './pages/page-a'),
+      loader: () => import('./pages/MoCloud'),
     },
   };
 };
@@ -39,9 +40,7 @@ export const getMenus = () => {
     return menus.map(m => ({ ...m }));
   };
 
-  console.log(mapMenus(PageAmenu()));
-
-  const routes = [
+  const routes: MenuDataItem[] = [
     {
       key: 'page-home',
       icon: 'dashboard',
@@ -50,11 +49,11 @@ export const getMenus = () => {
       // children: mapMenus([]),
     },
     {
-      key: 'page-a',
-      icon: 'highlight',
-      path: '/page-a',
-      name: 'Async App',
-      children: mapMenus([...PageAmenu()]),
+      key: 'moyun',
+      icon: 'cloud',
+      name: '莫云儿',
+      authority: ['admin'],
+      children: mapMenus([...moyunMenu()]),
     },
   ];
 

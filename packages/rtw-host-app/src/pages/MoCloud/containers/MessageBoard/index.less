@@ -1,0 +1,50 @@
+@import '~@/skeleton/styles/variables.less';
+
+.container {
+  .appContainer;
+  .spaceBetween;
+
+  align-items: flex-start;
+  height: 100vh;
+  background: url('~@/assets/background.svg');
+  background-size: cover;
+
+  .timeLine {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 550px;
+    margin-top: 24px;
+
+    .autoLine {
+      height: 68vh;
+      overflow: auto;
+    }
+
+    .timeLineItem {
+      .spaceBetween;
+    }
+  }
+  .addMsg {
+    .appCenter;
+
+    flex-direction: column;
+    justify-content: center;
+    width: 500px;
+    height: 80vh;
+    margin-right: 50px;
+  }
+
+  :global {
+    .ant-tabs-nav .ant-tabs-tab:hover {
+      color: #9da5ef;
+    }
+    .ant-tabs-nav .ant-tabs-tab-active {
+      color: #9da5ef;
+    }
+    .ant-tabs-ink-bar {
+      background-color: #9da5ef;
+    }
+  }
+}
