@@ -4,7 +4,7 @@ module.exports = {
   plugins: [
     new ThemeColorReplacer({
       fileName: 'theme-colors-[contenthash:8].css',
-      matchColors: getAntdSerials('#5d4bff'), // 主色系列
+      matchColors: getAntdSerials('#6874e2'), // 主色系列
       // 改变样式选择器，解决样式覆盖问题
       changeSelector(selector) {
         switch (selector) {

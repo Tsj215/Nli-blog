@@ -1,6 +1,6 @@
 module.exports = require('@wx-fc/webpack-config')({
   themeVars: {
-    'primary-color': '#5d4bff',
+    'primary-color': '#6874e2',
   },
   extendedBaseConfig: {
     module: {

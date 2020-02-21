@@ -3,15 +3,14 @@ import ProLayout, {
   MenuDataItem,
 } from '@ant-design/pro-layout';
 import { Icon } from 'antd';
+import _ from 'lodash';
 import * as React from 'react';
-// import SVG from 'react-inlinesvg';
 import { Link } from 'react-router-dom';
 
 import { formatMessage } from '@/i18n';
 import { checkPermissions } from '@/skeleton/auth';
 import { getAuthority, setAuthority } from '@/skeleton/auth/authority';
 
-import Logo from '../../assets/logo.svg';
 import { RightContent } from '../components/GlobalHeader/RightContent';
 import { menu } from '../menu';
 
@@ -76,17 +75,18 @@ export const NavLayout: React.FC<NavLayoutProps> = props => {
         }}
       >
         <ProLayout
+          className={styles.container}
           {...props}
           collapsed={collapse}
-          logo={
-            // <SVG
-            //   src="https://cdn.svgporn.com/logos/react.svg"
-            //   style={{ transform: 'scale(0.2)' }}
-            // />
-            <Logo style={{ transform: 'scale(0.2)' }} />
-          }
+          layout="topmenu"
           route={menu}
-          title="RTW"
+          logo={
+            <div className={styles.logo}>
+              <Icon type="robot" className={styles.logoIcon} />
+              <span>Nli's Blog</span>
+            </div>
+          }
+          title="Antd"
           siderWidth={240}
           navTheme={'light'}
           menuDataRender={menuDataRender}
@@ -95,22 +95,19 @@ export const NavLayout: React.FC<NavLayoutProps> = props => {
               return defaultDom;
             }
 
-            // 判断是否选中
-            if ((matchedPath || '').startsWith(menuItemProps.path)) {
-              return (
-                <div
-                  className={
-                    collapse
-                      ? styles.selectedMenuCollapsed
-                      : styles.selectedMenu
-                  }
-                >
-                  {defaultDom}
-                </div>
-              );
-            }
-
-            return <Link to={menuItemProps.path}>{defaultDom}</Link>;
+            return (
+              <Link
+                style={{
+                  // stylelint-disable-next-line function-name-case
+                  color: _.startsWith(matchedPath || '', menuItemProps.path)
+                    ? '#6874e2'
+                    : 'rgba(0,0,0,.65)',
+                }}
+                to={menuItemProps.path}
+              >
+                {defaultDom}
+              </Link>
+            );
           }}
           collapsedButtonRender={_collapsed => {
             return (
