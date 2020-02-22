@@ -148,6 +148,7 @@ export class UserProfileComp extends React.Component<
   }
 
   render() {
+    console.log(this.state);
     return (
       <div className={styles.container}>
         <PageHeader
@@ -159,7 +160,7 @@ export class UserProfileComp extends React.Component<
           {this.renderUserInfo()}
           {this.renderSignature()}
         </div>
-        <div className={styles.content}>uerprofile</div>
+        <div className={styles.content}>profile</div>
       </div>
     );
   }

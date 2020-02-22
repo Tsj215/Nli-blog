@@ -1,33 +1,27 @@
-import { Button, Result } from 'antd';
+import { Button } from 'antd';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 
-import { formatMessage } from '@/i18n';
-import { Exception } from 'rtw-components';
+import { history } from '@/skeleton/env/history';
+
+import * as styles from './index.less';
 
 export const Exception404 = () => (
-  <Result
-    status="404"
-    title="404"
-    style={{
-      background: 'none',
-    }}
-    subTitle={formatMessage({
-      id: 'exception-404.description.404',
-      defaultMessage: 'Sorry, the page you visited does not exist.',
-    })}
-    extra={
-      <Link to="/">
-        <div>
-          <Exception style={{ marginBottom: 16 }} />
-          <Button type="primary">
-            {formatMessage({
-              id: 'exception-404.exception.back',
-              defaultMessage: 'Back Home',
-            })}
-          </Button>
-        </div>
-      </Link>
-    }
-  />
+  <div className={styles.container}>
+    <div className={styles.content}>
+      <p>Page Not Found</p>
+      <span>
+        Lorem ipsum dolor sit amet, consectetur
+        <br /> adipiscing elit, sed do eiusmod tempor incididunt
+        <br /> ut labore et dolore magna aliqua
+      </span>
+      <Button
+        shape="round"
+        className={styles.btn}
+        onClick={() => history.push('/')}
+      >
+        Back
+      </Button>
+    </div>
+    <div />
+  </div>
 );

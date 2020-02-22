@@ -46,7 +46,7 @@ export class HandleTags extends React.Component<Partial<HandleTagProps>, HandleT
       return (tagList || []).map(t => (
         <Tag
           key={t}
-          color="#13C2C2"
+          color="#6874e2"
           style={{ cursor: 'pointer', marginBottom: 6 }}
           onClick={(e: any) => selectTags(e.target.innerText)}
         >

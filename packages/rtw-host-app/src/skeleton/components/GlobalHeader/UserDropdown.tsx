@@ -23,7 +23,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
       console.log('logout');
       return;
     } else if (key === 'center') {
-      history.push('user/profile');
+      history.push('/user/profile');
       return;
     } else if (key === 'settings') {
       history.push('/user/setting');

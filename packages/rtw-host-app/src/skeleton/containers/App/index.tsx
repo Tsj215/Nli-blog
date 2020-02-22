@@ -59,7 +59,7 @@ export class App extends React.Component<IAppProps, IAppState> {
         <NavLayout matchedPath={location.pathname} disableContentMargin={false}>
           <Switch>
             <Route exact={true} path="/">
-              <Redirect to={routes[0].path} />
+              <Redirect to={routes[0].children[0].path} />
             </Route>
             {routes.map(r => this.renderRoute(r.key, getManifest()[r.key]))}
             <Route

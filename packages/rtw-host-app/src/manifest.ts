@@ -2,7 +2,9 @@ import { MenuDataItem } from '@ant-design/pro-layout';
 import { ComponentType } from 'react';
 
 // import { menu as PageAmenu } from '@/pages/page-a/meta';
+import { menu as articleMenu } from '@/pages/Article/meta';
 import { menu as moyunMenu } from '@/pages/MoCloud/meta';
+import { menu as testMenu } from '@/pages/TestModule/meta';
 
 import { Home } from './pages/page-home/index';
 
@@ -22,6 +24,11 @@ export interface Module {
 
 export const getManifest = () => {
   return {
+    article: {
+      id: 'article',
+      type: 'app',
+      loader: () => import('./pages/Article'),
+    },
     'page-home': {
       id: 'page-home',
       type: 'app',
@@ -31,6 +38,11 @@ export const getManifest = () => {
       id: 'moyun',
       type: 'app',
       loader: () => import('./pages/MoCloud'),
+    },
+    module: {
+      id: 'module',
+      type: 'app',
+      loader: () => import('./pages/TestModule'),
     },
   };
 };
@@ -42,11 +54,11 @@ export const getMenus = () => {
 
   const routes: MenuDataItem[] = [
     {
-      key: 'page-home',
-      icon: 'dashboard',
-      path: '/page-home',
-      name: 'Home',
-      // children: mapMenus([]),
+      key: 'article',
+      icon: 'book',
+      type: 'app',
+      name: '文章',
+      children: mapMenus([...articleMenu()]),
     },
     {
       key: 'moyun',
@@ -54,6 +66,19 @@ export const getMenus = () => {
       name: '莫云儿',
       authority: ['admin'],
       children: mapMenus([...moyunMenu()]),
+    },
+    {
+      key: 'page-home',
+      icon: 'dashboard',
+      path: '/page-home',
+      name: 'Home',
+    },
+    {
+      key: 'module',
+      icon: 'cloud',
+      name: '测试',
+      authority: ['admin'],
+      children: mapMenus([...testMenu()]),
     },
   ];
 

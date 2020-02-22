@@ -1,0 +1,32 @@
+@import '~@/skeleton/styles/variables.less';
+
+.container {
+  .spaceBetween;
+
+  .header {
+    font-size: 14px;
+
+    .tagList {
+      margin-top: 12px;
+    }
+  }
+
+  .carousel {
+    width: 300px;
+    border: 14px solid #a2adb8;
+    margin: 24px 12px 12px 24px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-start;
+
+    > div {
+      margin-right: 16px;
+    }
+  }
+
+  :global(.ant-card-head) {
+    border-bottom: none;
+  }
+}

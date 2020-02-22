@@ -2,7 +2,7 @@ import { connectRouter } from 'connected-react-router';
 import { History } from 'history';
 import { ReducersMapObject, combineReducers } from 'redux';
 
-// import { ArticleState, articleReducer } from '@/pages/Article/ducks';
+import { ArticleState, articleReducer } from '@/pages/Article/ducks';
 import { MoCloudState, moCloudReducer } from '@/pages/MoCloud/ducks';
 import { UserState, userReducer } from '@/pages/UserCenter/ducks';
 
@@ -12,7 +12,7 @@ export interface IState {
   common: CommonState;
   user: UserState;
   moCloud: MoCloudState;
-  // article: ArticleState;
+  article: ArticleState;
 }
 
 export const configReducer = (partialReducers: ReducersMapObject = {}) => (
@@ -22,7 +22,7 @@ export const configReducer = (partialReducers: ReducersMapObject = {}) => (
     common: commonReducer,
     user: userReducer,
     moCloud: moCloudReducer,
-    // article: articleReducer,
+    article: articleReducer,
     router: connectRouter(history),
     ...partialReducers,
   });
