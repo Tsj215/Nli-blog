@@ -1,7 +1,10 @@
 import { Button, Form, Icon, Input, Modal, Popover, Tag, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import _ from 'lodash';
+import MarkdownIt from 'markdown-it';
 import * as React from 'react';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
 import { connect } from 'react-redux';
 
 import { newTag } from '@/apis';
@@ -98,10 +101,6 @@ export class NewArticleComp extends React.Component<
             borderStyle: 'dashed',
             backgroundColor: '#fff',
           }}
-          onClick={e => {
-            e.preventDefault();
-            console.log(e);
-          }}
         >
           <Icon type="plus" />
           添加标签
@@ -129,7 +128,17 @@ export class NewArticleComp extends React.Component<
   };
 
   onChange = (type: 'mdEditorValue' | 'title') => (value: any) => {
-    this.setState({ [type]: type === 'title' ? value.target.value : value });
+    this.setState({
+      [type]: type === 'title' ? value.target.value : value.text,
+    });
+  };
+
+  handleImageUpload = async (file: File) => {
+    const reader = new FileReader();
+    reader.onload = e => console.log(e.target.result);
+
+    console.log('file', file);
+    reader.readAsDataURL(file);
   };
 
   showModal = () => {
@@ -175,7 +184,8 @@ export class NewArticleComp extends React.Component<
   };
 
   render() {
-    const { title, selectedTags } = this.state;
+    const mdParser = new MarkdownIt();
+    const { title, selectedTags, mdEditorValue } = this.state;
 
     return (
       <div className={styles.container}>
@@ -206,11 +216,13 @@ export class NewArticleComp extends React.Component<
               />
             )}
           </div>
-          {/* <MDEditor
-            height={480}
+          <MdEditor
             value={mdEditorValue}
+            style={{ height: 480 }}
+            renderHTML={text => mdParser.render(text)}
             onChange={this.onChange('mdEditorValue')}
-          /> */}
+            onImageUpload={this.handleImageUpload}
+          />
         </div>
         {this.showModal()}
       </div>
