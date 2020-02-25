@@ -3,6 +3,7 @@ import { ClickParam } from 'antd/es/menu';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 
+import { logout } from '@/apis';
 import { CurrentUser } from '@/models/UserModel';
 import { getToken } from '@/skeleton/auth/token';
 import { history } from '@/skeleton/env/history';
@@ -21,6 +22,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
     const { key } = event;
 
     if (key === 'logout') {
+      logout();
       return;
     } else if (key === 'login') {
       history.push('/login');

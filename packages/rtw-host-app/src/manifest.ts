@@ -6,7 +6,7 @@ import { menu as articleMenu } from '@/pages/article/meta';
 import { menu as moyunMenu } from '@/pages/moCloud/meta';
 import { menu as testMenu } from '@/pages/testModule/meta';
 
-import { Home } from './pages/page-home/index';
+// import { Home } from './pages/page-home/index';
 
 export interface ResolvedModule {
   default: ComponentType<any>;
@@ -29,11 +29,11 @@ export const getManifest = () => {
       type: 'app',
       loader: () => import('./pages/article'),
     },
-    'page-home': {
-      id: 'page-home',
-      type: 'app',
-      component: Home,
-    },
+    // 'page-home': {
+    //   id: 'page-home',
+    //   type: 'app',
+    //   component: Home,
+    // },
     moyun: {
       id: 'moyun',
       type: 'app',
@@ -67,12 +67,12 @@ export const getMenus = () => {
       authority: ['admin'],
       children: mapMenus([...moyunMenu()]),
     },
-    {
-      key: 'page-home',
-      icon: 'dashboard',
-      path: '/page-home',
-      name: 'Home',
-    },
+    // {
+    //   key: 'page-home',
+    //   icon: 'dashboard',
+    //   path: '/page-home',
+    //   name: 'Home',
+    // },
     {
       key: 'module',
       icon: 'cloud',

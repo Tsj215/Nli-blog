@@ -22,6 +22,22 @@ export async function updateProfile(profile: Partial<S.UserProfile>) {
   return status === 'ok';
 }
 
+export async function loginByUsername(username: string, password: string) {
+  const data = await umiRequest.post<{ data: any } | Response>(
+    `${HOST}/user/login`,
+    {
+      data: { username, password },
+    },
+  );
+
+  if (data instanceof Response) {
+    return await data.json();
+  } else {
+    postLogin(data.data.token);
+    return data;
+  }
+}
+
 export async function loginByUserToken() {
   // 首先获取 token
   const token = getToken();
@@ -57,4 +73,13 @@ async function postLogin(token: string | null) {
     setToken(null);
     setAuthority(null);
   }
+}
+
+export function logout() {
+  setToken(null);
+  setAuthority(null);
+  window.location.search = '';
+
+  // 需要刷新界面，清空 redux
+  window.location.reload();
 }
