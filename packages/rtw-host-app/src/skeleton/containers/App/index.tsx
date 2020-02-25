@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
-import { SettingUser } from '@/pages/UserCenter/containers/SettingUser';
-import { UserProfile } from '@/pages/UserCenter/containers/UserProfile';
+import { LoginPage } from '@/pages/auth/containers/LoginPage';
+import { SettingUser } from '@/pages/userCenter/containers/SettingUser';
+import { UserProfile } from '@/pages/userCenter/containers/UserProfile';
 import { Exception403, Exception404 } from '@/skeleton';
 import store from '@/skeleton/env/store';
 
@@ -54,30 +55,36 @@ export class App extends React.Component<IAppProps, IAppState> {
     const rootMenu = getMenus();
     const routes = rootMenu.routes;
 
-    return (
-      <section className={styles.container}>
-        <NavLayout matchedPath={location.pathname} disableContentMargin={false}>
-          <Switch>
-            <Route exact={true} path="/">
-              <Redirect to={routes[0].children[0].path} />
-            </Route>
-            {routes.map(r => this.renderRoute(r.key, getManifest()[r.key]))}
-            <Route
-              exact={true}
-              path={'/user/profile'}
-              component={UserProfile}
-            />
-            <Route
-              exact={true}
-              path={`/user/setting`}
-              component={SettingUser}
-            />
-            <Route path="/403" component={() => <Exception403 />} />
-            <Route component={() => <Exception404 />} />
-          </Switch>
-        </NavLayout>
-      </section>
+    const withLayout = location.pathname !== '/login';
+
+    const currentApp = (
+      <Switch>
+        <Route exact={true} path="/">
+          <Redirect to={routes[0].children[0].path} />
+        </Route>
+        {routes.map(r => this.renderRoute(r.key, getManifest()[r.key]))}
+        <Route exact={true} path={'/user/profile'} component={UserProfile} />
+        <Route exact={true} path={`/user/setting`} component={SettingUser} />
+        <Route exact={true} path={'/login'} component={LoginPage} />
+        <Route path="/403" component={() => <Exception403 />} />
+        <Route component={() => <Exception404 />} />
+      </Switch>
     );
+
+    if (withLayout) {
+      return (
+        <section className={styles.container}>
+          <NavLayout
+            matchedPath={location.pathname}
+            disableContentMargin={false}
+          >
+            {currentApp}
+          </NavLayout>
+        </section>
+      );
+    } else {
+      return <section className={styles.container}>{currentApp}</section>;
+    }
   }
 }
 

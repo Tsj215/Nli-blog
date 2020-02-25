@@ -22,6 +22,8 @@ import { IntlProvider } from 'react-intl';
 import { Provider } from 'react-redux';
 import * as smoothscroll from 'smoothscroll-polyfill';
 
+import { loginByUserToken } from '@/apis';
+
 import App from './skeleton/containers/App';
 import { history } from './skeleton/env/history';
 import store from './skeleton/env/store';
@@ -44,15 +46,17 @@ dayjs.extend(utc);
 
 dayjs.locale(zh);
 
-ReactDOM.render(
-  <IntlProvider locale="en">
-    <ConfigProvider locale={zhCN}>
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </Provider>
-    </ConfigProvider>
-  </IntlProvider>,
-  document.getElementById('root'),
-);
+loginByUserToken().then(() => {
+  ReactDOM.render(
+    <IntlProvider locale="en">
+      <ConfigProvider locale={zhCN}>
+        <Provider store={store}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </Provider>
+      </ConfigProvider>
+    </IntlProvider>,
+    document.getElementById('root'),
+  );
+});

@@ -2,9 +2,9 @@ import { MenuDataItem } from '@ant-design/pro-layout';
 import { ComponentType } from 'react';
 
 // import { menu as PageAmenu } from '@/pages/page-a/meta';
-import { menu as articleMenu } from '@/pages/Article/meta';
-import { menu as moyunMenu } from '@/pages/MoCloud/meta';
-import { menu as testMenu } from '@/pages/TestModule/meta';
+import { menu as articleMenu } from '@/pages/article/meta';
+import { menu as moyunMenu } from '@/pages/moCloud/meta';
+import { menu as testMenu } from '@/pages/testModule/meta';
 
 import { Home } from './pages/page-home/index';
 
@@ -27,7 +27,7 @@ export const getManifest = () => {
     article: {
       id: 'article',
       type: 'app',
-      loader: () => import('./pages/Article'),
+      loader: () => import('./pages/article'),
     },
     'page-home': {
       id: 'page-home',
@@ -37,12 +37,12 @@ export const getManifest = () => {
     moyun: {
       id: 'moyun',
       type: 'app',
-      loader: () => import('./pages/MoCloud'),
+      loader: () => import('./pages/moCloud'),
     },
     module: {
       id: 'module',
       type: 'app',
-      loader: () => import('./pages/TestModule'),
+      loader: () => import('./pages/testModule'),
     },
   };
 };

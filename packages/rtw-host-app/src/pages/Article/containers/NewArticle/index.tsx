@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 import { newTag } from '@/apis';
 import { IState } from '@/ducks';
-import { tagActions } from '@/pages/Article/ducks/tag';
+import { tagActions } from '@/pages/article/ducks/tag';
 import { history } from '@/skeleton';
 import { HandleTags, PageHeader } from 'rtw-components/src';
 
@@ -137,7 +137,6 @@ export class NewArticleComp extends React.Component<
     const reader = new FileReader();
     reader.onload = e => console.log(e.target.result);
 
-    console.log('file', file);
     reader.readAsDataURL(file);
   };
 

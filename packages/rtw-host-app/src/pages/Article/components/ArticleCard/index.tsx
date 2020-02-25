@@ -83,7 +83,6 @@ export class ArticleCard extends React.Component<
   };
 
   public render(): JSX.Element {
-    console.log(window.innerWidth);
     const { isShowCarousel } = this.state;
 
     return (

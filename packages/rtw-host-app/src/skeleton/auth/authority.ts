@@ -1,6 +1,6 @@
 let currentAuthority: string[] | null = null;
 
-const key = 'rtw-authority';
+const key = 'nli-authority';
 
 // use localStorage to store the authority info, which might be sent from server in actual project.
 export function getAuthority(str?: string): string[] {

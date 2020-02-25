@@ -2,9 +2,9 @@ import { connectRouter } from 'connected-react-router';
 import { History } from 'history';
 import { ReducersMapObject, combineReducers } from 'redux';
 
-import { ArticleState, articleReducer } from '@/pages/Article/ducks';
-import { MoCloudState, moCloudReducer } from '@/pages/MoCloud/ducks';
-import { UserState, userReducer } from '@/pages/UserCenter/ducks';
+import { ArticleState, articleReducer } from '@/pages/article/ducks';
+import { MoCloudState, moCloudReducer } from '@/pages/moCloud/ducks';
+import { UserState, userReducer } from '@/pages/userCenter/ducks';
 
 import commonReducer, { IState as CommonState } from './common';
 

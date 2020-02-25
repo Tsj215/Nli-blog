@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import { addMoCloudMsg, deleteMoCloudMsg } from '@/apis';
 import Cloud from '@/assets/cloud.svg';
 import { IState } from '@/ducks';
-import { moCloudActions } from '@/pages/MoCloud/ducks/moCloud';
+import { moCloudActions } from '@/pages/moCloud/ducks/moCloud';
 import * as S from '@/schema';
 
 import * as styles from './index.less';
@@ -102,10 +102,6 @@ export class MessageBoardComp extends React.Component<
       >
         <Icon
           type="delete"
-          onClick={e => {
-            e.preventDefault();
-            console.log(m);
-          }}
           style={{
             cursor: 'pointer',
             transition: 'color .6s',

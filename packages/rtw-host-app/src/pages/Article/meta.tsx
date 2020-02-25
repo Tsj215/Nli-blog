@@ -10,5 +10,6 @@ export const menu: () => MenuDataItem[] = () => [
   {
     path: `${id}/new`,
     name: '新建文章',
+    authority: ['admin'],
   },
 ];

@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { IState } from '@/ducks';
-import { tagActions } from '@/pages/Article/ducks/tag';
-import { userActions } from '@/pages/UserCenter/ducks/profile';
+import { tagActions } from '@/pages/article/ducks/tag';
+import { userActions } from '@/pages/userCenter/ducks/profile';
 
 import { ArticleCard } from '../../components/ArticleCard';
 import { ArticleTag } from '../ArticleTags';

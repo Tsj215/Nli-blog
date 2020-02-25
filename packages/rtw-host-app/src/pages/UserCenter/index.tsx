@@ -6,8 +6,8 @@ import { UserProfile } from './containers/UserProfile';
 
 export default withRouter(({ match: { path } }) => (
   <Switch>
-    <Route exact={true} path={`${path}/user-profile`} component={UserProfile} />
-    <Route exact={true} path={`${path}/user-setting`} component={SettingUser} />
+    <Route exact={true} path={`${path}/profile`} component={UserProfile} />
+    <Route exact={true} path={`${path}/setting`} component={SettingUser} />
     <Redirect to={`${path}/user-profile`} />
   </Switch>
 ));

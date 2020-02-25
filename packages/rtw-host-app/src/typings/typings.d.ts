@@ -20,6 +20,7 @@ declare module 'webpack-theme-color-replacer';
 declare module 'webpack-theme-color-replacer/client';
 declare module 'redux-pack';
 declare module 'markdown-it';
+declare module 'jwt-decode';
 
 // google analytics interface
 interface GAFieldsObject {

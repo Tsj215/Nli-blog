@@ -132,7 +132,6 @@ export const NavLayout: React.FC<NavLayoutProps> = props => {
             ];
           }}
           itemRender={(route, _, routes, paths) => {
-            console.log('A');
             const first = routes.indexOf(route) === 0;
 
             return first ? (

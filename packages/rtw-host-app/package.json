@@ -44,6 +44,7 @@
     "dayjs": "^1.8.17",
     "dayjs-ext": "^2.2.0",
     "interactjs": "^1.7.2",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "markdown-it": "^10.0.0",
     "mobile-detect": "^1.4.4",

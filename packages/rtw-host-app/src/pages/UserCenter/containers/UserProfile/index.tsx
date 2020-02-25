@@ -43,6 +43,13 @@ export class UserProfileComp extends React.Component<
 
   renderUserInfo() {
     const { profile } = this.props;
+
+    console.log(profile);
+
+    if (!profile) {
+      return;
+    }
+
     return (
       <div
         style={{
@@ -57,7 +64,7 @@ export class UserProfileComp extends React.Component<
         <Descriptions
           column={1}
           style={{ width: 300, padding: '24px ' }}
-          title={profile.username}
+          title={profile.username || '-'}
         >
           <Descriptions.Item>
             <Icon type="environment" style={{ marginRight: 8 }} />
@@ -148,7 +155,6 @@ export class UserProfileComp extends React.Component<
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className={styles.container}>
         <PageHeader
