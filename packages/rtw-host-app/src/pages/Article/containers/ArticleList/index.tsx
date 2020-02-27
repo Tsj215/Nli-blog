@@ -1,4 +1,4 @@
-import { Divider } from 'antd';
+import { BackTop, Divider } from 'antd';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -45,7 +45,8 @@ export class ArticleListComp extends React.Component<
     const { tagList } = this.props;
 
     return (
-      <div className={styles.f}>
+      <div style={{ border: '1px solid red' }} className={styles.f}>
+        <BackTop visibilityHeight={100} />
         <div className={styles.s}>
           <div className={styles.selectTag}>
             <span>所属标签：</span>

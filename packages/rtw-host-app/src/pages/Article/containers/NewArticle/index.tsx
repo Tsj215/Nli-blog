@@ -1,10 +1,12 @@
 import { Button, Form, Icon, Input, Modal, Popover, Tag, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
+import BratfEditor, {
+  BuiltInControlType,
+  ExtendControlType,
+} from 'braft-editor';
+import 'braft-editor/dist/index.css';
 import _ from 'lodash';
-import MarkdownIt from 'markdown-it';
 import * as React from 'react';
-import MdEditor from 'react-markdown-editor-lite';
-import 'react-markdown-editor-lite/lib/index.css';
 import { connect } from 'react-redux';
 
 import { newTag } from '@/apis';
@@ -26,7 +28,7 @@ export interface NewArticleState {
   // 判断已选标签是否超过 5 个
   addTag: boolean;
   // 富文本编辑器默认内容
-  mdEditorValue: string;
+  editorState: any;
   // 已选标签
   selectedTags: string[];
 }
@@ -43,7 +45,7 @@ export class NewArticleComp extends React.Component<
       addTag: true,
       selectedTags: [],
       isVisible: false,
-      mdEditorValue: '### 九山八海为一世界',
+      editorState: BratfEditor.createEditorState('### 九山八海为一世界'),
     };
   }
 
@@ -127,17 +129,109 @@ export class NewArticleComp extends React.Component<
     this.setState({ selectedTags: _.pull(selectedTags, tag) });
   };
 
-  onChange = (type: 'mdEditorValue' | 'title') => (value: any) => {
+  onChange = (type: 'editorState' | 'title') => (value: any) => {
     this.setState({
-      [type]: type === 'title' ? value.target.value : value.text,
+      [type]: type === 'title' ? value.target.value : value,
     });
   };
 
-  handleImageUpload = async (file: File) => {
-    const reader = new FileReader();
-    reader.onload = e => console.log(e.target.result);
+  buildPreviewHtml() {
+    return `
+      <!Doctype html>
+      <html>
+        <head>
+          <title>Preview Content</title>
+          <style>
+            html,body{
+              height: 100%;
+              margin: 0;
+              padding: 0;
+              overflow: auto;
+              background-color: #f1f2f3;
+            }
+            .container{
+              box-sizing: border-box;
+              width: 1000px;
+              max-width: 100%;
+              min-height: 100%;
+              margin: 0 auto;
+              padding: 30px 20px;
+              overflow: hidden;
+              background-color: #fff;
+              border-right: solid 1px #eee;
+              border-left: solid 1px #eee;
+            }
+            .container img,
+            .container audio,
+            .container video{
+              max-width: 100%;
+              height: auto;
+            }
+            .container p{
+              white-space: pre-wrap;
+              min-height: 1em;
+            }
+            .container pre{
+              padding: 15px;
+              background-color: #f1f1f1;
+              border-radius: 5px;
+            }
+            .container blockquote{
+              margin: 0;
+              padding: 15px;
+              background-color: #f1f1f1;
+              border-left: 3px solid #d1d1d1;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">${this.state.editorState.toHTML()}</div>
+        </body>
+      </html>
+    `;
+  }
 
-    reader.readAsDataURL(file);
+  renderBraftEditor = () => {
+    const { editorState } = this.state;
+    const excludeControls: BuiltInControlType[] = [
+      'media',
+      'subscript',
+      'superscript',
+      'letter-spacing',
+    ];
+
+    const extendControls: ExtendControlType[] = [
+      {
+        key: 'custom-modal',
+        type: 'modal',
+        html: null,
+        text: '预览',
+        modal: {
+          id: 'my-modal',
+          title: '预览内容',
+          width: 500,
+          height: 700,
+          showFooter: false,
+          showConfirm: false,
+          showCancel: false,
+          children: (
+            <div
+              dangerouslySetInnerHTML={{ __html: this.buildPreviewHtml() }}
+            />
+          ),
+        },
+      },
+    ];
+
+    return (
+      <BratfEditor
+        value={editorState}
+        extendControls={extendControls}
+        excludeControls={excludeControls}
+        style={{ backgroundColor: '#fff' }}
+        onChange={this.onChange('editorState')}
+      />
+    );
   };
 
   showModal = () => {
@@ -183,8 +277,7 @@ export class NewArticleComp extends React.Component<
   };
 
   render() {
-    const mdParser = new MarkdownIt();
-    const { title, selectedTags, mdEditorValue } = this.state;
+    const { title, selectedTags } = this.state;
 
     return (
       <div className={styles.container}>
@@ -215,13 +308,7 @@ export class NewArticleComp extends React.Component<
               />
             )}
           </div>
-          <MdEditor
-            value={mdEditorValue}
-            style={{ height: 480 }}
-            renderHTML={text => mdParser.render(text)}
-            onChange={this.onChange('mdEditorValue')}
-            onImageUpload={this.handleImageUpload}
-          />
+          {this.renderBraftEditor()}
         </div>
         {this.showModal()}
       </div>

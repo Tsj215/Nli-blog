@@ -7,7 +7,7 @@ import _ from 'lodash';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import Ball from '@/assets/ball.svg';
+import Logo from '@/assets/logo2.svg';
 import { formatMessage } from '@/i18n';
 import { getMenus } from '@/manifest';
 import { checkPermissions } from '@/skeleton/auth';
@@ -83,7 +83,7 @@ export const NavLayout: React.FC<NavLayoutProps> = props => {
           route={getMenus() as any}
           logo={
             <div className={styles.logo}>
-              <Ball />
+              <Logo />
               <span>Nli's Blog</span>
             </div>
           }
