@@ -1,4 +1,14 @@
-import { Button, Form, Icon, Input, Modal, Popover, Tag, message } from 'antd';
+import {
+  Button,
+  Form,
+  Icon,
+  Input,
+  Modal,
+  Popover,
+  Tag,
+  Upload,
+  message,
+} from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 import BratfEditor, {
   BuiltInControlType,
@@ -220,6 +230,17 @@ export class NewArticleComp extends React.Component<
             />
           ),
         },
+      },
+      {
+        key: 'upload',
+        type: 'component',
+        component: (
+          <Upload accept="image/*" showUploadList={false}>
+            <Button className="control-item button" data-title="插入图片">
+              <Icon type="picture" theme="filled" />
+            </Button>
+          </Upload>
+        ),
       },
     ];
 

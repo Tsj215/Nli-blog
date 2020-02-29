@@ -45,7 +45,7 @@ export class ArticleListComp extends React.Component<
     const { tagList } = this.props;
 
     return (
-      <div style={{ border: '1px solid red' }} className={styles.f}>
+      <div className={styles.f}>
         <BackTop visibilityHeight={100} />
         <div className={styles.s}>
           <div className={styles.selectTag}>
