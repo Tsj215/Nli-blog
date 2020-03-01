@@ -79,10 +79,12 @@ export class BraftEditor extends React.Component<
   public render(): JSX.Element {
     const { editorState, onChange } = this.props;
     const excludeControls: BuiltInControlType[] = [
+      'emoji',
       'media',
       'subscript',
       'superscript',
       'letter-spacing',
+      'text-align',
     ];
     const extendControls: ExtendControlType[] = [
       {
@@ -121,10 +123,11 @@ export class BraftEditor extends React.Component<
     return (
       <Braft
         value={editorState}
+        contentStyle={{ height: 400 }}
         extendControls={extendControls}
         excludeControls={excludeControls}
-        style={{ backgroundColor: '#fff' }}
         onChange={onChange('editorState') as any}
+        style={{ backgroundColor: '#fff', height: 450 }}
       />
     );
   }

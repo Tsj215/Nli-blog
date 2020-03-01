@@ -43,13 +43,15 @@ const footerRender: NavLayoutProps['footerRender'] = () => {
   return (
     <div
       style={{
-        textAlign: 'center',
+        // textAlign: 'center',
         display: 'flex',
         justifyContent: 'center',
+        alignContent: 'center',
+        marginTop: 12,
       }}
     >
-      <h3 style={{ marginRight: 16 }}>王下邀月熊，项目地址：</h3>
-      <a href="https://github.com/wx-chevalier/m-fe-rtw">m-fe-rtw</a>
+      <h3 style={{ marginRight: 16, fontSize: 14 }}>NLi，项目地址:</h3>
+      <a href="https://github.com/Tsj215/Nli-blog">NLi'blog</a>
     </div>
   );
 };

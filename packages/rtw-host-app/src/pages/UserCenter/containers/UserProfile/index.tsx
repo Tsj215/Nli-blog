@@ -158,15 +158,17 @@ export class UserProfileComp extends React.Component<
     return (
       <div className={styles.container}>
         <PageHeader
-          style={{ backgroundColor: '#fff' }}
           title="个人中心"
           onBack={() => history.back()}
+          style={{ backgroundColor: '#fff' }}
         />
         <div className={styles.userInfo}>
           {this.renderUserInfo()}
           {this.renderSignature()}
         </div>
-        <div className={styles.content}>profile</div>
+        <div className={styles.content}>
+          <Button>点击</Button>
+        </div>
       </div>
     );
   }

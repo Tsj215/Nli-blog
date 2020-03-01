@@ -5,7 +5,7 @@ import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { newTag } from '@/apis';
+import { newArticle, newTag } from '@/apis';
 import { IState } from '@/ducks';
 import { tagActions } from '@/pages/article/ducks/tag';
 import { history } from '@/skeleton';
@@ -29,6 +29,8 @@ export interface NewArticleState {
   editorState: any;
   // 已选标签
   selectedTags: string[];
+  // 是否发布
+  isSubmit: boolean;
 }
 
 export class NewArticleComp extends React.Component<
@@ -42,6 +44,7 @@ export class NewArticleComp extends React.Component<
       title: null,
       addTag: true,
       selectedTags: [],
+      isSubmit: false,
       isVisible: false,
       editorState: BratfEditor.createEditorState('### 九山八海为一世界'),
     };
@@ -175,8 +178,22 @@ export class NewArticleComp extends React.Component<
     );
   };
 
-  render() {
+  submitArticle = async () => {
     const { title, selectedTags, editorState } = this.state;
+    console.log(_.isEmpty(selectedTags));
+    if (_.isEmpty(title) || _.isEmpty(selectedTags)) {
+      message.error('输入标题或选择标签');
+    } else {
+      const resp = newArticle(title, selectedTags, editorState.toHTML());
+      if (resp) {
+        message.success('发布成功');
+        this.setState({ isSubmit: true });
+      }
+    }
+  };
+
+  render() {
+    const { title, selectedTags, editorState, isSubmit } = this.state;
 
     return (
       <div className={styles.container}>
@@ -193,13 +210,22 @@ export class NewArticleComp extends React.Component<
               style={{ marginRight: 16 }}
               onChange={this.onChange('title')}
             />
-            <Button
-              onClick={e => {
-                e.preventDefault();
-                // console.log(this.state);
-              }}
-            >
+            <Button disabled={isSubmit} onClick={this.submitArticle}>
               发布文章
+            </Button>
+            <Button
+              style={{ marginLeft: 8 }}
+              type="danger"
+              onClick={() =>
+                this.setState({
+                  title: '',
+                  isSubmit: false,
+                  selectedTags: [],
+                  editorState: BratfEditor.createEditorState(null),
+                })
+              }
+            >
+              重置
             </Button>
           </div>
           <div className={styles.selectTags}>
