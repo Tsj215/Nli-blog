@@ -1,20 +1,6 @@
-import {
-  Button,
-  Form,
-  Icon,
-  Input,
-  Modal,
-  Popover,
-  Tag,
-  Upload,
-  message,
-} from 'antd';
+import { Button, Form, Icon, Input, Modal, Popover, Tag, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import BratfEditor, {
-  BuiltInControlType,
-  ExtendControlType,
-} from 'braft-editor';
-import 'braft-editor/dist/index.css';
+import BratfEditor from 'braft-editor';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -24,6 +10,8 @@ import { IState } from '@/ducks';
 import { tagActions } from '@/pages/article/ducks/tag';
 import { history } from '@/skeleton';
 import { HandleTags, PageHeader } from 'rtw-components/src';
+
+import { BraftEditor } from '../../components/BraftEditor';
 
 import * as styles from './index.less';
 
@@ -145,116 +133,6 @@ export class NewArticleComp extends React.Component<
     });
   };
 
-  buildPreviewHtml() {
-    return `
-      <!Doctype html>
-      <html>
-        <head>
-          <title>Preview Content</title>
-          <style>
-            html,body{
-              height: 100%;
-              margin: 0;
-              padding: 0;
-              overflow: auto;
-              background-color: #f1f2f3;
-            }
-            .container{
-              box-sizing: border-box;
-              width: 1000px;
-              max-width: 100%;
-              min-height: 100%;
-              margin: 0 auto;
-              padding: 30px 20px;
-              overflow: hidden;
-              background-color: #fff;
-              border-right: solid 1px #eee;
-              border-left: solid 1px #eee;
-            }
-            .container img,
-            .container audio,
-            .container video{
-              max-width: 100%;
-              height: auto;
-            }
-            .container p{
-              white-space: pre-wrap;
-              min-height: 1em;
-            }
-            .container pre{
-              padding: 15px;
-              background-color: #f1f1f1;
-              border-radius: 5px;
-            }
-            .container blockquote{
-              margin: 0;
-              padding: 15px;
-              background-color: #f1f1f1;
-              border-left: 3px solid #d1d1d1;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">${this.state.editorState.toHTML()}</div>
-        </body>
-      </html>
-    `;
-  }
-
-  renderBraftEditor = () => {
-    const { editorState } = this.state;
-    const excludeControls: BuiltInControlType[] = [
-      'media',
-      'subscript',
-      'superscript',
-      'letter-spacing',
-    ];
-
-    const extendControls: ExtendControlType[] = [
-      {
-        key: 'custom-modal',
-        type: 'modal',
-        html: null,
-        text: '预览',
-        modal: {
-          id: 'my-modal',
-          title: '预览内容',
-          width: 500,
-          height: 700,
-          showFooter: false,
-          showConfirm: false,
-          showCancel: false,
-          children: (
-            <div
-              dangerouslySetInnerHTML={{ __html: this.buildPreviewHtml() }}
-            />
-          ),
-        },
-      },
-      {
-        key: 'upload',
-        type: 'component',
-        component: (
-          <Upload accept="image/*" showUploadList={false}>
-            <Button className="control-item button" data-title="插入图片">
-              <Icon type="picture" theme="filled" />
-            </Button>
-          </Upload>
-        ),
-      },
-    ];
-
-    return (
-      <BratfEditor
-        value={editorState}
-        extendControls={extendControls}
-        excludeControls={excludeControls}
-        style={{ backgroundColor: '#fff' }}
-        onChange={this.onChange('editorState')}
-      />
-    );
-  };
-
   showModal = () => {
     const { isVisible } = this.state;
     const { getFieldDecorator } = this.props.form;
@@ -298,7 +176,7 @@ export class NewArticleComp extends React.Component<
   };
 
   render() {
-    const { title, selectedTags } = this.state;
+    const { title, selectedTags, editorState } = this.state;
 
     return (
       <div className={styles.container}>
@@ -315,7 +193,12 @@ export class NewArticleComp extends React.Component<
               style={{ marginRight: 16 }}
               onChange={this.onChange('title')}
             />
-            <Button onClick={() => message.success('发布成功')}>
+            <Button
+              onClick={e => {
+                e.preventDefault();
+                // console.log(this.state);
+              }}
+            >
               发布文章
             </Button>
           </div>
@@ -329,7 +212,7 @@ export class NewArticleComp extends React.Component<
               />
             )}
           </div>
-          {this.renderBraftEditor()}
+          <BraftEditor editorState={editorState} onChange={this.onChange} />
         </div>
         {this.showModal()}
       </div>
