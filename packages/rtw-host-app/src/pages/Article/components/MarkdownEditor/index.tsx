@@ -3,6 +3,8 @@ import * as React from 'react';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 
+import UploadPic from './plugins/Upload';
+
 interface MarkdownEditorProps {
   mdValue?: string;
 
@@ -13,7 +15,22 @@ interface MarkdownEditorState {
   mdValue?: string;
 }
 
+MdEditor.use(UploadPic);
+
 const mdParser = new MarkDownIt();
+
+const plugins = [
+  'header',
+  'fonts',
+  'table',
+  'my-plugins',
+  'link',
+  'clear',
+  'logger',
+  'mode-toggle',
+  'full-screen',
+  'upload',
+];
 
 export class MarkdownEditor extends React.Component<
   MarkdownEditorProps,
@@ -36,9 +53,11 @@ export class MarkdownEditor extends React.Component<
     return (
       <MdEditor
         value={mdValue}
+        plugins={plugins}
         style={{ height: 460 }}
         renderHTML={this.renderHTML}
         onChange={onChange('mdValue') as any}
+        config={{ imageUrl: 'https://octodex.github.com/images/minion.png' }}
       />
     );
   }
