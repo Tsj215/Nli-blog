@@ -20,6 +20,10 @@ declare module 'webpack-theme-color-replacer';
 declare module 'webpack-theme-color-replacer/client';
 declare module 'redux-pack';
 declare module 'jwt-decode';
+declare module 'braft-extensions/dist/code-highlighter';
+declare module 'braft-extensions/dist/markdown';
+declare module 'braft-extensions/dist/table';
+declare module 'braft-extensions/dist/header-id';
 
 // google analytics interface
 interface GAFieldsObject {

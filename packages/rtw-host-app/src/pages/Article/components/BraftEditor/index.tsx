@@ -1,6 +1,12 @@
 import { Button, Icon, Upload } from 'antd';
 import Braft, { BuiltInControlType, ExtendControlType } from 'braft-editor';
 import 'braft-editor/dist/index.css';
+import CodeHighlighter from 'braft-extensions/dist/code-highlighter';
+import 'braft-extensions/dist/code-highlighter.css';
+import HeaderId from 'braft-extensions/dist/header-id';
+import Markdown from 'braft-extensions/dist/markdown';
+import Table from 'braft-extensions/dist/table';
+import 'braft-extensions/dist/table.css';
 import * as React from 'react';
 
 interface BraftEditorProps {
@@ -9,6 +15,18 @@ interface BraftEditorProps {
 }
 
 interface BraftEditorState {}
+
+const options = {
+  defaultColumns: 3, // 默认列数
+  defaultRows: 3, // 默认行数
+  withDropdown: false, // 插入表格前是否弹出下拉菜单
+  columnResizable: true, // 是否允许拖动调整列宽，默认false
+};
+
+Braft.use(Markdown());
+Braft.use(HeaderId());
+Braft.use(Table(options));
+Braft.use(CodeHighlighter());
 
 export class BraftEditor extends React.Component<
   BraftEditorProps,
