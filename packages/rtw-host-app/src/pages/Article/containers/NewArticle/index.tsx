@@ -1,6 +1,5 @@
 import { Button, Form, Icon, Input, Modal, Popover, Tag, message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
-import BratfEditor from 'braft-editor';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -11,7 +10,7 @@ import { tagActions } from '@/pages/article/ducks/tag';
 import { history } from '@/skeleton';
 import { HandleTags, PageHeader } from 'rtw-components/src';
 
-import { BraftEditor } from '../../components/BraftEditor';
+import { MarkdownEditor } from '../../components/MarkdownEditor';
 
 import * as styles from './index.less';
 
@@ -26,7 +25,7 @@ export interface NewArticleState {
   // 判断已选标签是否超过 5 个
   addTag: boolean;
   // 富文本编辑器默认内容
-  editorState: any;
+  mdValue: any;
   // 已选标签
   selectedTags: string[];
   // 是否发布
@@ -46,7 +45,7 @@ export class NewArticleComp extends React.Component<
       selectedTags: [],
       isSubmit: false,
       isVisible: false,
-      editorState: BratfEditor.createEditorState('### 九山八海为一世界'),
+      mdValue: '### 九山八海为一世dddd界',
     };
   }
 
@@ -130,9 +129,9 @@ export class NewArticleComp extends React.Component<
     this.setState({ selectedTags: _.pull(selectedTags, tag) });
   };
 
-  onChange = (type: 'editorState' | 'title') => (value: any) => {
+  onChange = (type: 'mdValue' | 'title') => (value: any) => {
     this.setState({
-      [type]: type === 'title' ? value.target.value : value,
+      [type]: type === 'title' ? value.target.value : value.text,
     });
   };
 
@@ -179,12 +178,12 @@ export class NewArticleComp extends React.Component<
   };
 
   submitArticle = async () => {
-    const { title, selectedTags, editorState } = this.state;
+    const { title, selectedTags, mdValue } = this.state;
     console.log(_.isEmpty(selectedTags));
-    if (_.isEmpty(title) || _.isEmpty(selectedTags)) {
-      message.error('输入标题或选择标签');
+    if (_.isEmpty(title) || _.isEmpty(selectedTags) || _.isEmpty(mdValue)) {
+      message.error('输入标题、选择标签、写入文章');
     } else {
-      const resp = newArticle(title, selectedTags, editorState.toHTML());
+      const resp = newArticle(title, selectedTags, mdValue);
       if (resp) {
         message.success('发布成功');
         this.setState({ isSubmit: true });
@@ -193,7 +192,7 @@ export class NewArticleComp extends React.Component<
   };
 
   render() {
-    const { title, selectedTags, editorState, isSubmit } = this.state;
+    const { title, selectedTags, mdValue, isSubmit } = this.state;
 
     return (
       <div className={styles.container}>
@@ -219,9 +218,9 @@ export class NewArticleComp extends React.Component<
               onClick={() =>
                 this.setState({
                   title: '',
+                  mdValue: '',
                   isSubmit: false,
                   selectedTags: [],
-                  editorState: BratfEditor.createEditorState(null),
                 })
               }
             >
@@ -238,7 +237,7 @@ export class NewArticleComp extends React.Component<
               />
             )}
           </div>
-          <BraftEditor editorState={editorState} onChange={this.onChange} />
+          <MarkdownEditor mdValue={mdValue} onChange={this.onChange} />
         </div>
         {this.showModal()}
       </div>
