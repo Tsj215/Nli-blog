@@ -45,7 +45,7 @@ export class NewArticleComp extends React.Component<
       selectedTags: [],
       isSubmit: false,
       isVisible: false,
-      mdValue: '### 九山八海为一世dddd界',
+      mdValue: '## 九山八海为一世界',
     };
   }
 
