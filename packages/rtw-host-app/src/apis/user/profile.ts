@@ -83,3 +83,19 @@ export function logout() {
   // 需要刷新界面，清空 redux
   window.location.reload();
 }
+
+// 上传文件
+export async function getQiniuToken() {
+  const { data } = await umiRequest.get<{ data: any }>(`${HOST}/user/upload`);
+
+  return data;
+}
+
+// 获取下载链接
+export async function getDownloadUrl(key: string) {
+  const { data } = await umiRequest.get<{ data: string }>(
+    `${HOST}/user/download/${key}`,
+  );
+
+  return data;
+}

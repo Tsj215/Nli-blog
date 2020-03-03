@@ -179,7 +179,6 @@ export class NewArticleComp extends React.Component<
 
   submitArticle = async () => {
     const { title, selectedTags, mdValue } = this.state;
-    console.log(_.isEmpty(selectedTags));
     if (_.isEmpty(title) || _.isEmpty(selectedTags) || _.isEmpty(mdValue)) {
       message.error('输入标题、选择标签、写入文章');
     } else {

@@ -44,8 +44,6 @@ export class UserProfileComp extends React.Component<
   renderUserInfo() {
     const { profile } = this.props;
 
-    console.log(profile);
-
     if (!profile) {
       return;
     }

@@ -1,10 +1,18 @@
-import { Icon, Upload } from 'antd';
+import { Icon, Upload, message } from 'antd';
+import { RcFile } from 'antd/lib/upload';
+import { UploadFile } from 'antd/lib/upload/interface';
 import React from 'react';
 import { PluginComponent, PluginProps } from 'react-markdown-editor-lite';
 
+import { getDownloadUrl, getQiniuToken } from '@/apis';
+
 import * as styles from './index.less';
 
-interface UploadPicState {}
+interface UploadPicState {
+  uploadToken?: string;
+  key?: string;
+  url?: string;
+}
 
 interface UploadPicProps extends PluginProps {}
 
@@ -23,22 +31,41 @@ export default class UploadPic extends PluginComponent<
     this.state = {};
   }
 
+  beforeUpload = async (file: RcFile): Promise<any> => {
+    const isLt10M = file.size / 1024 / 1024 < 10;
+
+    if (!isLt10M) {
+      message.error('最大上传10M');
+      return false;
+    }
+    const uploadToken = await getQiniuToken();
+
+    this.setState({ uploadToken, key: file.name });
+  };
+
+  onChange = async (info: { file: UploadFile }) => {
+    console.log(info.file);
+    if (info.file.status === 'done') {
+      const url = await getDownloadUrl(info.file.name);
+      this.editor.insertMarkdown('image', {
+        target: info.file.name,
+        imageUrl: url,
+      });
+    }
+  };
+
   render() {
-    console.log(this.editor);
+    const { uploadToken, key } = this.state;
     return (
       <span className={styles.button}>
-        <Upload>
-          <Icon
-            onClick={() => {
-              this.editor.insertMarkdown('image', {
-                target: '456',
-                imageUrl: '123',
-              });
-            }}
-            type="picture"
-            theme="filled"
-            className={styles.icon}
-          />
+        <Upload
+          showUploadList={false}
+          onChange={this.onChange}
+          action="http://upload.qiniup.com"
+          data={{ token: uploadToken, key }}
+          beforeUpload={this.beforeUpload}
+        >
+          <Icon type="picture" theme="filled" className={styles.icon} />
         </Upload>
       </span>
     );
