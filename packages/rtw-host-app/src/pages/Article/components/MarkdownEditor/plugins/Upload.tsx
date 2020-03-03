@@ -44,7 +44,6 @@ export default class UploadPic extends PluginComponent<
   };
 
   onChange = async (info: { file: UploadFile }) => {
-    console.log(info.file);
     if (info.file.status === 'done') {
       const url = await getDownloadUrl(info.file.name);
       this.editor.insertMarkdown('image', {
