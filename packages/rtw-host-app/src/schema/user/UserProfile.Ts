@@ -6,4 +6,5 @@ export class UserProfile {
   address: string;
   github: string;
   signature: string;
+  avatarUrl: string;
 }

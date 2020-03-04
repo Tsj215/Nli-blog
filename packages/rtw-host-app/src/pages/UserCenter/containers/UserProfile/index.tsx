@@ -1,8 +1,19 @@
-import { Avatar, Badge, Button, Descriptions, Icon, Input } from 'antd';
+import {
+  Avatar,
+  Badge,
+  Button,
+  Descriptions,
+  Icon,
+  Input,
+  Upload,
+  message,
+} from 'antd';
+import { RcFile } from 'antd/lib/upload';
+import { UploadChangeParam } from 'antd/lib/upload/interface';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { updateProfile } from '@/apis';
+import { getDownloadUrl, getQiniuToken, updateProfile } from '@/apis';
 import { IState } from '@/ducks';
 import * as S from '@/schema';
 import { PageHeader } from 'rtw-components/src';
@@ -18,7 +29,11 @@ export interface UserProfileProps {
 
 export interface UserProfileState {
   editSig: boolean;
+  isLoading: boolean;
+
+  token?: string;
   signature?: string;
+  avatarName?: string;
 }
 
 export class UserProfileComp extends React.Component<
@@ -30,6 +45,7 @@ export class UserProfileComp extends React.Component<
 
     this.state = {
       editSig: false,
+      isLoading: false,
     };
   }
 
@@ -48,6 +64,13 @@ export class UserProfileComp extends React.Component<
       return;
     }
 
+    const uploadButton = (
+      <div>
+        <Icon type={this.state.isLoading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+
     return (
       <div
         style={{
@@ -57,7 +80,21 @@ export class UserProfileComp extends React.Component<
         }}
       >
         <div style={{ marginRight: 24, padding: '24px 0' }}>
-          <Avatar size={150} src="https://picsum.photos/150/150" />
+          <Upload
+            accept="image/*"
+            listType="picture-card"
+            showUploadList={false}
+            onChange={this.onUploadChange}
+            beforeUpload={this.beforeUpload}
+            action="http://upload.qiniup.com"
+            data={{ token: this.state.token }}
+          >
+            {!profile.avatarUrl ? (
+              uploadButton
+            ) : (
+              <Avatar size={150} src="https://picsum.photos/150/150" />
+            )}
+          </Upload>
         </div>
         <Descriptions
           column={1}
@@ -84,6 +121,28 @@ export class UserProfileComp extends React.Component<
       </div>
     );
   }
+
+  beforeUpload = async (file: RcFile): Promise<any> => {
+    if (file.size / 1024 / 1024 > 10) {
+      message.error('上传图片不得大于10M');
+      return false;
+    }
+    const token = await getQiniuToken();
+    this.setState({ token, avatarName: file.name });
+  };
+
+  onUploadChange = async (info: UploadChangeParam) => {
+    if (info.file.status === 'uploading') {
+      this.setState({ isLoading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      this.setState({ isLoading: false });
+      const avatarUrl = await getDownloadUrl(info.file.response.key);
+      console.log(avatarUrl);
+      return;
+    }
+  };
 
   clickBtn = async (type: 'confirm' | 'cancel') => {
     if (type === 'cancel') {
