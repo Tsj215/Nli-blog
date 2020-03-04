@@ -2,6 +2,7 @@ import { Icon, Tooltip } from 'antd';
 import * as React from 'react';
 
 import { formatMessage } from '@/i18n';
+import * as S from '@/schema';
 
 import { NavContext } from '../../layouts/NavContext';
 import HeaderSearch from '../HeaderSearch';
@@ -15,11 +16,12 @@ import styles from './index.less';
 export type SiderTheme = 'light' | 'dark';
 export interface RightContentProps {
   theme?: SiderTheme;
+  profile: S.UserProfile;
   layout?: 'sidemenu' | 'topmenu';
 }
 
 export const RightContent: React.SFC<RightContentProps> = props => {
-  const { theme, layout } = props;
+  const { theme, layout, profile } = props;
   let className = styles.right;
 
   if (theme === 'dark' && layout === 'topmenu') {
@@ -72,7 +74,7 @@ export const RightContent: React.SFC<RightContentProps> = props => {
         menu={true}
         currentUser={{
           name: navContext.authority![0],
-          avatar: 'https://i.pravatar.cc/300',
+          avatarUrl: profile.avatarUrl || 'https://i.pravatar.cc/300',
         }}
       />
       <SelectLang className={styles.action} />

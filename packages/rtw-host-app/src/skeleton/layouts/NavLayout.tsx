@@ -5,11 +5,15 @@ import ProLayout, {
 import { Icon } from 'antd';
 import _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Logo from '@/assets/logo2.svg';
+import { IState } from '@/ducks';
 import { formatMessage } from '@/i18n';
 import { getMenus } from '@/manifest';
+import { userActions } from '@/pages/userCenter/ducks/profile';
+import * as S from '@/schema';
 import { checkPermissions } from '@/skeleton/auth';
 import { getAuthority, setAuthority } from '@/skeleton/auth/authority';
 
@@ -21,6 +25,9 @@ import * as styles from './index.less';
 
 export interface NavLayoutProps extends ProLayoutProps {
   matchedPath?: string;
+  profile: S.UserProfile;
+
+  laodProfile: () => void;
 }
 
 /**
@@ -56,8 +63,8 @@ const footerRender: NavLayoutProps['footerRender'] = () => {
   );
 };
 
-export const NavLayout: React.FC<NavLayoutProps> = props => {
-  const { children, matchedPath } = props;
+export const NavLayoutCom: React.FC<NavLayoutProps> = props => {
+  const { children, matchedPath, profile } = props;
   const [authority, _setAuthority] = React.useState(getAuthority());
 
   const [collapse, toggleCollapse] = React.useState(true);
@@ -144,7 +151,9 @@ export const NavLayout: React.FC<NavLayoutProps> = props => {
           }}
           footerRender={footerRender}
           formatMessage={formatMessage}
-          rightContentRender={rightProps => <RightContent {...rightProps} />}
+          rightContentRender={rightProps => (
+            <RightContent profile={profile} {...rightProps} />
+          )}
           onCollapse={handleMenuCollapse}
         >
           {children}
@@ -153,3 +162,12 @@ export const NavLayout: React.FC<NavLayoutProps> = props => {
     </section>
   );
 };
+
+export const NavLayout = connect(
+  (state: IState) => ({
+    profile: state.user.profile.profile,
+  }),
+  {
+    laodProfile: userActions.laodProfile,
+  },
+)(NavLayoutCom);

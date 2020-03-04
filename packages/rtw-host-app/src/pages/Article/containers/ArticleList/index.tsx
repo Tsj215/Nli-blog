@@ -6,6 +6,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { IState } from '@/ducks';
 import { tagActions } from '@/pages/article/ducks/tag';
 import { userActions } from '@/pages/userCenter/ducks/profile';
+import * as S from '@/schema';
 
 import { ArticleCard } from '../../components/ArticleCard';
 import { ArticleTag } from '../ArticleTags';
@@ -13,7 +14,7 @@ import { ArticleTag } from '../ArticleTags';
 import * as styles from './index.less';
 
 export interface ArticleListProps extends RouteComponentProps {
-  profile: any;
+  profile: S.UserProfile;
   tagList?: string[];
 
   loadTagList: () => void;
@@ -38,7 +39,6 @@ export class ArticleListComp extends React.Component<
 
   onRefresh = () => {
     this.props.loadTagList();
-    this.props.loadProfile(1);
   };
 
   render() {
@@ -68,7 +68,7 @@ export class ArticleListComp extends React.Component<
 
 export const ArticleList = connect(
   (state: IState) => ({
-    profile: state.user.profile,
+    profile: state.user.profile.profile,
     tagList: state.article.tag.tagList,
   }),
   {

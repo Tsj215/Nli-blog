@@ -1,5 +1,5 @@
 export interface CurrentUser {
-  avatar?: string;
+  avatarUrl?: string;
   name?: string;
   title?: string;
   group?: string;

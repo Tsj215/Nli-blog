@@ -92,7 +92,7 @@ export class UserProfileComp extends React.Component<
             {!profile.avatarUrl ? (
               uploadButton
             ) : (
-              <Avatar size={150} src="https://picsum.photos/150/150" />
+              <Avatar size={150} src={profile.avatarUrl} />
             )}
           </Upload>
         </div>
@@ -139,7 +139,8 @@ export class UserProfileComp extends React.Component<
     if (info.file.status === 'done') {
       this.setState({ isLoading: false });
       const avatarUrl = await getDownloadUrl(info.file.response.key);
-      console.log(avatarUrl);
+      await updateProfile({ avatarUrl });
+      this.onRefresh();
       return;
     }
   };

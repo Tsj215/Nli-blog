@@ -39,7 +39,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
 
   render(): React.ReactNode {
     const token = getToken();
-    const { currentUser = { avatar: '', name: '' }, menu } = this.props;
+    const { currentUser = { avatarUrl: '', name: '' }, menu } = this.props;
 
     const menuHeaderDropdown = (
       <Menu
@@ -88,7 +88,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
           <Avatar
             size="small"
             className={styles.avatar}
-            src={currentUser.avatar}
+            src={currentUser.avatarUrl}
             alt="avatar"
           />
           <span className={styles.name}>{currentUser.name}</span>
