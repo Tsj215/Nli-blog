@@ -6,11 +6,14 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { loginByUsername } from '@/apis';
 import Cloud from '@/assets/cloud2.svg';
 import { IState } from '@/ducks';
+import { userActions } from '@/pages/userCenter/ducks/profile';
 // import * as S from '@/schema';
 
 import * as styles from './index.less';
 
-export interface LoginPageProps extends RouteComponentProps {}
+export interface LoginPageProps extends RouteComponentProps {
+  loadProfile: (id: number) => void;
+}
 
 export interface LoginPageState {
   username: string;
@@ -38,10 +41,10 @@ export class LoginPageComp extends React.Component<
   handleLogin = async () => {
     const { username, password } = this.state;
     const resp = await loginByUsername(username, password);
-    console.log('token', resp.token);
+
     if (resp.data.token) {
-      window.location.href = '/';
       message.success('登录成功');
+      window.location.href = '/';
     } else if (resp.message.errors === 'User not found') {
       message.error('用户名或密码错误');
     }
@@ -83,7 +86,6 @@ export class LoginPageComp extends React.Component<
   }
 }
 
-export const LoginPage = connect(
-  (_state: IState) => ({}),
-  {},
-)(withRouter(LoginPageComp));
+export const LoginPage = connect((_state: IState) => ({}), {
+  loadProfile: userActions.loadProfile,
+})(withRouter(LoginPageComp));

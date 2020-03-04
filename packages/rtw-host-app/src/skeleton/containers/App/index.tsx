@@ -6,11 +6,10 @@ import { withRouter } from 'react-router-dom';
 import { LoginPage } from '@/pages/auth/containers/LoginPage';
 import { SettingUser } from '@/pages/userCenter/containers/SettingUser';
 import { UserProfile } from '@/pages/userCenter/containers/UserProfile';
-import { Exception403, Exception404 } from '@/skeleton';
+import { Exception403, Exception404, NavLayout } from '@/skeleton';
 import store from '@/skeleton/env/store';
 
 import { Module, getManifest, getMenus } from '../../../manifest';
-import { NavLayout } from '../../layouts/NavLayout';
 import AppContainer from '../AppContainer';
 
 import * as styles from './index.less';
@@ -74,12 +73,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     if (withLayout) {
       return (
         <section className={styles.container}>
-          <NavLayout
-            matchedPath={location.pathname}
-            disableContentMargin={false}
-          >
-            {currentApp}
-          </NavLayout>
+          <NavLayout matchedPath={location.pathname}>{currentApp}</NavLayout>
         </section>
       );
     } else {

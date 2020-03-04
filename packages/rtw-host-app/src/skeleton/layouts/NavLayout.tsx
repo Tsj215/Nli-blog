@@ -24,10 +24,11 @@ import { NavContext } from './NavContext';
 import * as styles from './index.less';
 
 export interface NavLayoutProps extends ProLayoutProps {
-  matchedPath?: string;
+  matchedPath: string;
   profile: S.UserProfile;
+  children: any;
 
-  laodProfile: () => void;
+  loadProfile: (id: number) => void;
 }
 
 /**
@@ -63,8 +64,8 @@ const footerRender: NavLayoutProps['footerRender'] = () => {
   );
 };
 
-export const NavLayoutCom: React.FC<NavLayoutProps> = props => {
-  const { children, matchedPath, profile } = props;
+const NavLayoutCom: React.FC<Partial<NavLayoutProps>> = props => {
+  const { children, matchedPath, profile, loadProfile } = props;
   const [authority, _setAuthority] = React.useState(getAuthority());
 
   const [collapse, toggleCollapse] = React.useState(true);
@@ -72,6 +73,11 @@ export const NavLayoutCom: React.FC<NavLayoutProps> = props => {
   const handleMenuCollapse = (payload: boolean): void => {
     toggleCollapse(payload);
   };
+
+  // 如果用户个人信息不存在，则进行加载
+  if (!profile.avatarUrl) {
+    localStorage.getItem('nli-token') && loadProfile(1);
+  }
 
   return (
     <section>
@@ -168,6 +174,6 @@ export const NavLayout = connect(
     profile: state.user.profile.profile,
   }),
   {
-    laodProfile: userActions.laodProfile,
+    loadProfile: userActions.loadProfile,
   },
 )(NavLayoutCom);

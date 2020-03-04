@@ -68,6 +68,7 @@ async function postLogin(token: string | null) {
     if (!profile) {
       return;
     }
+
     setAuthority('admin');
   } else {
     setToken(null);
