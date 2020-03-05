@@ -5,7 +5,7 @@ import { ComponentType } from 'react';
 import { menu as articleMenu } from '@/pages/article/meta';
 import { menu as moyunMenu } from '@/pages/moCloud/meta';
 import { menu as testMenu } from '@/pages/testModule/meta';
-import { getToken } from '@/skeleton/auth/token';
+import { getToken } from '@/skeleton';
 
 // import { menu as PageAmenu } from '@/pages/page-a/meta';
 // import { Home } from './pages/page-home/index';

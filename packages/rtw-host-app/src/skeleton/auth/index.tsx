@@ -3,3 +3,5 @@ export * from './withAuth';
 export * from './Authorized';
 export * from './AuthorizedRoute';
 export * from './permissions';
+export * from './token';
+export * from './permissions';
