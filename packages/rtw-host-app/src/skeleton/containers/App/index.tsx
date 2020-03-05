@@ -4,6 +4,7 @@ import { Redirect, Route, RouteComponentProps, Switch } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import { LoginPage } from '@/pages/auth/containers/LoginPage';
+import { Bars } from '@/pages/userCenter/containers/Bars';
 import { SettingUser } from '@/pages/userCenter/containers/SettingUser';
 import { UserProfile } from '@/pages/userCenter/containers/UserProfile';
 import { Exception403, Exception404, NavLayout } from '@/skeleton';
@@ -77,6 +78,7 @@ export class App extends React.Component<IAppProps, IAppState> {
         {token && (
           <Route exact={true} path={`/user/setting`} component={SettingUser} />
         )}
+        {token && <Route exact={true} path={`/user/bars`} component={Bars} />}
         <Route path="/403" component={() => <Exception403 />} />
         <Route component={() => <Exception404 />} />
       </Switch>

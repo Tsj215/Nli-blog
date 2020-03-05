@@ -34,7 +34,11 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
     } else if (key === 'settings') {
       history.push('/user/setting');
       return;
+    } else if (key === 'bars') {
+      history.push('/user/bars');
+      return;
     }
+
     history.push(`/`);
   };
 
@@ -69,6 +73,15 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
             <FormattedMessage
               id="menu.account.settings"
               defaultMessage="个人设置"
+            />
+          </Menu.Item>
+        )}
+        {menu && token && (
+          <Menu.Item key="bars">
+            <Icon type="bars" />
+            <FormattedMessage
+              id="menu.account.bars"
+              defaultMessage="后台管理"
             />
           </Menu.Item>
         )}
