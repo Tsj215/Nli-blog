@@ -7,6 +7,7 @@ import { LoginPage } from '@/pages/auth/containers/LoginPage';
 import { SettingUser } from '@/pages/userCenter/containers/SettingUser';
 import { UserProfile } from '@/pages/userCenter/containers/UserProfile';
 import { Exception403, Exception404, NavLayout } from '@/skeleton';
+import { getToken } from '@/skeleton/auth/token';
 import store from '@/skeleton/env/store';
 
 import { Module, getManifest, getMenus } from '../../../manifest';
@@ -26,6 +27,10 @@ export class App extends React.Component<IAppProps, IAppState> {
   }
 
   renderRoute(appId: string, app: Module) {
+    if (!appId) {
+      return;
+    }
+
     if (app.component) {
       return <Route key={appId} path={`/${appId}`} component={app.component} />;
     }
@@ -53,6 +58,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     const { location } = this.props;
     const rootMenu = getMenus();
     const routes = rootMenu.routes;
+    const token = getToken();
 
     const withLayout = location.pathname !== '/login';
 
@@ -61,10 +67,16 @@ export class App extends React.Component<IAppProps, IAppState> {
         <Route exact={true} path="/">
           <Redirect to={routes[0].children[0].path} />
         </Route>
-        {routes.map(r => this.renderRoute(r.key, getManifest()[r.key]))}
-        <Route exact={true} path={'/user/profile'} component={UserProfile} />
-        <Route exact={true} path={`/user/setting`} component={SettingUser} />
+        {routes.map(r =>
+          this.renderRoute(r && r.key, r && getManifest()[r.key]),
+        )}
         <Route exact={true} path={'/login'} component={LoginPage} />
+        {token && (
+          <Route exact={true} path={'/user/profile'} component={UserProfile} />
+        )}
+        {token && (
+          <Route exact={true} path={`/user/setting`} component={SettingUser} />
+        )}
         <Route path="/403" component={() => <Exception403 />} />
         <Route component={() => <Exception404 />} />
       </Switch>

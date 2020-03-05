@@ -79,8 +79,8 @@ async function postLogin(token: string | null) {
 export function logout() {
   setToken(null);
   setAuthority(null);
-  window.location.search = '';
 
+  window.location.search = '';
   // 需要刷新界面，清空 redux
   window.location.reload();
 }

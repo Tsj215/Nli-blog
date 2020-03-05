@@ -22,6 +22,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
     const { key } = event;
 
     if (key === 'logout') {
+      history.push('/');
       logout();
       return;
     } else if (key === 'login') {
