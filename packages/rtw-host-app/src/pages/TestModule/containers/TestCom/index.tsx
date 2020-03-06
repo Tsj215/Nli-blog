@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Tabs } from 'antd';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -21,7 +21,14 @@ export class TestComComp extends React.Component<TestComProps, TestComState> {
   render() {
     return (
       <div className={styles.container}>
-        <Button>点击</Button>
+        <Tabs defaultActiveKey="1">
+          <Tabs.TabPane tab="tab1" key="1">
+            tab1
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="tab2" key="2">
+            tab2
+          </Tabs.TabPane>
+        </Tabs>
       </div>
     );
   }
