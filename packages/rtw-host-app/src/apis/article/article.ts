@@ -1,3 +1,4 @@
+import * as S from '@/schema';
 import { HOST, umiRequest } from '@/skeleton';
 
 export async function newArticle(
@@ -17,4 +18,23 @@ export async function newArticle(
   );
 
   return status === 'ok';
+}
+
+export async function getArticleList(
+  pageNum: number,
+  pageSize: number,
+  article?: S.Article,
+) {
+  const { data } = await umiRequest.post<{ data: S.Article[] }>(
+    `${HOST}/article/list`,
+    {
+      data: {
+        pageNum,
+        pageSize,
+        article,
+      },
+    },
+  );
+
+  return data;
 }

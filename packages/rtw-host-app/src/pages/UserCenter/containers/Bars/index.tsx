@@ -2,22 +2,29 @@ import { DatePicker, Input, Select, Tabs } from 'antd';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router';
 
 import { IState } from '@/ducks';
+import { articleActions } from '@/pages/article/ducks/blog';
 import { tagActions } from '@/pages/article/ducks/tag';
+import * as S from '@/schema';
+import { history } from '@/skeleton';
 import { PageHeader } from 'rtw-components/src';
-// import * as S from '@/schema';
 
 import * as styles from './index.less';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-export interface BarsProps extends RouteComponentProps {
+export interface BarsProps {
+  articleList: S.Article[];
   tagList: string[];
 
   loadTagList: () => void;
+  loadArticleList: (
+    pageNum: number,
+    pageSize: number,
+    article?: S.Article,
+  ) => void;
 }
 
 export interface BarsState {
@@ -35,6 +42,7 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
 
   componentDidMount() {
     this.props.loadTagList();
+    this.props.loadArticleList(0, 10);
   }
 
   filter = () => {
@@ -63,7 +71,6 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
   };
 
   render() {
-    const { history } = this.props;
     const { subTitle } = this.state;
     return (
       <div className={styles.container}>
@@ -88,9 +95,11 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
 
 export const Bars = connect(
   (state: IState) => ({
-    tagList: state.article.tag.tagList,
+    tagList: state.blog.tag.tagList,
+    articleList: state.blog.article.articleList,
   }),
   {
     loadTagList: tagActions.loadTagList,
+    loadArticleList: articleActions.loadArticleList,
   },
-)(withRouter(BarsComp));
+)(BarsComp);

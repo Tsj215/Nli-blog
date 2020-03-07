@@ -246,7 +246,7 @@ export class NewArticleComp extends React.Component<
 
 export const NewArticle = connect(
   (state: IState) => ({
-    tagList: state.article.tag.tagList,
+    tagList: state.blog.tag.tagList,
   }),
   {
     loadTagList: tagActions.loadTagList,

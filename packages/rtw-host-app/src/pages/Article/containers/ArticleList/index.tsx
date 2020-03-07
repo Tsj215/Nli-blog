@@ -69,7 +69,7 @@ export class ArticleListComp extends React.Component<
 export const ArticleList = connect(
   (state: IState) => ({
     profile: state.user.profile.profile,
-    tagList: state.article.tag.tagList,
+    tagList: state.blog.tag.tagList,
   }),
   {
     loadProfile: userActions.loadProfile,
