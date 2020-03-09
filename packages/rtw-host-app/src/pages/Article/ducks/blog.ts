@@ -5,7 +5,7 @@ import { getArticleList } from '../../../apis';
 import * as S from '../../../schema';
 
 export interface IState {
-  articleList: string[];
+  articleList: S.Article[];
 }
 
 const initialState: IState = {

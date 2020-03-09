@@ -10,6 +10,8 @@ import * as S from '@/schema';
 import { history } from '@/skeleton';
 import { PageHeader } from 'rtw-components/src';
 
+import { ArticleListTable } from './ArticleManagement';
+
 import * as styles from './index.less';
 
 const { TabPane } = Tabs;
@@ -81,8 +83,9 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
         />
         {this.filter()}
         <Tabs defaultActiveKey="1" onChange={this.onTabChange}>
-          <TabPane tab="文章管理" key="文章管理">
-            文章管理
+          <TabPane tab="文章管理" key="文章管理" style={{ paddingTop: 24 }}>
+            {/* 文章管理 */}
+            <ArticleListTable articleList={[]} />
           </TabPane>
           <TabPane tab="标签管理" key="标签管理">
             标签管理
