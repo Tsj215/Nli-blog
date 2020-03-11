@@ -38,3 +38,11 @@ export async function getArticleList(
 
   return data;
 }
+
+export async function deleteArticle(id: number) {
+  const { status } = await umiRequest.delete<{ status: string }>(
+    `${HOST}/article/delete/${id}`,
+  );
+
+  return status === 'ok';
+}

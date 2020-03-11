@@ -43,9 +43,13 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
   }
 
   componentDidMount() {
+    this.onRefresh();
+  }
+
+  onRefresh = () => {
     this.props.loadTagList();
     this.props.loadArticleList(0, 10);
-  }
+  };
 
   filter = () => {
     const { tagList } = this.props;
@@ -85,7 +89,10 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
         <Tabs defaultActiveKey="1" onChange={this.onTabChange}>
           <TabPane tab="文章管理" key="文章管理" style={{ paddingTop: 12 }}>
             {/* 文章管理 */}
-            <ArticleListTable articleList={this.props.articleList} />
+            <ArticleListTable
+              onRefresh={this.onRefresh}
+              articleList={this.props.articleList}
+            />
           </TabPane>
           <TabPane tab="标签管理" key="标签管理">
             标签管理
