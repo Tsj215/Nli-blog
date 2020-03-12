@@ -1,4 +1,5 @@
 import { DatePicker, Input, Select, Tabs } from 'antd';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -33,8 +34,11 @@ export interface BarsProps {
 export interface BarsState {
   subTitle: string;
   tags: string[];
+  title: string;
   pageNum: number;
   pageSize: number;
+  from: string;
+  to: string;
 }
 
 export class BarsComp extends React.Component<BarsProps, BarsState> {
@@ -44,8 +48,11 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
     this.state = {
       subTitle: '文章管理',
       tags: [],
+      title: null,
       pageNum: 0,
       pageSize: 10,
+      from: null,
+      to: null,
     };
   }
 
@@ -54,18 +61,30 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
   }
 
   onRefresh = () => {
-    const { pageNum, pageSize } = this.state;
+    const { pageNum, pageSize, title, tags, from, to } = this.state;
 
     this.props.loadTagList();
-    this.props.loadArticleList(pageNum, pageSize);
+    this.props.loadArticleList(pageNum, pageSize, { title, tags, from, to });
   };
 
   filter = () => {
     const { tagList } = this.props;
-    const { pageNum, pageSize } = this.state;
+    const { pageNum, pageSize, title, tags, from, to } = this.state;
     return (
       <div className={styles.filter}>
-        <Input.Search style={{ width: 300 }} allowClear={true} />
+        <Input.Search
+          style={{ width: 300 }}
+          allowClear={true}
+          onSearch={(title: string) => {
+            this.setState({ title });
+            this.props.loadArticleList(pageNum, pageSize, {
+              title,
+              tags,
+              from,
+              to,
+            });
+          }}
+        />
         <Select
           allowClear={true}
           defaultValue={_.head(tagList)}
@@ -73,6 +92,9 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
           onChange={(v: string) => {
             this.setState({ tags: v ? [v] : [] });
             this.props.loadArticleList(pageNum, pageSize, {
+              from,
+              to,
+              title,
               tags: v ? [v] : [],
             });
           }}
@@ -83,7 +105,29 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
             </Option>
           ))}
         </Select>
-        <DatePicker allowClear={true} />
+        <DatePicker.RangePicker
+          allowClear={true}
+          onChange={(_: any, dateString: string[]) => {
+            this.setState({
+              from: dateString[0] ? dateString[0] : '',
+              to: dateString[1]
+                ? dayjs(dateString[1])
+                    .add(1, 'day')
+                    .format('YYYY-MM-DD')
+                : '',
+            });
+            this.props.loadArticleList(pageNum, pageSize, {
+              title,
+              tags,
+              from: dateString[0] ? dateString[0] : '',
+              to: dateString[1]
+                ? dayjs(dateString[1])
+                    .add(1, 'day')
+                    .format('YYYY-MM-DD')
+                : '',
+            });
+          }}
+        />
       </div>
     );
   };
@@ -93,9 +137,14 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
   };
 
   onPaginationChange = (pageNum: number, pageSize: number) => {
-    const { tags } = this.state;
+    const { tags, title, from, to } = this.state;
     this.setState({ pageNum: pageNum - 1, pageSize });
-    this.props.loadArticleList(pageNum - 1, pageSize, { tags });
+    this.props.loadArticleList(pageNum - 1, pageSize, {
+      tags,
+      title,
+      from,
+      to,
+    });
   };
 
   render() {

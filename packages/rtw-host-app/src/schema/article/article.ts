@@ -4,4 +4,7 @@ export class Article {
   tags: string[];
   imageList: string[];
   createAt: string;
+
+  from?: string;
+  to?: string;
 }
