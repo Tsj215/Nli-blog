@@ -6,10 +6,12 @@ import * as S from '../../../schema';
 
 export interface IState {
   articleList: S.Article[];
+  articleCount: number;
 }
 
 const initialState: IState = {
   articleList: [],
+  articleCount: 0,
 };
 
 export const actions = createActions({
@@ -32,7 +34,8 @@ export default handleActions<IState, any>(
       return handle(state, action, {
         success: (prevState: IState) => ({
           ...prevState,
-          articleList: payload,
+          articleList: payload.list,
+          articleCount: payload.total,
         }),
       });
     },

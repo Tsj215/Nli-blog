@@ -18,19 +18,23 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 export interface BarsProps {
-  articleList: S.Article[];
   tagList: string[];
+  articlecount: number;
+  articleList: S.Article[];
 
   loadTagList: () => void;
   loadArticleList: (
     pageNum: number,
     pageSize: number,
-    article?: S.Article,
+    article?: Partial<S.Article>,
   ) => void;
 }
 
 export interface BarsState {
   subTitle: string;
+  tags: string[];
+  pageNum: number;
+  pageSize: number;
 }
 
 export class BarsComp extends React.Component<BarsProps, BarsState> {
@@ -39,6 +43,9 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
 
     this.state = {
       subTitle: '文章管理',
+      tags: [],
+      pageNum: 0,
+      pageSize: 10,
     };
   }
 
@@ -47,12 +54,15 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
   }
 
   onRefresh = () => {
+    const { pageNum, pageSize } = this.state;
+
     this.props.loadTagList();
-    this.props.loadArticleList(0, 10);
+    this.props.loadArticleList(pageNum, pageSize);
   };
 
   filter = () => {
     const { tagList } = this.props;
+    const { pageNum, pageSize } = this.state;
     return (
       <div className={styles.filter}>
         <Input.Search style={{ width: 300 }} allowClear={true} />
@@ -60,6 +70,12 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
           allowClear={true}
           defaultValue={_.head(tagList)}
           style={{ width: 100, margin: '0 18px' }}
+          onChange={(v: string) => {
+            this.setState({ tags: v ? [v] : [] });
+            this.props.loadArticleList(pageNum, pageSize, {
+              tags: v ? [v] : [],
+            });
+          }}
         >
           {(tagList || []).map(t => (
             <Option value={t} key={t}>
@@ -76,8 +92,21 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
     this.setState({ subTitle: key });
   };
 
+  onPaginationChange = (pageNum: number, pageSize: number) => {
+    const { tags } = this.state;
+    this.setState({ pageNum: pageNum - 1, pageSize });
+    this.props.loadArticleList(pageNum - 1, pageSize, { tags });
+  };
+
   render() {
     const { subTitle } = this.state;
+    const { articlecount } = this.props;
+    const pagination = {
+      total: articlecount,
+      showSizeChanger: true,
+      onChange: this.onPaginationChange,
+      onShowSizeChange: this.onPaginationChange,
+    };
     return (
       <div className={styles.container}>
         <PageHeader
@@ -92,6 +121,7 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
             <ArticleListTable
               onRefresh={this.onRefresh}
               articleList={this.props.articleList}
+              pagination={pagination}
             />
           </TabPane>
           <TabPane tab="标签管理" key="标签管理">
@@ -107,6 +137,7 @@ export const Bars = connect(
   (state: IState) => ({
     tagList: state.blog.tag.tagList,
     articleList: state.blog.article.articleList,
+    articlecount: state.blog.article.articleCount,
   }),
   {
     loadTagList: tagActions.loadTagList,

@@ -1,6 +1,6 @@
 import Ellipsis from 'ant-design-pro/lib/Ellipsis';
 import { Button, Divider, Popconfirm, Table, Tag, message } from 'antd';
-import { ColumnProps } from 'antd/es/table';
+import { ColumnProps, PaginationConfig } from 'antd/es/table';
 import dayjs from 'dayjs';
 import React from 'react';
 
@@ -11,13 +11,15 @@ import * as styles from './ArticleManagement.less';
 
 interface ArticleListTableProps {
   articleList: S.Article[];
+  pagination: PaginationConfig;
 
   onRefresh: () => void;
 }
 
 export const ArticleListTable: React.FC<ArticleListTableProps> = ({
-  articleList,
   onRefresh,
+  articleList,
+  pagination,
 }) => {
   const columns: ColumnProps<S.Article>[] = [
     {
@@ -75,6 +77,7 @@ export const ArticleListTable: React.FC<ArticleListTableProps> = ({
       <Table<S.Article>
         rowKey="id"
         columns={columns}
+        pagination={pagination}
         dataSource={articleList}
       />
     </div>

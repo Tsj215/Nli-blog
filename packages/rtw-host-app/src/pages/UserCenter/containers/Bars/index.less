@@ -11,8 +11,24 @@
 
     margin-top: 20px;
   }
+}
 
-  :global(.ant-tabs-nav-animated) {
+:global {
+  .ant-calendar-prev-year-btn,
+  .ant-calendar-prev-month-btn,
+  .ant-calendar-next-month-btn,
+  .ant-calendar-next-year-btn,
+  .ant-calendar-year-panel-prev-decade-btn,
+  .ant-calendar-year-panel-next-decade-btn,
+  .ant-calendar-month-panel-next-year-btn,
+  .ant-calendar-month-panel-prev-year-btn,
+  .ant-calendar-decade-panel-next-century-btn,
+  .ant-calendar-decade-panel-prev-century-btn {
+    display: flex !important;
+    align-items: center;
+  }
+
+  .ant-tabs-nav-animated {
     height: 50px;
   }
 }
