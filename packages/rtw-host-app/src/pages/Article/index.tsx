@@ -15,6 +15,13 @@ export default withRouter(({ match: { path } }) => (
     {token && (
       <Route exact={true} path={`${path}/new`} component={NewArticle} />
     )}
+    {token && (
+      <Route
+        exact={true}
+        path={`${path}/edit/:articleId`}
+        component={NewArticle}
+      />
+    )}
     <Route exact={true} path={`${path}/detail`} component={ArticleDetail} />
     <Route component={() => <Exception404 />} />
   </Switch>

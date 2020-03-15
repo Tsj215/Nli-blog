@@ -3,8 +3,9 @@ import { FormComponentProps } from 'antd/es/form';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { RouteComponentProps } from 'react-router';
 
-import { newArticle, newTag } from '@/apis';
+import { getArticleById, newArticle, newTag, updateArticle } from '@/apis';
 import { IState } from '@/ducks';
 import { tagActions } from '@/pages/article/ducks/tag';
 import { history } from '@/skeleton';
@@ -14,7 +15,9 @@ import { MarkdownEditor } from '../../components/MarkdownEditor';
 
 import * as styles from './index.less';
 
-export interface NewArticleProps extends FormComponentProps {
+export interface NewArticleProps
+  extends FormComponentProps,
+    RouteComponentProps<{ articleId: string }> {
   tagList: string[];
   loadTagList: () => void;
 }
@@ -30,6 +33,8 @@ export interface NewArticleState {
   selectedTags: string[];
   // 是否发布
   isSubmit: boolean;
+
+  pageHeaderTitle: string;
 }
 
 export class NewArticleComp extends React.Component<
@@ -46,11 +51,28 @@ export class NewArticleComp extends React.Component<
       isSubmit: false,
       isVisible: false,
       mdValue: '## 九山八海为一世界',
+      pageHeaderTitle: '新建文章',
     };
   }
 
-  componentDidMount() {
+  get articleId() {
+    return this.props.match.params.articleId;
+  }
+
+  async componentDidMount() {
     this.onRefresh();
+
+    if (this.articleId) {
+      const { title, tags, content } = await getArticleById(
+        _.toNumber(this.articleId),
+      );
+      this.setState({
+        title,
+        mdValue: content,
+        selectedTags: tags,
+        pageHeaderTitle: '编辑文章',
+      });
+    }
   }
 
   onRefresh = () => {
@@ -182,21 +204,36 @@ export class NewArticleComp extends React.Component<
     if (_.isEmpty(title) || _.isEmpty(selectedTags) || _.isEmpty(mdValue)) {
       message.error('输入标题、选择标签、写入文章');
     } else {
-      const resp = newArticle(title, selectedTags, mdValue);
+      const resp = !this.articleId
+        ? newArticle(title, selectedTags, mdValue)
+        : updateArticle(
+            _.toNumber(this.articleId),
+            title,
+            selectedTags,
+            mdValue,
+          );
       if (resp) {
-        message.success('发布成功');
+        !this.articleId
+          ? message.success('发布成功')
+          : message.success('更新成功');
         this.setState({ isSubmit: true });
       }
     }
   };
 
   render() {
-    const { title, selectedTags, mdValue, isSubmit } = this.state;
+    const {
+      title,
+      selectedTags,
+      mdValue,
+      isSubmit,
+      pageHeaderTitle,
+    } = this.state;
 
     return (
       <div className={styles.container}>
         <PageHeader
-          title="新建文章"
+          title={pageHeaderTitle}
           onBack={() => history.goBack()}
           style={{ backgroundColor: '#fff' }}
         />
@@ -208,8 +245,11 @@ export class NewArticleComp extends React.Component<
               style={{ marginRight: 16 }}
               onChange={this.onChange('title')}
             />
-            <Button disabled={isSubmit} onClick={this.submitArticle}>
-              发布文章
+            <Button
+              onClick={this.submitArticle}
+              disabled={this.articleId ? false : isSubmit}
+            >
+              {this.articleId ? '更新文章' : '发布文章'}
             </Button>
             <Button
               style={{ marginLeft: 8 }}

@@ -37,6 +37,7 @@
   "dependencies": {
     "@ant-design/pro-layout": "^4.7.3",
     "@hot-loader/react-dom": "^16.11.0",
+    "@types/urijs": "^1.19.7",
     "ant-design-pro": "^2.3.2",
     "antd": "^3.25.2",
     "axios": "^0.19.0",
@@ -69,7 +70,8 @@
     "rtw-components": "*",
     "rtw-core": "*",
     "smoothscroll-polyfill": "^0.4.4",
-    "umi-request": "^1.2.10"
+    "umi-request": "^1.2.10",
+    "urijs": "^1.19.2"
   },
   "devDependencies": {
     "@wx-fc/app-config": "^0.2.6",

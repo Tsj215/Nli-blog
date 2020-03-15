@@ -18,7 +18,7 @@ export const actions = createActions({
   async loadArticleList(
     pageNum: number,
     pageSize: number,
-    article?: S.Article,
+    article?: S.ArticleParam,
   ) {
     return getArticleList(pageNum, pageSize, article);
   },
