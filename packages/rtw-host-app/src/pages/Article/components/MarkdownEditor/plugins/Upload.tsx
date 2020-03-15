@@ -12,6 +12,7 @@ interface UploadPicState {
   uploadToken?: string;
   key?: string;
   url?: string;
+  loading: boolean;
 }
 
 interface UploadPicProps extends PluginProps {}
@@ -28,7 +29,9 @@ export default class UploadPic extends PluginComponent<
   constructor(props: UploadPicProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      loading: false,
+    };
   }
 
   beforeUpload = async (file: RcFile): Promise<any> => {
@@ -44,7 +47,16 @@ export default class UploadPic extends PluginComponent<
   };
 
   onChange = async (info: { file: UploadFile }) => {
+    if (info.file.status === 'uploading') {
+      if (!this.state.loading) {
+        message.loading('上传中', 0);
+        this.setState({ loading: true });
+      }
+    }
     if (info.file.status === 'done') {
+      message.destroy();
+      message.success('上传成功');
+      this.setState({ loading: false });
       const url = await getDownloadUrl(info.file.name);
       this.editor.insertMarkdown('image', {
         target: info.file.name,
