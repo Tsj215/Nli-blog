@@ -6,6 +6,7 @@ import React from 'react';
 
 import { deleteArticle } from '@/apis';
 import * as S from '@/schema';
+import { history } from '@/skeleton';
 
 import * as styles from './ArticleManagement.less';
 
@@ -53,7 +54,7 @@ export const ArticleListTable: React.FC<ArticleListTableProps> = ({
       align: 'center',
       key: 'edit',
       title: '编辑',
-      render: r => (
+      render: (_, r) => (
         <div>
           <Popconfirm
             title="确定删除吗"
@@ -66,7 +67,12 @@ export const ArticleListTable: React.FC<ArticleListTableProps> = ({
             <Button type="link">删除</Button>
           </Popconfirm>
           <Divider type="vertical" />
-          <Button type="link">编辑</Button>
+          <Button
+            type="link"
+            onClick={() => history.push(`/article/edit/${r.id}`)}
+          >
+            编辑
+          </Button>
         </div>
       ),
     },

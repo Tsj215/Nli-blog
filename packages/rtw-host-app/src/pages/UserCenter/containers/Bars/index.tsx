@@ -27,7 +27,7 @@ export interface BarsProps {
   loadArticleList: (
     pageNum: number,
     pageSize: number,
-    article?: Partial<S.Article>,
+    article?: Partial<S.ArticleParam>,
   ) => void;
 }
 
@@ -67,14 +67,19 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
     this.props.loadArticleList(pageNum, pageSize, { title, tags, from, to });
   };
 
+  onTabChange = (key: string) => {
+    this.setState({ subTitle: key });
+  };
+
   filter = () => {
     const { tagList } = this.props;
     const { pageNum, pageSize, title, tags, from, to } = this.state;
     return (
       <div className={styles.filter}>
         <Input.Search
-          style={{ width: 300 }}
           allowClear={true}
+          placeholder="文章标题"
+          style={{ width: 300 }}
           onSearch={(title: string) => {
             this.setState({ title });
             this.props.loadArticleList(pageNum, pageSize, {
@@ -87,7 +92,6 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
         />
         <Select
           allowClear={true}
-          defaultValue={_.head(tagList)}
           style={{ width: 100, margin: '0 18px' }}
           onChange={(v: string) => {
             this.setState({ tags: v ? [v] : [] });
@@ -132,10 +136,6 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
     );
   };
 
-  onTabChange = (key: string) => {
-    this.setState({ subTitle: key });
-  };
-
   onPaginationChange = (pageNum: number, pageSize: number) => {
     const { tags, title, from, to } = this.state;
     this.setState({ pageNum: pageNum - 1, pageSize });
@@ -156,6 +156,7 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
       onChange: this.onPaginationChange,
       onShowSizeChange: this.onPaginationChange,
     };
+
     return (
       <div className={styles.container}>
         <PageHeader
