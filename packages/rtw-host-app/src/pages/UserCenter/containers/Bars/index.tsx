@@ -12,6 +12,7 @@ import { history } from '@/skeleton';
 import { PageHeader } from 'rtw-components/src';
 
 import { ArticleListTable } from './ArticleManagement';
+import { TagsManagement } from './TagsManagement';
 
 import * as styles from './index.less';
 
@@ -165,7 +166,7 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
           onBack={() => history.goBack()}
         />
         {this.filter()}
-        <Tabs defaultActiveKey="1" onChange={this.onTabChange}>
+        <Tabs defaultActiveKey="标签管理" onChange={this.onTabChange}>
           <TabPane tab="文章管理" key="文章管理" style={{ paddingTop: 12 }}>
             {/* 文章管理 */}
             <ArticleListTable
@@ -175,7 +176,8 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
             />
           </TabPane>
           <TabPane tab="标签管理" key="标签管理">
-            标签管理
+            {/* 标签管理 */}
+            <TagsManagement />
           </TabPane>
         </Tabs>
       </div>
