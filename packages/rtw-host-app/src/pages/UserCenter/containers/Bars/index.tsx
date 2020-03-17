@@ -166,7 +166,7 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
           onBack={() => history.goBack()}
         />
         {this.filter()}
-        <Tabs defaultActiveKey="标签管理" onChange={this.onTabChange}>
+        <Tabs defaultActiveKey="文章管理" onChange={this.onTabChange}>
           <TabPane tab="文章管理" key="文章管理" style={{ paddingTop: 12 }}>
             {/* 文章管理 */}
             <ArticleListTable

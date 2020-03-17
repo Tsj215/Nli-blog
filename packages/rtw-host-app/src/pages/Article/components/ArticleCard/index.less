@@ -3,6 +3,9 @@
 .container {
   .spaceBetween;
 
+  margin-bottom: 6px;
+  background-color: #fff;
+
   .header {
     font-size: 14px;
 
@@ -26,7 +29,14 @@
     }
   }
 
-  :global(.ant-card-head) {
-    border-bottom: none;
+  :global {
+    .ant-card-head {
+      border-bottom: none;
+    }
+
+    .ant-card-actions {
+      background-color: #fff;
+      border: none;
+    }
   }
 }
