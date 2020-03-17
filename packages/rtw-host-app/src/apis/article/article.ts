@@ -74,3 +74,18 @@ export async function updateArticle(
 
   return status === 'ok';
 }
+
+export async function getArticleByTags(
+  pageNum: number,
+  pageSize: number,
+  tags?: string[],
+) {
+  const { data } = await umiRequest.post<{ data: S.Article[] }>(
+    `${HOST}/article/list/tags`,
+    {
+      data: { pageNum, pageSize, tags },
+    },
+  );
+
+  return data;
+}

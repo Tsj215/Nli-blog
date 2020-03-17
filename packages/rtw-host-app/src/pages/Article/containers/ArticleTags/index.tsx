@@ -5,12 +5,15 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { IState } from '@/ducks';
+import { articleActions } from '@/pages/article/ducks/blog';
 import { HandleTags } from 'rtw-components/src';
 
 const { CheckableTag } = Tag;
 
 export interface ArticleTagProps extends RouteComponentProps {
   tagList: string[];
+
+  checkedTags: (checkedTags: string[]) => void;
 }
 
 export interface ArticleTagState {
@@ -18,8 +21,6 @@ export interface ArticleTagState {
   checkedAll: boolean;
   // 根据 length 判断是否已经全选
   checkedList: string[];
-  // 此处 number 作为 string
-  [key: number]: boolean;
 }
 
 export class ArticleTagComp extends React.Component<
@@ -35,37 +36,43 @@ export class ArticleTagComp extends React.Component<
     };
   }
 
-  onCheckedChange = (checked: boolean, value: string) => {
-    const { tagList } = this.props;
-    const { checkedList } = this.state;
+  onCheckedAll = async (checkedAll: boolean) => {
+    const { tagList, checkedTags } = this.props;
 
-    this.setState({ [value as any]: checked });
+    this.setState({ checkedAll });
 
-    if (!_.includes(checkedList, value) && checked) {
-      checkedList.push(value);
-      this.setState({ checkedList });
+    if (checkedAll) {
+      await this.setState({ checkedList: tagList });
     } else {
-      _.pull(checkedList, value);
-      this.setState({ checkedList });
+      await this.setState({ checkedList: [] });
     }
 
-    checkedList.length === tagList.length
-      ? this.setState({ checkedAll: true })
-      : this.setState({ checkedAll: false });
+    checkedTags(this.state.checkedList);
   };
 
-  onCheckedAll = (checked: boolean) => {
-    const { tagList } = this.props;
+  onCheckedChange = async (checked: boolean, value: string) => {
+    const { checkedList } = this.state;
+    const { tagList, checkedTags } = this.props;
 
-    this.setState({ checkedAll: checked });
+    if (checked) {
+      checkedList.push(value);
+      await this.setState({ checkedList });
+    } else {
+      await this.setState({ checkedList: _.without(checkedList, value) });
+    }
 
-    checked
-      ? tagList.map(t => this.setState({ [t as any]: true }))
-      : tagList.map(t => this.setState({ [t as any]: false }));
+    if (tagList.length === this.state.checkedList.length) {
+      await this.setState({ checkedAll: true });
+    } else {
+      await this.setState({ checkedAll: false });
+    }
+
+    checkedTags(this.state.checkedList);
   };
 
   render() {
     const { tagList } = this.props;
+    const { checkedList } = this.state;
 
     return (
       <>
@@ -80,8 +87,8 @@ export class ArticleTagComp extends React.Component<
             key={t}
             value={t}
             handletype="filter"
-            checked={this.state[t]}
             onChange={this.onCheckedChange}
+            checked={_.includes(checkedList, t)}
           >
             {t}
           </HandleTags>
@@ -91,7 +98,6 @@ export class ArticleTagComp extends React.Component<
   }
 }
 
-export const ArticleTag = connect(
-  (_state: IState) => ({}),
-  {},
-)(withRouter(ArticleTagComp));
+export const ArticleTag = connect((_state: IState) => ({}), {
+  loadArticleByTags: articleActions.loadArticleByTags,
+})(withRouter(ArticleTagComp));
