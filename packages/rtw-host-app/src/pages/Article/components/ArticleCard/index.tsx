@@ -1,21 +1,34 @@
 import { Card, Carousel, Icon, Tag } from 'antd';
 import dayjs from 'dayjs';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
 import _ from 'lodash';
 import MarkDownIt from 'markdown-it';
 import * as React from 'react';
+import 'react-markdown-editor-lite/lib/index.css';
 import { Link } from 'react-router-dom';
 
 import * as S from '@/schema';
 
 import * as styles from './index.less';
 
-const mdParser = new MarkDownIt();
-
 const format = 'YYYY-MM-DD HH:mm';
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1261840_lnfedak82x.js',
 });
+
+const mdParser: MarkDownIt = new MarkDownIt({
+  highlight: (str, lang) => {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) {}
+    }
+
+    return ''; // use external default escaping
+  },
+}).disable('image');
 
 interface ArticleCardProps {
   article: S.Article;
@@ -106,11 +119,12 @@ export class ArticleCard extends React.Component<
           <Card.Meta
             description={
               <div
-                style={{ maxWidth: 460, maxHeight: 125 }}
+                className="custom-html-style html-wrap"
                 dangerouslySetInnerHTML={{
-                  __html: _.truncate(mdParser.render(article.content), {
-                    length: 200,
-                  }),
+                  __html: _.truncate(
+                    mdParser.render(_.get(article, 'content', '')),
+                    { length: 250 },
+                  ),
                 }}
               />
             }

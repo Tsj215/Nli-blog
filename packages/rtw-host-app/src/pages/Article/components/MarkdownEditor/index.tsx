@@ -1,3 +1,5 @@
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
 import MarkDownIt from 'markdown-it';
 import * as React from 'react';
 import MdEditor from 'react-markdown-editor-lite';
@@ -17,8 +19,6 @@ interface MarkdownEditorState {
 
 MdEditor.use(UploadPic);
 
-const mdParser = new MarkDownIt();
-
 const plugins = [
   'header',
   'fonts',
@@ -31,6 +31,20 @@ const plugins = [
   'full-screen',
   'upload',
 ];
+const mdParser: MarkDownIt = new MarkDownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: (str, lang) => {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(lang, str).value;
+      } catch (__) {}
+    }
+
+    return ''; // use external default escaping
+  },
+});
 
 export class MarkdownEditor extends React.Component<
   MarkdownEditorProps,
