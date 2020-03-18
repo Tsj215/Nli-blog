@@ -22,7 +22,11 @@ export default withRouter(({ match: { path } }) => (
         component={NewArticle}
       />
     )}
-    <Route exact={true} path={`${path}/detail`} component={ArticleDetail} />
+    <Route
+      exact={true}
+      path={`${path}/detail/:articleId`}
+      component={ArticleDetail}
+    />
     <Route component={() => <Exception404 />} />
   </Switch>
 ));

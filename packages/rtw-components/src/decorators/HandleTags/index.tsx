@@ -36,8 +36,8 @@ export class HandleTags extends React.Component<Partial<HandleTagProps>, HandleT
       return (
         <CheckableTag
           {...this.props}
-          style={{ marginRight: 18 }}
           checked={checked}
+          style={{ marginRight: 18 }}
           onChange={checked => onChange(checked, value)}
         />
       );

@@ -1,6 +1,7 @@
-import Ellipsis from 'ant-design-pro/lib/Ellipsis';
 import { Card, Carousel, Icon, Tag } from 'antd';
 import dayjs from 'dayjs';
+import _ from 'lodash';
+import MarkDownIt from 'markdown-it';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,10 +9,12 @@ import * as S from '@/schema';
 
 import * as styles from './index.less';
 
+const mdParser = new MarkDownIt();
+
 const format = 'YYYY-MM-DD HH:mm';
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_2dyz9ui1pl6.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_lnfedak82x.js',
 });
 
 interface ArticleCardProps {
@@ -53,13 +56,19 @@ export class ArticleCard extends React.Component<
     const { article } = this.props;
     return (
       <div className={styles.header}>
-        <Link style={{ color: 'rgba(0,0,0,.65)' }} to={`/article/detail`}>
+        <Link className={styles.link} to={`/article/detail/${article.id}`}>
           {article.title}
         </Link>
         <div className={styles.tagList}>
           <Icon type="tags" />：
           {article.tags.map((t, i) => (
-            <Tag key={i}>{t}</Tag>
+            <Tag key={i}>
+              <IconFont
+                type={`icon-${_.toLower(t)}`}
+                style={{ marginRight: 8 }}
+              />
+              {t}
+            </Tag>
           ))}
         </div>
       </div>
@@ -91,11 +100,20 @@ export class ArticleCard extends React.Component<
           hoverable={true}
           bordered={false}
           actions={actions}
-          style={{ flex: '1' }}
           title={this.renderHeader()}
+          style={{ flex: '1', margin: 12 }}
         >
           <Card.Meta
-            description={<Ellipsis length={300}>{article.content}</Ellipsis>}
+            description={
+              <div
+                style={{ maxWidth: 460, maxHeight: 125 }}
+                dangerouslySetInnerHTML={{
+                  __html: _.truncate(mdParser.render(article.content), {
+                    length: 200,
+                  }),
+                }}
+              />
+            }
           />
         </Card>
         {isShowCarousel && (

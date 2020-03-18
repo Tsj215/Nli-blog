@@ -1,4 +1,4 @@
-import { Tag } from 'antd';
+import { Icon, Tag } from 'antd';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -9,6 +9,10 @@ import { articleActions } from '@/pages/article/ducks/blog';
 import { HandleTags } from 'rtw-components/src';
 
 const { CheckableTag } = Tag;
+
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1261840_lnfedak82x.js',
+});
 
 export interface ArticleTagProps extends RouteComponentProps {
   tagList: string[];
@@ -90,6 +94,14 @@ export class ArticleTagComp extends React.Component<
             onChange={this.onCheckedChange}
             checked={_.includes(checkedList, t)}
           >
+            <IconFont
+              type={
+                _.includes(checkedList, t)
+                  ? `icon-${_.toLower(t)}-copy`
+                  : `icon-${_.toLower(t)}`
+              }
+              style={{ marginRight: 8 }}
+            />
             {t}
           </HandleTags>
         ))}

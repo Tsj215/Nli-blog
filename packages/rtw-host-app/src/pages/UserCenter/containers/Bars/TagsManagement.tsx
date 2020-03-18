@@ -11,7 +11,7 @@ import { tagActions } from '@/pages/article/ducks/tag';
 import * as styles from './TagsManagement.less';
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_kh3i3lo8xx.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_lnfedak82x.js',
 });
 
 export interface TagsManagementProps extends RouteComponentProps {
