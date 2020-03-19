@@ -1,6 +1,7 @@
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 import MarkDownIt from 'markdown-it';
+import toc from 'markdown-it-table-of-contents';
 import * as React from 'react';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
@@ -44,7 +45,7 @@ const mdParser: MarkDownIt = new MarkDownIt({
 
     return ''; // use external default escaping
   },
-});
+}).use(toc);
 
 export class MarkdownEditor extends React.Component<
   MarkdownEditorProps,

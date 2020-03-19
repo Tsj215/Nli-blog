@@ -123,7 +123,7 @@ export class ArticleCard extends React.Component<
                 dangerouslySetInnerHTML={{
                   __html: _.truncate(
                     mdParser.render(_.get(article, 'content', '')),
-                    { length: 250 },
+                    { length: 350 },
                   ),
                 }}
               />
