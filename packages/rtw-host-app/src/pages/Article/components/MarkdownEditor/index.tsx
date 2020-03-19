@@ -60,7 +60,9 @@ export class MarkdownEditor extends React.Component<
   }
 
   renderHTML = (mdValue: string) => {
-    return mdParser.render(mdValue);
+    const htmlValue = mdParser.render(mdValue);
+
+    return htmlValue;
   };
 
   public render(): JSX.Element {

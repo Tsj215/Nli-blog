@@ -67,6 +67,7 @@ export default class UploadPic extends PluginComponent<
 
   render() {
     const { uploadToken, key } = this.state;
+
     return (
       <span className={styles.button}>
         <Upload
