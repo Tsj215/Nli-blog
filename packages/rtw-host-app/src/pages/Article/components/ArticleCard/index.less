@@ -6,18 +6,31 @@
   margin-bottom: 6px;
   background-color: #fff;
 
-  .header {
-    font-size: 14px;
+  .card {
+    flex: 1 1 1px;
 
-    .link {
-      font-size: 24px;
-      color: rgba(0, 0, 0, 0.65);
+    .header {
+      font-size: 14px;
+
+      .link {
+        font-size: 24px;
+        color: rgba(0, 0, 0, 0.65);
+      }
+      .link:hover {
+        color: #6874e2;
+      }
+      .tagList {
+        margin-top: 12px;
+      }
     }
-    .link:hover {
-      color: #6874e2;
-    }
-    .tagList {
-      margin-top: 12px;
+
+    .actions {
+      display: flex;
+      justify-content: flex-start;
+
+      > div {
+        margin-right: 16px;
+      }
     }
   }
 
@@ -25,15 +38,6 @@
     width: 300px;
     border: 14px solid #a2adb8;
     margin: 24px 12px 12px 24px;
-  }
-
-  .actions {
-    display: flex;
-    justify-content: flex-start;
-
-    > div {
-      margin-right: 16px;
-    }
   }
 
   :global {

@@ -123,7 +123,7 @@ export class ArticleCard extends React.Component<
               {this.renderHeader()}
             </Skeleton>
           }
-          style={{ flex: '1', margin: 12 }}
+          className={styles.card}
         >
           <Card.Meta
             description={
