@@ -1,4 +1,4 @@
-import { Card, Carousel, Icon, Tag } from 'antd';
+import { Card, Carousel, Icon, Skeleton, Tag } from 'antd';
 import dayjs from 'dayjs';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
@@ -113,20 +113,37 @@ export class ArticleCard extends React.Component<
           hoverable={true}
           bordered={false}
           actions={actions}
-          title={this.renderHeader()}
+          title={
+            <Skeleton
+              active={true}
+              paragraph={false}
+              title={{ width: 150 }}
+              loading={!!!this.props.article.title}
+            >
+              {this.renderHeader()}
+            </Skeleton>
+          }
           style={{ flex: '1', margin: 12 }}
         >
           <Card.Meta
             description={
-              <div
-                className="custom-html-style html-wrap"
-                dangerouslySetInnerHTML={{
-                  __html: _.truncate(
-                    mdParser.render(_.get(article, 'content', '')),
-                    { length: 350 },
-                  ),
-                }}
-              />
+              <Skeleton
+                active={true}
+                paragraph={{ rows: 3 }}
+                loading={!!!this.props.article.content}
+              >
+                {
+                  <div
+                    className="custom-html-style html-wrap"
+                    dangerouslySetInnerHTML={{
+                      __html: _.truncate(
+                        mdParser.render(_.get(article, 'content', '')),
+                        { length: 350 },
+                      ),
+                    }}
+                  />
+                }
+              </Skeleton>
             }
           />
         </Card>
