@@ -15,10 +15,16 @@ import { MarkdownEditor } from '../../components/MarkdownEditor';
 
 import * as styles from './index.less';
 
+interface ImageUrl {
+  name: string;
+  url: string;
+}
+
 export interface NewArticleProps
   extends FormComponentProps,
     RouteComponentProps<{ articleId: string }> {
   tagList: string[];
+  imgUrlList: ImageUrl[];
   loadTagList: () => void;
 }
 
@@ -287,6 +293,7 @@ export class NewArticleComp extends React.Component<
 export const NewArticle = connect(
   (state: IState) => ({
     tagList: state.blog.tag.tagList,
+    imgUrlList: state.blog.article.imgUrlList,
   }),
   {
     loadTagList: tagActions.loadTagList,

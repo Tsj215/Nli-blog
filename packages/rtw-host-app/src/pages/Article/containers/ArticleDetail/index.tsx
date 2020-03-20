@@ -41,7 +41,7 @@ class ArticleDetailCom extends React.Component<
   ArticleDetailState
 > {
   mdParser: MarkDownIt;
-  _divRef = React.createRef<HTMLDivElement>();
+  _divRef: React.RefObject<HTMLDivElement>;
 
   get articleId() {
     return this.props.match.params.articleId;
@@ -49,6 +49,8 @@ class ArticleDetailCom extends React.Component<
 
   constructor(props: ArticleDetailProps) {
     super(props);
+
+    this._divRef = React.createRef<HTMLDivElement>();
 
     this.state = {
       article: new S.Article(),

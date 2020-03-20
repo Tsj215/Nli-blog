@@ -6,7 +6,7 @@ import * as React from 'react';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 
-import UploadPic from './plugins/Upload';
+import { UploadPic } from './plugins/Upload';
 
 interface MarkdownEditorProps {
   mdValue?: string;

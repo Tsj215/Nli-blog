@@ -100,3 +100,12 @@ export async function getDownloadUrl(key: string) {
 
   return data;
 }
+
+// 删除指定文件
+export async function deleteByKey(key: string) {
+  const { status } = await umiRequest.delete<{ status: string }>(
+    `${HOST}/user/delete/${key}`,
+  );
+
+  return status === 'ok';
+}
