@@ -5,14 +5,18 @@ export async function newArticle(
   title: string,
   tags: string[],
   content: string,
+  imageList: S.Image[],
 ) {
   const { status } = await umiRequest.post<{ status: string }>(
     `${HOST}/article/new`,
     {
       data: {
-        title,
-        tags,
-        content,
+        article: {
+          title,
+          tags,
+          content,
+        },
+        imageList,
       },
     },
   );
@@ -60,14 +64,18 @@ export async function updateArticle(
   title: string,
   tags: string[],
   content: string,
+  imageList: S.Image[],
 ) {
   const { status } = await umiRequest.patch<{ status: string }>(
     `${HOST}/article/update/${id}`,
     {
       data: {
-        title,
-        tags,
-        content,
+        article: {
+          title,
+          tags,
+          content,
+        },
+        imageList,
       },
     },
   );

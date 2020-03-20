@@ -147,11 +147,16 @@ export class ArticleCard extends React.Component<
             }
           />
         </Card>
-        {isShowCarousel && (
+        {isShowCarousel && !_.isEmpty(article.images) && (
           <div className={styles.carousel}>
             <Carousel dots={true}>
-              <img src="https://picsum.photos/300/200" alt="" />
-              <img src="https://picsum.photos/300/200" alt="" />
+              {(article.images || []).map(i => (
+                <img
+                  key={i.id}
+                  style={{ maxHeight: 200 }}
+                  src={`${i.url}?imageView2/2/h/200`}
+                />
+              ))}
             </Carousel>
           </div>
         )}

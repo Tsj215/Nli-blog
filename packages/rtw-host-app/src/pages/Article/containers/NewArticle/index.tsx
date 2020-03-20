@@ -7,7 +7,9 @@ import { RouteComponentProps } from 'react-router';
 
 import { getArticleById, newArticle, newTag, updateArticle } from '@/apis';
 import { IState } from '@/ducks';
+import { articleActions } from '@/pages/article/ducks/blog';
 import { tagActions } from '@/pages/article/ducks/tag';
+import * as S from '@/schema';
 import { history } from '@/skeleton';
 import { HandleTags, PageHeader } from 'rtw-components/src';
 
@@ -15,17 +17,14 @@ import { MarkdownEditor } from '../../components/MarkdownEditor';
 
 import * as styles from './index.less';
 
-interface ImageUrl {
-  name: string;
-  url: string;
-}
-
 export interface NewArticleProps
   extends FormComponentProps,
     RouteComponentProps<{ articleId: string }> {
   tagList: string[];
-  imgUrlList: ImageUrl[];
+  imageList: S.Image[];
+
   loadTagList: () => void;
+  setImageList: (imageList: S.Image[]) => void;
 }
 
 export interface NewArticleState {
@@ -69,9 +68,10 @@ export class NewArticleComp extends React.Component<
     this.onRefresh();
 
     if (this.articleId) {
-      const { title, tags, content } = await getArticleById(
+      const { title, tags, content, images } = await getArticleById(
         _.toNumber(this.articleId),
       );
+      this.props.setImageList(images);
       this.setState({
         title,
         mdValue: content,
@@ -211,12 +211,13 @@ export class NewArticleComp extends React.Component<
       message.error('输入标题、选择标签、写入文章');
     } else {
       const resp = !this.articleId
-        ? newArticle(title, selectedTags, mdValue)
+        ? newArticle(title, selectedTags, mdValue, this.props.imageList)
         : updateArticle(
             _.toNumber(this.articleId),
             title,
             selectedTags,
             mdValue,
+            this.props.imageList,
           );
       if (resp) {
         !this.articleId
@@ -293,9 +294,10 @@ export class NewArticleComp extends React.Component<
 export const NewArticle = connect(
   (state: IState) => ({
     tagList: state.blog.tag.tagList,
-    imgUrlList: state.blog.article.imgUrlList,
+    imageList: state.blog.article.imageList,
   }),
   {
     loadTagList: tagActions.loadTagList,
+    setImageList: articleActions.setImageList,
   },
 )(Form.create<NewArticleProps>()(NewArticleComp));

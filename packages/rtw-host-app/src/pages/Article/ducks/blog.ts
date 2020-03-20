@@ -5,21 +5,16 @@ import { handle } from 'redux-pack-fsa';
 import { getArticleByTags, getArticleList } from '../../../apis';
 import * as S from '../../../schema';
 
-interface ImageUrl {
-  name: string;
-  url: string;
-}
-
 export interface IState {
   articleList: S.Article[];
   articleCount: number;
-  imgUrlList: ImageUrl[];
+  imageList: S.Image[];
 }
 
 const initialState: IState = {
   articleList: [],
   articleCount: 0,
-  imgUrlList: [],
+  imageList: [],
 };
 
 export const actions = createActions({
@@ -35,7 +30,7 @@ export const actions = createActions({
     return getArticleByTags(pageNum, pageSize, tags);
   },
 
-  setImgUrl(imgList: ImageUrl[]) {
+  setImageList(imgList: S.Image[]) {
     return imgList;
   },
 });
@@ -67,10 +62,10 @@ export default handleActions<IState, any>(
       });
     },
 
-    [actions.setImgUrl.toString()](state: IState, action) {
+    [actions.setImageList.toString()](state: IState, action) {
       const { payload } = action;
 
-      return { ...state, imgUrlList: payload };
+      return { ...state, imageList: payload };
     },
   },
   initialState,

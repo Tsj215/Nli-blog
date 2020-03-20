@@ -10,17 +10,13 @@ import { connect } from 'react-redux';
 import { deleteByKey, getDownloadUrl, getQiniuToken } from '@/apis';
 import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
+import * as S from '@/schema';
 
 import * as styles from './index.less';
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1261840_o4psvd9gq0g.js',
 });
-
-interface ImageUrl {
-  name: string;
-  url: string;
-}
 
 interface UploadPicState {
   uploadToken?: string;
@@ -30,12 +26,12 @@ interface UploadPicState {
   visible: boolean;
   previewImage?: string;
   previewVisible: boolean;
-  fileList: ImageUrl[];
+  fileList: S.Image[];
 }
 
 interface UploadPicProps extends PluginProps {
-  imgUrlList: ImageUrl[];
-  setImgUrl: (imgUrlList: ImageUrl[]) => void;
+  imageList: S.Image[];
+  setImageList: (imageList: S.Image[]) => void;
 }
 
 class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
@@ -52,21 +48,14 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
       visible: false,
       previewVisible: false,
       previewImage: '',
-      fileList: [
-        {
-          name: '123.jpg',
-          url: '123.jpg',
-        },
-        {
-          name: 'ddddddddd23.jpg',
-          url: 'http://tsj_online.com/123.jpg',
-        },
-        {
-          name: '123.jpg',
-          url: 'http://tsj_online.com/123.jpg',
-        },
-      ],
+      fileList: [],
     };
+  }
+
+  componentWillReceiveProps(nextProps: UploadPicProps) {
+    if (nextProps.imageList.length > 0) {
+      this.setState({ fileList: nextProps.imageList });
+    }
   }
 
   beforeUpload = async (file: RcFile): Promise<any> => {
@@ -97,7 +86,7 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
       fileList.push({ name: info.file.name, url });
 
       this.setState({ loading: false, fileList });
-      this.props.setImgUrl(fileList);
+      this.props.setImageList(fileList);
       this.editor.insertMarkdown('image', {
         target: info.file.name,
         imageUrl: url,
@@ -109,13 +98,13 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
     this.setState({ visible: true });
   };
 
-  removeFile = (file: ImageUrl) => {
+  removeFile = (file: S.Image) => {
     const { fileList } = this.state;
 
     _.pull(fileList, file);
 
     this.setState({ fileList });
-    this.props.setImgUrl(fileList);
+    this.props.setImageList(fileList);
   };
 
   renderFileList = () => {
@@ -203,9 +192,9 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
 
 export const UploadPic = connect(
   (state: IState) => ({
-    imgUrlList: state.blog.article.imgUrlList,
+    imageList: state.blog.article.imageList,
   }),
   {
-    setImgUrl: articleActions.setImgUrl,
+    setImageList: articleActions.setImageList,
   },
 )(UploadPicCom);
