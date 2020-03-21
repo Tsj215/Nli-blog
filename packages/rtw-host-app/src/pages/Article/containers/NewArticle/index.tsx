@@ -64,8 +64,12 @@ export class NewArticleComp extends React.Component<
     return this.props.match.params.articleId;
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.onRefresh();
+  }
+
+  onRefresh = async () => {
+    this.props.loadTagList();
 
     if (this.articleId) {
       const { title, tags, content, images } = await getArticleById(
@@ -79,10 +83,6 @@ export class NewArticleComp extends React.Component<
         pageHeaderTitle: '编辑文章',
       });
     }
-  }
-
-  onRefresh = () => {
-    this.props.loadTagList();
   };
 
   addTag = () => {
@@ -211,8 +211,8 @@ export class NewArticleComp extends React.Component<
       message.error('输入标题、选择标签、写入文章');
     } else {
       const resp = !this.articleId
-        ? newArticle(title, selectedTags, mdValue, this.props.imageList)
-        : updateArticle(
+        ? await newArticle(title, selectedTags, mdValue, this.props.imageList)
+        : await updateArticle(
             _.toNumber(this.articleId),
             title,
             selectedTags,
@@ -223,6 +223,8 @@ export class NewArticleComp extends React.Component<
         !this.articleId
           ? message.success('发布成功')
           : message.success('更新成功');
+
+        this.onRefresh();
         this.setState({ isSubmit: true });
       }
     }
