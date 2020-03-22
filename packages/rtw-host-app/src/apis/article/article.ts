@@ -64,18 +64,14 @@ export async function updateArticle(
   title: string,
   tags: string[],
   content: string,
-  imageList: S.Image[],
 ) {
   const { status } = await umiRequest.patch<{ status: string }>(
     `${HOST}/article/update/${id}`,
     {
       data: {
-        article: {
-          title,
-          tags,
-          content,
-        },
-        imageList,
+        title,
+        tags,
+        content,
       },
     },
   );
@@ -92,6 +88,20 @@ export async function getArticleByTags(
     `${HOST}/article/list/tags`,
     {
       data: { pageNum, pageSize, tags },
+    },
+  );
+
+  return data;
+}
+
+export async function updateArticleImageList(
+  articleId: number,
+  imageList: S.Image[],
+) {
+  const { data } = await umiRequest.post<{ data: any }>(
+    `${HOST}/article/imageList/${articleId}`,
+    {
+      data: { imageList },
     },
   );
 

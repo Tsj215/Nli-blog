@@ -5,7 +5,13 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import { getArticleById, newArticle, newTag, updateArticle } from '@/apis';
+import {
+  getArticleById,
+  newArticle,
+  newTag,
+  updateArticle,
+  updateArticleImageList,
+} from '@/apis';
 import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
 import { tagActions } from '@/pages/article/ducks/tag';
@@ -210,15 +216,27 @@ export class NewArticleComp extends React.Component<
     if (_.isEmpty(title) || _.isEmpty(selectedTags) || _.isEmpty(mdValue)) {
       message.error('输入标题、选择标签、写入文章');
     } else {
-      const resp = !this.articleId
-        ? await newArticle(title, selectedTags, mdValue, this.props.imageList)
-        : await updateArticle(
-            _.toNumber(this.articleId),
-            title,
-            selectedTags,
-            mdValue,
-            this.props.imageList,
-          );
+      let resp;
+      if (!this.articleId) {
+        resp = await newArticle(
+          title,
+          selectedTags,
+          mdValue,
+          this.props.imageList,
+        );
+      } else {
+        resp = await updateArticle(
+          _.toNumber(this.articleId),
+          title,
+          selectedTags,
+          mdValue,
+        );
+
+        await updateArticleImageList(
+          _.toNumber(this.articleId),
+          this.props.imageList,
+        );
+      }
       if (resp) {
         !this.articleId
           ? message.success('发布成功')

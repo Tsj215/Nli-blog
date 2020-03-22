@@ -162,11 +162,21 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
             style={{ marginRight: 10 }}
           />
         </Upload>
-        <IconFont
-          type="icon-image_list1"
+        <Button
+          type="link"
+          className={styles.modal}
           onClick={this.handleModal}
-          className={styles.icon}
-        />
+          disabled={_.isEmpty(this.state.fileList)}
+        >
+          <IconFont
+            type="icon-image_list1"
+            className={styles.icon}
+            style={{
+              // stylelint-disable-next-line function-name-case
+              color: _.isEmpty(this.state.fileList) ? '#bdbdbd' : '#757575',
+            }}
+          />
+        </Button>
         <Modal
           footer={false}
           closable={false}
