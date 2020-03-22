@@ -1,11 +1,83 @@
 @import '~@/skeleton/styles/variables.less';
 
-.f {
+.container {
   display: flex;
   justify-content: center;
 
-  .s {
-    width: 70%;
+  .cardList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .profile {
+      width: 260px;
+      margin-right: 20px;
+      border-radius: 4px;
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .title {
+          margin-right: 12px;
+
+          > p {
+            color: #777;
+            font-size: 15px;
+            font-weight: bold;
+          }
+          > span {
+            font-size: 8px;
+            color: rgba(0, 0, 0, 0.5);
+          }
+        }
+      }
+
+      .profileContent {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        > div {
+          margin-bottom: 10px;
+
+          .icon {
+            color: #777;
+            margin-right: 8px;
+          }
+        }
+
+        > div > span {
+          color: #777;
+          font-size: 14px;
+        }
+      }
+    }
+
+    .articleInfo {
+      width: 260px;
+      margin-top: 12px;
+      border-radius: 4px;
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        > span {
+          color: #777;
+          font-size: 15px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .articleList {
+    flex: 0.8;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -31,5 +103,8 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
+  }
+  .ant-card-body {
+    padding: 16px;
   }
 }
