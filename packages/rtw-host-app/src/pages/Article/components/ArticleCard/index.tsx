@@ -75,7 +75,7 @@ export class ArticleCard extends React.Component<
         <div className={styles.tagList}>
           <Icon type="tags" />：
           {article.tags.map((t, i) => (
-            <Tag key={i}>
+            <Tag key={i} style={{ marginBottom: 6 }}>
               <IconFont
                 type={`icon-${_.toLower(t)}`}
                 style={{ marginRight: 8 }}
@@ -149,7 +149,7 @@ export class ArticleCard extends React.Component<
         </Card>
         {isShowCarousel && !_.isEmpty(article.images) && (
           <div className={styles.carousel}>
-            <Carousel dots={true}>
+            <Carousel dots={true} easing="ease-out">
               {(article.images || []).map(i => (
                 <img
                   key={i.id}
