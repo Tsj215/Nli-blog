@@ -21,5 +21,6 @@ export class Article {
   tags: string[];
   images: Image[];
   createAt: string;
+  updateAt: string;
   visitTimes: number;
 }

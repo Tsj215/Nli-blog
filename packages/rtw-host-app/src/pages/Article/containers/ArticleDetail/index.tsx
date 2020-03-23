@@ -22,7 +22,7 @@ import * as styles from './index.less';
 const { Link } = Anchor;
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_szuo7hfc5os.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_9u7erq0rwa.js',
 });
 
 export interface ArticleDetailProps
@@ -102,10 +102,16 @@ class ArticleDetailCom extends React.Component<
                 <IconFont type="icon-tag3" style={{ fontSize: 17 }} />：
                 {articleTag}
               </div>
-              <div>
+              <div style={{ marginBottom: 6 }}>
                 <IconFont type="icon-time" style={{ fontSize: 17 }} />：
                 {dayjs(article.createAt).format('YY/MM/DD HH:mm')}
               </div>
+              {article.updateAt && (
+                <div>
+                  <IconFont type="icon-update" style={{ fontSize: 17 }} />：
+                  {dayjs(article.updateAt).format('YY/MM/DD HH:mm')}
+                </div>
+              )}
             </div>
           }
         />
