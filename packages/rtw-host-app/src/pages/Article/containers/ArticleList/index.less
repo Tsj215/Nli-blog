@@ -19,6 +19,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 4px 12px;
 
         .title {
           margin-right: 12px;
@@ -40,6 +41,7 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
+        padding: 4px 12px;
 
         > div {
           margin-bottom: 10px;
@@ -66,12 +68,19 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 4px 12px;
 
         > span {
           color: #777;
           font-size: 15px;
           font-weight: bold;
         }
+      }
+    }
+
+    :global {
+      .ant-card-body {
+        padding: 0;
       }
     }
   }

@@ -3,9 +3,9 @@ import _ from 'lodash';
 import { ComponentType } from 'react';
 
 import { menu as articleMenu } from '@/pages/article/meta';
-import { menu as moyunMenu } from '@/pages/moCloud/meta';
+// import { menu as moyunMenu } from '@/pages/moCloud/meta';
 import { menu as testMenu } from '@/pages/testModule/meta';
-import { getToken } from '@/skeleton';
+// import { getToken } from '@/skeleton';
 
 // import { menu as PageAmenu } from '@/pages/page-a/meta';
 // import { Home } from './pages/page-home/index';
@@ -23,7 +23,7 @@ export interface Module {
 
 // menifest 包含了所有页面、模块、应用、控件、插件加载方式的声明，在索引时并不严格区分类型，而推荐按照唯一键索引即可，方便迁移。
 // 自动注册为 `/:id` 的路由
-const token = getToken();
+// const token = getToken();
 
 export const getManifest = () => {
   return {
@@ -63,13 +63,13 @@ export const getMenus = () => {
       name: '文章',
       children: mapMenus([...articleMenu()]),
     },
-    token && {
-      key: 'moyun',
-      icon: 'cloud',
-      name: '莫云儿',
-      authority: ['admin'],
-      children: mapMenus([...moyunMenu()]),
-    },
+    // token && {
+    //   key: 'moyun',
+    //   icon: 'cloud',
+    //   name: '莫云儿',
+    //   authority: ['admin'],
+    //   children: mapMenus([...moyunMenu()]),
+    // },
     {
       key: 'module',
       icon: 'cloud',

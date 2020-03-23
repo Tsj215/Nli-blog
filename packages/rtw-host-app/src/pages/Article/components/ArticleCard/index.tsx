@@ -99,7 +99,7 @@ export class ArticleCard extends React.Component<
       </div>,
       <div key="eye">
         <IconFont type="icon-eye1" style={{ marginRight: 6 }} />
-        <span>1.0k</span>
+        <span>{article.visitTimes}</span>
       </div>,
       <div key="like">
         <IconFont type="icon-like" style={{ marginRight: 6 }} />
