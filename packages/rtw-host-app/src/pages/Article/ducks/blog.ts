@@ -2,19 +2,25 @@ import _ from 'lodash';
 import { createActions, handleActions } from 'redux-actions';
 import { handle } from 'redux-pack-fsa';
 
-import { getArticleByTags, getArticleList } from '../../../apis';
+import {
+  getArticleByTags,
+  getArticleCntByCreateAt,
+  getArticleList,
+} from '../../../apis';
 import * as S from '../../../schema';
 
 export interface IState {
   articleList: S.Article[];
   articleCount: number;
   imageList: S.Image[];
+  countArticle: S.CountArticle[];
 }
 
 const initialState: IState = {
   articleList: [],
   articleCount: 0,
   imageList: [],
+  countArticle: [new S.CountArticle()],
 };
 
 export const actions = createActions({
@@ -28,6 +34,10 @@ export const actions = createActions({
 
   async loadArticleByTags(pageNum: number, pageSize: number, tags?: string[]) {
     return getArticleByTags(pageNum, pageSize, tags);
+  },
+
+  async loadArticleCntByCreateAt() {
+    return getArticleCntByCreateAt();
   },
 
   setImageList(imgList: S.Image[]) {
@@ -58,6 +68,17 @@ export default handleActions<IState, any>(
           ...prevState,
           articleList: payload.list,
           articleCount: payload.total,
+        }),
+      });
+    },
+
+    [actions.loadArticleCntByCreateAt.toString()](state: IState, action) {
+      const { payload } = action;
+
+      return handle(state, action, {
+        success: (prevState: IState) => ({
+          ...prevState,
+          countArticle: payload,
         }),
       });
     },

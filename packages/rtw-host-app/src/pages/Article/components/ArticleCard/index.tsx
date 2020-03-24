@@ -12,7 +12,7 @@ import * as S from '@/schema';
 
 import * as styles from './index.less';
 
-const format = 'YYYY-MM-DD HH:mm';
+const format = 'YY/MM/DD HH:mm';
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1261840_lnfedak82x.js',

@@ -107,3 +107,11 @@ export async function updateArticleImageList(
 
   return data;
 }
+
+export async function getArticleCntByCreateAt() {
+  const { data } = await umiRequest.get<{ data: any }>(
+    `${HOST}/article/count/createAt`,
+  );
+
+  return data;
+}

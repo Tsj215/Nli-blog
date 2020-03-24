@@ -4,6 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
+import { getArticleCntByCreateAt } from '@/apis';
 import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
 import { tagActions } from '@/pages/article/ducks/tag';
@@ -24,6 +25,7 @@ export interface ArticleListProps extends RouteComponentProps {
   articleCount: number;
   profile: S.UserProfile;
   articleList: S.Article[];
+  countArticle: S.CountArticle[];
 
   loadProfile: (id: number) => void;
   loadTagList: () => void;
@@ -32,6 +34,7 @@ export interface ArticleListProps extends RouteComponentProps {
     pageSize: number,
     tags?: string[],
   ) => void;
+  loadArticleCntByCreateAt: () => void;
 }
 
 export interface ArticleListState {
@@ -59,12 +62,14 @@ export class ArticleListComp extends React.Component<
   componentDidMount() {
     this.onRefresh();
     this.screenChange();
+    getArticleCntByCreateAt();
   }
 
   onRefresh = () => {
     this.props.loadTagList();
     this.props.loadProfile(1);
     this.props.loadArticleByTags(0, 10);
+    this.props.loadArticleCntByCreateAt();
   };
 
   screenChange = () => {
@@ -92,7 +97,9 @@ export class ArticleListComp extends React.Component<
   };
 
   renderProfile = () => {
-    const { profile } = this.props;
+    const { profile, countArticle } = this.props;
+
+    console.log(this.props.countArticle);
 
     return (
       <div className={styles.cardList}>
@@ -135,6 +142,18 @@ export class ArticleListComp extends React.Component<
             <span>文章归档</span>
             <IconFont type="icon-placeFile" />
           </div>
+          <Divider style={{ padding: 0 }} />
+          <div>
+            {(countArticle || []).map((a, i) => (
+              <div
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+                key={i}
+              >
+                <span>{a.date}</span>
+                <span>{a.count}</span>
+              </div>
+            ))}
+          </div>
         </Card>
       </div>
     );
@@ -174,6 +193,7 @@ export const ArticleList = connect(
   (state: IState) => ({
     tagList: state.blog.tag.tagList,
     profile: state.user.profile.profile,
+    countArticle: state.blog.article.countArticle,
     articleList: state.blog.article.articleList,
     articleCount: state.blog.article.articleCount,
   }),
@@ -181,5 +201,6 @@ export const ArticleList = connect(
     loadTagList: tagActions.loadTagList,
     loadProfile: userActions.loadProfile,
     loadArticleByTags: articleActions.loadArticleByTags,
+    loadArticleCntByCreateAt: articleActions.loadArticleCntByCreateAt,
   },
 )(withRouter(ArticleListComp));

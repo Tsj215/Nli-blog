@@ -8,6 +8,11 @@ export interface ArticleParam {
   to: string;
 }
 
+export class CountArticle {
+  date: string;
+  count: string;
+}
+
 export interface Image {
   id?: number;
   name: string;
