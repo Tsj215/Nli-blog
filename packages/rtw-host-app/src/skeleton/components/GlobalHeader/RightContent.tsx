@@ -4,7 +4,7 @@ import * as React from 'react';
 import { formatMessage } from '@/i18n';
 import * as S from '@/schema';
 
-import { NavContext } from '../../layouts/NavContext';
+// import { NavContext } from '../../layouts/NavContext';
 import HeaderSearch from '../HeaderSearch';
 import SelectLang from '../LangSelector';
 
@@ -28,7 +28,7 @@ export const RightContent: React.SFC<RightContentProps> = props => {
     className = `${styles.right}  ${styles.dark}`;
   }
 
-  const navContext = React.useContext(NavContext);
+  // const navContext = React.useContext(NavContext);
 
   return (
     <div className={className}>
@@ -73,7 +73,7 @@ export const RightContent: React.SFC<RightContentProps> = props => {
       <User
         menu={true}
         currentUser={{
-          name: navContext.authority![0],
+          name: profile.username || '匿名',
           avatarUrl: profile.avatarUrl || 'https://i.pravatar.cc/300',
         }}
       />
