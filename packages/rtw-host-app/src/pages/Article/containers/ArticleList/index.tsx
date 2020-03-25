@@ -1,4 +1,5 @@
-import { Avatar, BackTop, Card, Divider, Icon, Pagination } from 'antd';
+import { Avatar, BackTop, Button, Card, Divider, Icon, Pagination } from 'antd';
+import dayjs from 'dayjs';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -142,16 +143,13 @@ export class ArticleListComp extends React.Component<
             <span>文章归档</span>
             <IconFont type="icon-placeFile" />
           </div>
-          <Divider style={{ padding: 0 }} />
-          <div>
+          <Divider style={{ margin: '0 0 12px 0' }} />
+          <div style={{ paddingBottom: 8 }}>
             {(countArticle || []).map((a, i) => (
-              <div
-                style={{ display: 'flex', justifyContent: 'space-between' }}
-                key={i}
-              >
-                <span>{a.date}</span>
-                <span>{a.count}</span>
-              </div>
+              <Button key={i} type="link" className={styles.content}>
+                <span>{dayjs(a.date).format('YYYY 年 MM 月')}</span>
+                <span>{a.count} 篇</span>
+              </Button>
             ))}
           </div>
         </Card>

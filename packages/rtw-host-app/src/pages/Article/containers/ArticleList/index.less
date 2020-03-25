@@ -68,13 +68,31 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 4px 12px;
+        padding: 8px 12px;
 
         > span {
           color: #777;
           font-size: 15px;
           font-weight: bold;
         }
+      }
+
+      .content {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 20px;
+        width: 100%;
+      }
+
+      .content:hover {
+        > span {
+          color: #6874e2;
+        }
+      }
+
+      .content > span {
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.5);
       }
     }
 
