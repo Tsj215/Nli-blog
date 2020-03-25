@@ -18,7 +18,7 @@ import { ArticleTag } from '../ArticleTags';
 import * as styles from './index.less';
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_moszi2ku3d.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_bzolvv1m7s8.js',
 });
 
 export interface ArticleListProps extends RouteComponentProps {
@@ -48,6 +48,7 @@ export interface ArticleListState {
   pageNum: number;
   pageSize: number;
   isShowProfile: boolean;
+  isHidden: boolean;
 }
 
 export class ArticleListComp extends React.Component<
@@ -62,6 +63,7 @@ export class ArticleListComp extends React.Component<
       pageSize: 10,
       checkedTags: [],
       isShowProfile: true,
+      isHidden: true,
     };
   }
 
@@ -103,6 +105,7 @@ export class ArticleListComp extends React.Component<
   };
 
   renderProfile = () => {
+    const { isHidden } = this.state;
     const { profile, countArticle } = this.props;
 
     return (
@@ -147,28 +150,45 @@ export class ArticleListComp extends React.Component<
             <IconFont type="icon-placeFile" />
           </div>
           <Divider style={{ margin: '0 0 12px 0' }} />
-          <div style={{ paddingBottom: 8 }}>
-            {(countArticle || []).map((a, i) => (
+          <div>
+            <div
+              style={
+                isHidden
+                  ? { height: '50px', overflow: 'hidden' }
+                  : { overflow: 'visible', height: 'auto' }
+              }
+            >
+              {(countArticle || []).map((a, i) => (
+                <Button
+                  key={i}
+                  type="link"
+                  className={styles.content}
+                  onClick={() =>
+                    this.props.loadArticleList(0, 10, {
+                      from: dayjs(a.date)
+                        .startOf('month')
+                        .format('YYYY-MM-DD'),
+                      to: dayjs(a.date)
+                        .startOf('month')
+                        .add(1, 'month')
+                        .format('YYYY-MM-DD'),
+                    })
+                  }
+                >
+                  <span>{dayjs(a.date).format('YYYY 年 MM 月')}</span>
+                  <span>{a.count} 篇</span>
+                </Button>
+              ))}
+            </div>
+            {isHidden && (
               <Button
-                key={i}
                 type="link"
-                className={styles.content}
-                onClick={() =>
-                  this.props.loadArticleList(0, 10, {
-                    from: dayjs(a.date)
-                      .startOf('month')
-                      .format('YYYY-MM-DD'),
-                    to: dayjs(a.date)
-                      .startOf('month')
-                      .add(1, 'month')
-                      .format('YYYY-MM-DD'),
-                  })
-                }
+                style={{ width: '100%' }}
+                onClick={() => this.setState({ isHidden: false })}
               >
-                <span>{dayjs(a.date).format('YYYY 年 MM 月')}</span>
-                <span>{a.count} 篇</span>
+                <IconFont type="icon-zhankai1" />
               </Button>
-            ))}
+            )}
           </div>
         </Card>
       </div>
