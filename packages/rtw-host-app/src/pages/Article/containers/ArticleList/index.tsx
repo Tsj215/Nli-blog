@@ -1,6 +1,7 @@
 import { Avatar, BackTop, Button, Card, Divider, Icon, Pagination } from 'antd';
 import dayjs from 'dayjs';
 import _ from 'lodash';
+import QueueAnim from 'rc-queue-anim';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -214,9 +215,15 @@ export class ArticleListComp extends React.Component<
             <Divider dashed={true} style={{ marginTop: 16 }} />
           </div>
           <div className={styles.content}>
-            {(articleList || []).map(a => (
-              <ArticleCard key={a.id} article={a} />
-            ))}
+            <QueueAnim
+              leaveReverse={true}
+              type={['right', 'left']}
+              ease={['easeOutQuart', 'easeInOutQuart']}
+            >
+              {(articleList || []).map(a => (
+                <ArticleCard key={a.id} article={a} />
+              ))}
+            </QueueAnim>
           </div>
           <Pagination onChange={this.onPaginatinChange} total={articleCount} />
         </div>
