@@ -1,4 +1,4 @@
-import { Anchor, Card, Icon, Tag } from 'antd';
+import { Anchor, Card, Divider, Icon, Tag } from 'antd';
 import dayjs from 'dayjs';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -22,7 +22,7 @@ import * as styles from './index.less';
 const { Link } = Anchor;
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_9u7erq0rwa.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_9ji719bphi7.js',
 });
 
 export interface ArticleDetailProps
@@ -144,18 +144,25 @@ class ArticleDetailCom extends React.Component<
           <div className={styles.left}>
             {this.renderArticleInfo()}
             {this._divRef.current && !_.isEmpty(this.renderAnchor()) && (
-              <Anchor
-                className={styles.anchor}
-                onClick={e => e.preventDefault()}
-              >
-                {this.renderAnchor().map((a, i) => (
-                  <Link
-                    key={i}
-                    href={`#${a}`}
-                    title={_.truncate(a, { length: 16 })}
-                  />
-                ))}
-              </Anchor>
+              <div className={styles.anchor}>
+                <h3>
+                  <IconFont type="icon-mulu" style={{ marginRight: 8 }} />
+                  目录
+                </h3>
+                <Divider style={{ margin: 0 }} />
+                <Anchor
+                  className={styles.content}
+                  onClick={e => e.preventDefault()}
+                >
+                  {this.renderAnchor().map((a, i) => (
+                    <Link
+                      key={i}
+                      href={`#${a}`}
+                      title={_.truncate(a, { length: 16 })}
+                    />
+                  ))}
+                </Anchor>
+              </div>
             )}
           </div>
           <div

@@ -29,8 +29,23 @@
       .anchor {
         margin-top: 24px;
         border-radius: 4px;
-        padding: 8px 8px 8px 14px;
+        background-color: #fff;
+
+        > h3 {
+          font-size: 16px;
+          padding: 4px 18px;
+          font-weight: bold;
+          color: rgba(0, 0, 0, 0.65);
+        }
+
+        .content {
+          padding: 8px 8px 8px 14px;
+        }
       }
     }
+  }
+
+  :global(.ant-anchor-wrapper) {
+    margin-left: 0;
   }
 }

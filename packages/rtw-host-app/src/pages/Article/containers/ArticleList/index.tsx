@@ -35,6 +35,11 @@ export interface ArticleListProps extends RouteComponentProps {
     pageSize: number,
     tags?: string[],
   ) => void;
+  loadArticleList: (
+    pageNum: number,
+    pageSize: number,
+    article?: Partial<S.ArticleParam>,
+  ) => void;
   loadArticleCntByCreateAt: () => void;
 }
 
@@ -100,8 +105,6 @@ export class ArticleListComp extends React.Component<
   renderProfile = () => {
     const { profile, countArticle } = this.props;
 
-    console.log(this.props.countArticle);
-
     return (
       <div className={styles.cardList}>
         <Card
@@ -146,7 +149,22 @@ export class ArticleListComp extends React.Component<
           <Divider style={{ margin: '0 0 12px 0' }} />
           <div style={{ paddingBottom: 8 }}>
             {(countArticle || []).map((a, i) => (
-              <Button key={i} type="link" className={styles.content}>
+              <Button
+                key={i}
+                type="link"
+                className={styles.content}
+                onClick={() =>
+                  this.props.loadArticleList(0, 10, {
+                    from: dayjs(a.date)
+                      .startOf('month')
+                      .format('YYYY-MM-DD'),
+                    to: dayjs(a.date)
+                      .startOf('month')
+                      .add(1, 'month')
+                      .format('YYYY-MM-DD'),
+                  })
+                }
+              >
                 <span>{dayjs(a.date).format('YYYY 年 MM 月')}</span>
                 <span>{a.count} 篇</span>
               </Button>
@@ -198,6 +216,7 @@ export const ArticleList = connect(
   {
     loadTagList: tagActions.loadTagList,
     loadProfile: userActions.loadProfile,
+    loadArticleList: articleActions.loadArticleList,
     loadArticleByTags: articleActions.loadArticleByTags,
     loadArticleCntByCreateAt: articleActions.loadArticleCntByCreateAt,
   },
