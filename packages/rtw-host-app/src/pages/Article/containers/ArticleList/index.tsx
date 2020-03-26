@@ -1,3 +1,4 @@
+import Ellipsis from 'ant-design-pro/lib/Ellipsis';
 import { Avatar, BackTop, Button, Card, Divider, Icon, Pagination } from 'antd';
 import dayjs from 'dayjs';
 import _ from 'lodash';
@@ -29,13 +30,8 @@ export interface ArticleListProps extends RouteComponentProps {
   articleList: S.Article[];
   countArticle: S.CountArticle[];
 
-  loadProfile: (id: number) => void;
   loadTagList: () => void;
-  loadArticleByTags: (
-    pageNum: number,
-    pageSize: number,
-    tags?: string[],
-  ) => void;
+  loadProfile: (id: number) => void;
   loadArticleList: (
     pageNum: number,
     pageSize: number,
@@ -45,11 +41,11 @@ export interface ArticleListProps extends RouteComponentProps {
 }
 
 export interface ArticleListState {
-  checkedTags: string[];
   pageNum: number;
   pageSize: number;
-  isShowProfile: boolean;
   isHidden: boolean;
+  checkedTags: string[];
+  isShowProfile: boolean;
 }
 
 export class ArticleListComp extends React.Component<
@@ -62,9 +58,9 @@ export class ArticleListComp extends React.Component<
     this.state = {
       pageNum: 1,
       pageSize: 10,
+      isHidden: true,
       checkedTags: [],
       isShowProfile: true,
-      isHidden: true,
     };
   }
 
@@ -77,7 +73,7 @@ export class ArticleListComp extends React.Component<
   onRefresh = () => {
     this.props.loadTagList();
     this.props.loadProfile(1);
-    this.props.loadArticleByTags(0, 10);
+    this.props.loadArticleList(0, 10);
     this.props.loadArticleCntByCreateAt();
   };
 
@@ -95,22 +91,26 @@ export class ArticleListComp extends React.Component<
 
   setCheckedTags = (checkedTags: string[]) => {
     const { pageNum, pageSize } = this.state;
+
     this.setState({ checkedTags });
     this.onPaginatinChange(pageNum, pageSize);
   };
 
   onPaginatinChange = async (pageNum: number, pageSize: number) => {
     const { checkedTags } = this.state;
+
     await this.setState({ pageNum, pageSize });
-    this.props.loadArticleByTags(pageNum - 1, pageSize, checkedTags);
+    this.props.loadArticleList(pageNum - 1, pageSize, { tags: checkedTags });
   };
 
+  /** 侧边信息 */
   renderProfile = () => {
     const { isHidden } = this.state;
     const { profile, countArticle } = this.props;
 
     return (
       <div className={styles.cardList}>
+        {/** 个人信息 */}
         <Card
           hoverable={true}
           className={styles.profile}
@@ -119,7 +119,9 @@ export class ArticleListComp extends React.Component<
           <div className={styles.header}>
             <div className={styles.title}>
               <p>{profile.username}</p>
-              <span>{_.truncate(profile.signature, { length: 15 })}</span>
+              <Ellipsis length={15} tooltip={true}>
+                {profile.signature}
+              </Ellipsis>
             </div>
             <div>
               <Avatar src={profile.avatarUrl} />
@@ -145,6 +147,7 @@ export class ArticleListComp extends React.Component<
             </div>
           </div>
         </Card>
+        {/** 文章归档 */}
         <Card hoverable={true} className={styles.articleInfo}>
           <div className={styles.header}>
             <span>文章归档</span>
@@ -216,9 +219,9 @@ export class ArticleListComp extends React.Component<
           </div>
           <div className={styles.content}>
             <QueueAnim
+              duration={400}
               leaveReverse={true}
               type={['right', 'left']}
-              ease={['easeOutQuart', 'easeInOutQuart']}
             >
               {(articleList || []).map(a => (
                 <ArticleCard key={a.id} article={a} />
@@ -244,7 +247,6 @@ export const ArticleList = connect(
     loadTagList: tagActions.loadTagList,
     loadProfile: userActions.loadProfile,
     loadArticleList: articleActions.loadArticleList,
-    loadArticleByTags: articleActions.loadArticleByTags,
     loadArticleCntByCreateAt: articleActions.loadArticleCntByCreateAt,
   },
 )(withRouter(ArticleListComp));

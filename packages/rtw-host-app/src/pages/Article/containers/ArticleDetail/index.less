@@ -9,7 +9,7 @@
       margin-right: 40px;
 
       .articleInfo {
-        width: 260;
+        width: 300;
         font-size: 18px;
         border-radius: 4px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -45,7 +45,13 @@
     }
   }
 
-  :global(.ant-anchor-wrapper) {
-    margin-left: 0;
+  :global {
+    .ant-anchor-wrapper {
+      margin-left: 0;
+    }
+
+    .ant-skeleton-content {
+      padding: 12px;
+    }
   }
 }
