@@ -92,7 +92,7 @@ class ArticleDetailCom extends React.Component<
           style={{ marginRight: 6 }}
           type={`icon-${_.toLower(t.content)}`}
         />
-        {t}
+        {t.content}
       </Tag>
     ));
 
