@@ -94,16 +94,17 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
         <Select
           allowClear={true}
           style={{ width: 100, margin: '0 18px' }}
-          // onChange={(v: string) => {
-          //   this.setState({ tags: v ? [v] : [] });
-          //   this.props.loadArticleList(pageNum, pageSize, {
-          //     from,
-          //     to,
-          //     title,
-          //     tags: v ? [v] : [],
-          //   });
-          // }}
-          onChange={val => console.log(val)}
+          onChange={(tagId: number) => {
+            this.setState({
+              tags: tagId ? tagList.filter(t => t.id === tagId) : [],
+            });
+            this.props.loadArticleList(pageNum, pageSize, {
+              from,
+              to,
+              title,
+              tags: tagId ? tagList.filter(t => t.id === tagId) : [],
+            });
+          }}
         >
           {(tagList || []).map(t => (
             <Option value={t.id} key={t.id}>

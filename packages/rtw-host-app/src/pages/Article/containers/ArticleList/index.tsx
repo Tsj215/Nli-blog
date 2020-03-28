@@ -202,8 +202,6 @@ export class ArticleListComp extends React.Component<
   render() {
     const { tagList, articleList, articleCount } = this.props;
 
-    console.log('list', tagList);
-
     return (
       <div className={styles.container}>
         <BackTop visibilityHeight={200} style={{ right: 40 }}>

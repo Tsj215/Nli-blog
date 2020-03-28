@@ -82,7 +82,7 @@ export async function updateArticle(
 export async function getArticleByTags(
   pageNum: number,
   pageSize: number,
-  tags?: string[],
+  tags?: S.Tag[],
 ) {
   const { data } = await umiRequest.post<{ data: S.Article[] }>(
     `${HOST}/article/list/tags`,

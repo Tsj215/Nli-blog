@@ -32,7 +32,7 @@ export const actions = createActions({
     return getArticleList(pageNum, pageSize, article);
   },
 
-  async loadArticleByTags(pageNum: number, pageSize: number, tags?: string[]) {
+  async loadArticleByTags(pageNum: number, pageSize: number, tags?: S.Tag[]) {
     return getArticleByTags(pageNum, pageSize, tags);
   },
 
