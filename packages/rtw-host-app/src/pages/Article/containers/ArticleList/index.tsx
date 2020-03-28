@@ -24,7 +24,7 @@ const IconFont = Icon.createFromIconfontCN({
 });
 
 export interface ArticleListProps extends RouteComponentProps {
-  tagList?: string[];
+  tagList?: S.Tag[];
   articleCount: number;
   profile: S.UserProfile;
   articleList: S.Article[];
@@ -44,7 +44,7 @@ export interface ArticleListState {
   pageNum: number;
   pageSize: number;
   isHidden: boolean;
-  checkedTags: string[];
+  checkedTags: S.Tag[];
   isShowProfile: boolean;
 }
 
@@ -89,7 +89,7 @@ export class ArticleListComp extends React.Component<
       : this.setState({ isShowProfile: true });
   };
 
-  setCheckedTags = (checkedTags: string[]) => {
+  setCheckedTags = (checkedTags: S.Tag[]) => {
     const { pageNum, pageSize } = this.state;
 
     this.setState({ checkedTags });
@@ -201,6 +201,8 @@ export class ArticleListComp extends React.Component<
 
   render() {
     const { tagList, articleList, articleCount } = this.props;
+
+    console.log('list', tagList);
 
     return (
       <div className={styles.container}>

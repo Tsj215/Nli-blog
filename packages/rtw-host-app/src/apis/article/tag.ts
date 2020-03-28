@@ -17,18 +17,18 @@ export async function newTag(tagName: string) {
 }
 
 /** 删除标签 */
-export async function deleteTag(tagName: string) {
+export async function deleteTag(tagId: number) {
   const { status } = await umiRequest.delete<{ status: string }>(
-    `${HOST}/tags/${tagName}`,
+    `${HOST}/tags/${tagId}`,
   );
 
   return status === 'ok';
 }
 
 /** 更新标签 */
-export async function updateTag(tagName: string, _tagName: string) {
+export async function updateTag(tagId: number, _tagName: string) {
   const { status } = await umiRequest.patch<{ status: string }>(
-    `${HOST}/tags/${tagName}/${_tagName}`,
+    `${HOST}/tags/${tagId}/${_tagName}`,
   );
 
   return status === 'ok';

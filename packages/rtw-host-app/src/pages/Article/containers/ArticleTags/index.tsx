@@ -1,4 +1,4 @@
-import { Icon, Tag } from 'antd';
+import { Tag } from 'antd';
 import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -6,25 +6,22 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
+import * as S from '@/schema';
 import { HandleTags } from 'rtw-components/src';
 
 const { CheckableTag } = Tag;
 
-const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_lnfedak82x.js',
-});
-
 export interface ArticleTagProps extends RouteComponentProps {
-  tagList: string[];
+  tagList: S.Tag[];
 
-  checkedTags: (checkedTags: string[]) => void;
+  checkedTags: (checkedTags: S.Tag[]) => void;
 }
 
 export interface ArticleTagState {
   // 是否全选
   checkedAll: boolean;
   // 根据 length 判断是否已经全选
-  checkedList: string[];
+  checkedList: S.Tag[];
 }
 
 export class ArticleTagComp extends React.Component<
@@ -54,7 +51,7 @@ export class ArticleTagComp extends React.Component<
     checkedTags(this.state.checkedList);
   };
 
-  onCheckedChange = async (checked: boolean, value: string) => {
+  onCheckedChange = async (checked: boolean, value: S.Tag) => {
     const { checkedList } = this.state;
     const { tagList, checkedTags } = this.props;
 
@@ -88,22 +85,12 @@ export class ArticleTagComp extends React.Component<
         </CheckableTag>
         {(tagList || []).map(t => (
           <HandleTags
-            key={t}
             value={t}
+            key={t.id}
             handletype="filter"
             onChange={this.onCheckedChange}
             checked={_.includes(checkedList, t)}
-          >
-            <IconFont
-              type={
-                _.includes(checkedList, t)
-                  ? `icon-${_.toLower(t)}-copy`
-                  : `icon-${_.toLower(t)}`
-              }
-              style={{ marginRight: 8 }}
-            />
-            {t}
-          </HandleTags>
+          />
         ))}
       </>
     );

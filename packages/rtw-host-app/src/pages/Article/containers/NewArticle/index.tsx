@@ -26,7 +26,7 @@ import * as styles from './index.less';
 export interface NewArticleProps
   extends FormComponentProps,
     RouteComponentProps<{ articleId: string }> {
-  tagList: string[];
+  tagList: S.Tag[];
   imageList: S.Image[];
 
   loadTagList: () => void;
@@ -41,7 +41,7 @@ export interface NewArticleState {
   // 富文本编辑器默认内容
   mdValue: any;
   // 已选标签
-  selectedTags: string[];
+  selectedTags: S.Tag[];
   // 是否发布
   isSubmit: boolean;
 
@@ -145,22 +145,30 @@ export class NewArticleComp extends React.Component<
     );
   };
 
-  selectTags = async (tag: string) => {
+  selectTags = (tag: S.Tag) => {
     const { selectedTags } = this.state;
 
+    console.log('tag', tag);
+
     if (selectedTags.length < 5) {
-      await this.setState({ addTag: true });
+      this.setState({ addTag: true });
     }
     if (this.state.addTag) {
       selectedTags.push(tag);
-      await this.setState({ selectedTags: _.uniq(selectedTags) });
-      this.state.selectedTags.length == 5 && this.setState({ addTag: false });
+      this.setState({ selectedTags: _.uniq(selectedTags) }, () => {
+        this.state.selectedTags.length == 5 && this.setState({ addTag: false });
+      });
     }
   };
 
-  deleteTags = (tag: string) => {
+  deleteTags = (tagId: number) => {
     const { selectedTags } = this.state;
-    this.setState({ selectedTags: _.pull(selectedTags, tag) });
+    this.setState({
+      selectedTags: _.pull(
+        selectedTags,
+        selectedTags.filter(s => s.id === tagId)[0],
+      ),
+    });
   };
 
   onChange = (type: 'mdValue' | 'title') => (value: any) => {

@@ -2,9 +2,10 @@ import { createActions, handleActions } from 'redux-actions';
 import { handle } from 'redux-pack-fsa';
 
 import { getTagList } from '@/apis';
+import * as S from '@/schema';
 
 export interface IState {
-  tagList: string[];
+  tagList: S.Tag[];
 }
 
 const initialState: IState = {

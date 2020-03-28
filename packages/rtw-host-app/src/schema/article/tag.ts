@@ -1,4 +1,4 @@
 export class Tag {
-  id: string;
+  id: number;
   content: string;
 }

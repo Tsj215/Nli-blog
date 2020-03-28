@@ -3,7 +3,7 @@ import { HOST, umiRequest } from '@/skeleton';
 
 export async function newArticle(
   title: string,
-  tags: string[],
+  tags: S.Tag[],
   content: string,
   imageList: S.Image[],
 ) {
@@ -62,7 +62,7 @@ export async function getArticleById(id: number) {
 export async function updateArticle(
   id: number,
   title: string,
-  tags: string[],
+  tags: S.Tag[],
   content: string,
 ) {
   const { status } = await umiRequest.patch<{ status: string }>(

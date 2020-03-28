@@ -1,7 +1,8 @@
+import { Tag } from './tag';
 export interface ArticleParam {
   title: string;
   content: string;
-  tags: string[];
+  tags: Tag[];
   imageList: string[];
   createAt: string;
   from: string;
@@ -23,7 +24,7 @@ export class Article {
   id: number;
   title: string;
   content: string;
-  tags: string[];
+  tags: Tag[];
   images: Image[];
   createAt: string;
   updateAt: string;

@@ -20,7 +20,7 @@ const { TabPane } = Tabs;
 const { Option } = Select;
 
 export interface BarsProps {
-  tagList: string[];
+  tagList: S.Tag[];
   articlecount: number;
   articleList: S.Article[];
 
@@ -34,7 +34,7 @@ export interface BarsProps {
 
 export interface BarsState {
   subTitle: string;
-  tags: string[];
+  tags: S.Tag[];
   title: string;
   pageNum: number;
   pageSize: number;
@@ -94,19 +94,20 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
         <Select
           allowClear={true}
           style={{ width: 100, margin: '0 18px' }}
-          onChange={(v: string) => {
-            this.setState({ tags: v ? [v] : [] });
-            this.props.loadArticleList(pageNum, pageSize, {
-              from,
-              to,
-              title,
-              tags: v ? [v] : [],
-            });
-          }}
+          // onChange={(v: string) => {
+          //   this.setState({ tags: v ? [v] : [] });
+          //   this.props.loadArticleList(pageNum, pageSize, {
+          //     from,
+          //     to,
+          //     title,
+          //     tags: v ? [v] : [],
+          //   });
+          // }}
+          onChange={val => console.log(val)}
         >
           {(tagList || []).map(t => (
-            <Option value={t} key={t}>
-              {t}
+            <Option value={t.id} key={t.id}>
+              {t.content}
             </Option>
           ))}
         </Select>

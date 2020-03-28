@@ -74,13 +74,13 @@ export class ArticleCard extends React.Component<
         </Link>
         <div className={styles.tagList}>
           <Icon type="tags" />：
-          {article.tags.map((t, i) => (
-            <Tag key={i} style={{ marginBottom: 6 }}>
+          {(article.tags || []).map(t => (
+            <Tag key={t.id} style={{ marginBottom: 6 }}>
               <IconFont
-                type={`icon-${_.toLower(t)}`}
+                type={`icon-${_.toLower(t.content)}`}
                 style={{ marginRight: 8 }}
               />
-              {t}
+              {t.content}
             </Tag>
           ))}
         </div>

@@ -87,8 +87,11 @@ class ArticleDetailCom extends React.Component<
   renderArticleInfo = () => {
     const { article } = this.state;
     const articleTag = (article.tags || []).map(t => (
-      <Tag key={t} style={{ marginBottom: 6 }}>
-        <IconFont style={{ marginRight: 6 }} type={`icon-${_.toLower(t)}`} />
+      <Tag key={t.id} style={{ marginBottom: 6 }}>
+        <IconFont
+          style={{ marginRight: 6 }}
+          type={`icon-${_.toLower(t.content)}`}
+        />
         {t}
       </Tag>
     ));

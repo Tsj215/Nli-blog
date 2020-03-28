@@ -7,6 +7,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { deleteTag, newTag, updateTag } from '@/apis';
 import { IState } from '@/ducks';
 import { tagActions } from '@/pages/article/ducks/tag';
+import * as S from '@/schema';
 
 import * as styles from './TagsManagement.less';
 
@@ -15,7 +16,7 @@ const IconFont = Icon.createFromIconfontCN({
 });
 
 export interface TagsManagementProps extends RouteComponentProps {
-  tagList: string[];
+  tagList: S.Tag[];
   loadTagList: () => void;
 }
 
@@ -46,20 +47,20 @@ export class TagsManagementComp extends React.Component<
     this.props.loadTagList();
   };
 
-  deleteTags = async (tag: string) => {
-    await deleteTag(tag);
+  deleteTags = async (tagId: number) => {
+    await deleteTag(tagId);
     this.onRefresh();
   };
 
-  handleTag = async (type: 'new' | 'edit', tagName?: string) => {
+  handleTag = async (type: 'new' | 'edit', tagId?: number) => {
     if (type === 'new') {
       await newTag(this.state.tagName);
       this.onRefresh();
       this.setState({ tagName: '', visible: false });
       message.success('创建成功');
     } else {
-      await updateTag(tagName, this.state.tagName);
-      await this.setState({ tagName: '', [tagName]: false });
+      await updateTag(tagId, this.state.tagName);
+      await this.setState({ tagName: '', [tagId]: false });
       this.onRefresh();
       message.success('编辑成功');
     }
@@ -69,51 +70,53 @@ export class TagsManagementComp extends React.Component<
     this.setState({ tagName: e.target.value });
   };
 
-  renderCard = (tag: string) => {
+  renderCard = (tag: S.Tag) => {
     const actions: React.ReactNode[] = [
-      !this.state[tag] ? (
+      !this.state[tag.id] ? (
         <Popconfirm
           key="delete"
           title="确定删除吗"
-          onConfirm={() => this.deleteTags(tag)}
+          onConfirm={() => this.deleteTags(tag.id)}
         >
           <IconFont type="icon-delete" />
         </Popconfirm>
       ) : (
         <IconFont
           type="icon-check"
-          onClick={() => this.handleTag('edit', tag)}
+          onClick={() => this.handleTag('edit', tag.id)}
         />
       ),
-      !this.state[tag] ? (
+      !this.state[tag.id] ? (
         <IconFont
           key="icon-edit"
           type="icon-edit3"
-          onClick={() => this.setState({ [tag]: true, tagName: tag })}
+          onClick={() =>
+            this.setState({ [tag.id]: true, tagName: tag.content })
+          }
         />
       ) : (
         <IconFont
           type="icon-cancel"
-          onClick={() => this.setState({ [tag]: false, tagName: '' })}
+          onClick={() => this.setState({ [tag.id]: false, tagName: '' })}
         />
       ),
     ];
     return (
       <Card
-        key={tag}
+        key={tag.id}
         actions={actions}
         className={styles.card}
         cover={
           <IconFont
-            type={`icon-${_.toLower(tag)}`}
+            type={`icon-${_.toLower(tag.content)}`}
             style={{ fontSize: 80, marginTop: 16 }}
           />
         }
       >
-        {!this.state[tag] && (
-          <Card.Meta className={styles.cardMeta} title={tag} />
+        {!this.state[tag.id] && (
+          <Card.Meta className={styles.cardMeta} title={tag.content} />
         )}
-        {this.state[tag] && (
+        {this.state[tag.id] && (
           <Input
             size="small"
             onChange={this.onInputChange}

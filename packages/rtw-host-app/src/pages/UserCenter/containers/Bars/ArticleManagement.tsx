@@ -41,7 +41,8 @@ export const ArticleListTable: React.FC<ArticleListTableProps> = ({
       key: 'tags',
       title: '标签',
       dataIndex: 'tags',
-      render: (t: string[]) => (t || []).map(i => <Tag key={i}>{i}</Tag>),
+      render: (t: S.Tag[]) =>
+        (t || []).map(i => <Tag key={i.id}>{i.content}</Tag>),
     },
     {
       align: 'center',
