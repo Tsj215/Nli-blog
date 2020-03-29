@@ -118,9 +118,9 @@ export async function getArticleCntByCreateAt() {
   return data;
 }
 
-export async function saveImage(image: S.Image) {
+export async function saveImage(articleId: number, image: S.Image) {
   const { data } = await umiRequest.post<{ data: S.Image }>(
-    `${HOST}/article/save/image`,
+    `${HOST}/article/save/image/${articleId}`,
     {
       data: image,
     },

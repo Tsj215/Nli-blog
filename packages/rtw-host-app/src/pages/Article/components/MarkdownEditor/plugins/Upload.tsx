@@ -18,6 +18,8 @@ import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
 import * as S from '@/schema';
 
+import { EditConsumer } from '../../../containers/NewArticle';
+
 import * as styles from './index.less';
 
 const IconFont = Icon.createFromIconfontCN({
@@ -33,7 +35,6 @@ interface UploadPicState {
   previewImage?: string;
   previewVisible: boolean;
   fileList: S.Image[];
-  uploadImageList: S.Image[];
 }
 
 interface UploadPicProps extends PluginProps {
@@ -56,7 +57,6 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
       previewVisible: false,
       previewImage: '',
       fileList: [],
-      uploadImageList: [],
     };
   }
 
@@ -78,7 +78,7 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
     this.setState({ uploadToken, key: file.name });
   };
 
-  onChange = async (info: UploadChangeParam) => {
+  onChange = (articleId: string) => async (info: UploadChangeParam) => {
     if (info.file.status === 'uploading') {
       if (!this.state.loading) {
         message.loading('上传中', 0);
@@ -89,7 +89,10 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
       message.destroy();
       message.success('上传成功');
       const url = await getDownloadUrl(info.file.name);
-      const respImage = await saveImage({ name: info.file.name, url });
+      const respImage = await saveImage(_.toNumber(articleId), {
+        name: info.file.name,
+        url,
+      });
 
       const { fileList } = this.state;
 
@@ -159,54 +162,62 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
     } = this.state;
 
     return (
-      <span className={styles.button}>
-        <Upload
-          showUploadList={false}
-          onChange={this.onChange}
-          action="http://upload.qiniup.com"
-          data={{ token: uploadToken, key }}
-          beforeUpload={this.beforeUpload}
-        >
-          <IconFont
-            type="icon-image"
-            className={styles.icon}
-            style={{ marginRight: 10 }}
-          />
-        </Upload>
-        <Button
-          type="link"
-          className={styles.modal}
-          onClick={this.handleModal}
-          disabled={_.isEmpty(this.state.fileList)}
-        >
-          <IconFont
-            type="icon-image_list1"
-            className={styles.icon}
-            style={{
-              // stylelint-disable-next-line function-name-case
-              color: _.isEmpty(this.state.fileList) ? '#bdbdbd' : '#757575',
-            }}
-          />
-        </Button>
-        <Modal
-          footer={false}
-          closable={false}
-          visible={visible}
-          style={{ top: 10 }}
-          onCancel={() => this.setState({ visible: false })}
-        >
-          {this.renderFileList()}
-        </Modal>
-        <Modal
-          footer={false}
-          centered={true}
-          closable={false}
-          visible={previewVisible}
-          onCancel={() => this.setState({ previewVisible: false })}
-        >
-          <img style={{ width: '100%' }} src={previewImage} />
-        </Modal>
-      </span>
+      <EditConsumer>
+        {({ articleId }) => {
+          return (
+            <span className={styles.button}>
+              <Upload
+                showUploadList={false}
+                onChange={this.onChange(articleId)}
+                action="http://upload.qiniup.com"
+                data={{ token: uploadToken, key }}
+                beforeUpload={this.beforeUpload}
+              >
+                <IconFont
+                  type="icon-image"
+                  className={styles.icon}
+                  style={{ marginRight: 10 }}
+                />
+              </Upload>
+              <Button
+                type="link"
+                className={styles.modal}
+                onClick={this.handleModal}
+                disabled={_.isEmpty(this.state.fileList)}
+              >
+                <IconFont
+                  type="icon-image_list1"
+                  className={styles.icon}
+                  style={{
+                    // stylelint-disable-next-line function-name-case
+                    color: _.isEmpty(this.state.fileList)
+                      ? '#bdbdbd'
+                      : '#757575',
+                  }}
+                />
+              </Button>
+              <Modal
+                footer={false}
+                closable={false}
+                visible={visible}
+                style={{ top: 10 }}
+                onCancel={() => this.setState({ visible: false })}
+              >
+                {this.renderFileList()}
+              </Modal>
+              <Modal
+                footer={false}
+                centered={true}
+                closable={false}
+                visible={previewVisible}
+                onCancel={() => this.setState({ previewVisible: false })}
+              >
+                <img style={{ width: '100%' }} src={previewImage} />
+              </Modal>
+            </span>
+          );
+        }}
+      </EditConsumer>
     );
   }
 }

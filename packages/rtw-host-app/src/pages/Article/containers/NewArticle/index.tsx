@@ -17,6 +17,12 @@ import { MarkdownEditor } from '../../components/MarkdownEditor';
 
 import * as styles from './index.less';
 
+const EditContext: React.Context<{ articleId: string }> = React.createContext({
+  articleId: '',
+});
+
+export const EditConsumer = EditContext.Consumer;
+
 export interface NewArticleProps
   extends FormComponentProps,
     RouteComponentProps<{ articleId: string }> {
@@ -301,7 +307,9 @@ export class NewArticleComp extends React.Component<
               />
             )}
           </div>
-          <MarkdownEditor mdValue={mdValue} onChange={this.onChange} />
+          <EditContext.Provider value={{ articleId: this.articleId }}>
+            <MarkdownEditor mdValue={mdValue} onChange={this.onChange} />
+          </EditContext.Provider>
         </div>
         {this.showModal()}
       </div>
