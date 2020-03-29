@@ -218,11 +218,7 @@ export class ArticleListComp extends React.Component<
             <Divider dashed={true} style={{ marginTop: 16 }} />
           </div>
           <div className={styles.content}>
-            <QueueAnim
-              duration={400}
-              leaveReverse={true}
-              type={['right', 'left']}
-            >
+            <QueueAnim leaveReverse={true} type={['right', 'left']}>
               {(articleList || []).map(a => (
                 <ArticleCard key={a.id} article={a} />
               ))}

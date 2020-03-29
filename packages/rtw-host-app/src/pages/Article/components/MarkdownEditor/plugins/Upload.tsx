@@ -7,7 +7,13 @@ import React from 'react';
 import { PluginComponent, PluginProps } from 'react-markdown-editor-lite';
 import { connect } from 'react-redux';
 
-import { deleteByKey, getDownloadUrl, getQiniuToken } from '@/apis';
+import {
+  deleteByKey,
+  deleteImage,
+  getDownloadUrl,
+  getQiniuToken,
+  saveImage,
+} from '@/apis';
 import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
 import * as S from '@/schema';
@@ -27,6 +33,7 @@ interface UploadPicState {
   previewImage?: string;
   previewVisible: boolean;
   fileList: S.Image[];
+  uploadImageList: S.Image[];
 }
 
 interface UploadPicProps extends PluginProps {
@@ -49,6 +56,7 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
       previewVisible: false,
       previewImage: '',
       fileList: [],
+      uploadImageList: [],
     };
   }
 
@@ -81,9 +89,11 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
       message.destroy();
       message.success('上传成功');
       const url = await getDownloadUrl(info.file.name);
+      const respImage = await saveImage({ name: info.file.name, url });
 
       const { fileList } = this.state;
-      fileList.push({ name: info.file.name, url });
+
+      fileList.push(respImage);
 
       this.setState({ loading: false, fileList });
       this.props.setImageList(fileList);
@@ -129,6 +139,7 @@ class UploadPicCom extends PluginComponent<UploadPicState, UploadPicProps> {
               className={styles.delete}
               onClick={async () => {
                 await deleteByKey(f.name);
+                await deleteImage(f.id);
                 this.removeFile(f);
               }}
             />

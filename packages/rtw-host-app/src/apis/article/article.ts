@@ -64,6 +64,7 @@ export async function updateArticle(
   title: string,
   tags: S.Tag[],
   content: string,
+  imgList: S.Image[],
 ) {
   const { status } = await umiRequest.patch<{ status: string }>(
     `${HOST}/article/update/${id}`,
@@ -72,6 +73,7 @@ export async function updateArticle(
         title,
         tags,
         content,
+        imgList,
       },
     },
   );
@@ -114,4 +116,23 @@ export async function getArticleCntByCreateAt() {
   );
 
   return data;
+}
+
+export async function saveImage(image: S.Image) {
+  const { data } = await umiRequest.post<{ data: S.Image }>(
+    `${HOST}/article/save/image`,
+    {
+      data: image,
+    },
+  );
+
+  return data;
+}
+
+export async function deleteImage(imageId: number) {
+  const { status } = await umiRequest.delete<{ status: string }>(
+    `${HOST}/article/delete/image/${imageId}`,
+  );
+
+  return status === 'ok';
 }

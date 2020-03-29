@@ -5,13 +5,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
-import {
-  getArticleById,
-  newArticle,
-  newTag,
-  updateArticle,
-  updateArticleImageList,
-} from '@/apis';
+import { getArticleById, newArticle, newTag, updateArticle } from '@/apis';
 import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
 import { tagActions } from '@/pages/article/ducks/tag';
@@ -238,10 +232,6 @@ export class NewArticleComp extends React.Component<
           title,
           selectedTags,
           mdValue,
-        );
-
-        await updateArticleImageList(
-          _.toNumber(this.articleId),
           this.props.imageList,
         );
       }
