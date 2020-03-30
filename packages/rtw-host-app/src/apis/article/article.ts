@@ -96,20 +96,6 @@ export async function getArticleByTags(
   return data;
 }
 
-export async function updateArticleImageList(
-  articleId: number,
-  imageList: S.Image[],
-) {
-  const { data } = await umiRequest.post<{ data: any }>(
-    `${HOST}/article/imageList/${articleId}`,
-    {
-      data: { imageList },
-    },
-  );
-
-  return data;
-}
-
 export async function getArticleCntByCreateAt() {
   const { data } = await umiRequest.get<{ data: any }>(
     `${HOST}/article/count/createAt`,

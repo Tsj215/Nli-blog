@@ -59,6 +59,26 @@
       }
     }
 
+    .showAll {
+      width: 260px;
+      cursor: pointer;
+      margin-top: 12px;
+      border-radius: 4px;
+
+      :global {
+        .ant-card-head {
+          color: #777;
+          min-height: 0;
+          font-size: 15px;
+          font-weight: 450;
+          text-align: center;
+        }
+        .ant-card-head-title {
+          padding: 6px;
+        }
+      }
+    }
+
     .articleInfo {
       width: 260px;
       margin-top: 12px;
@@ -73,7 +93,7 @@
         > span {
           color: #777;
           font-size: 15px;
-          font-weight: bold;
+          font-weight: 450;
         }
       }
 

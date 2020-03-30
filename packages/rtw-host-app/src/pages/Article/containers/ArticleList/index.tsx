@@ -20,7 +20,7 @@ import { ArticleTag } from '../ArticleTags';
 import * as styles from './index.less';
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_bzolvv1m7s8.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_os46vg6e9m7.js',
 });
 
 export interface ArticleListProps extends RouteComponentProps {
@@ -89,10 +89,12 @@ export class ArticleListComp extends React.Component<
       : this.setState({ isShowProfile: true });
   };
 
-  setCheckedTags = (checkedTags: S.Tag[]) => {
-    const { pageNum, pageSize } = this.state;
+  handleCheckedTags = (tags: S.Tag[]) => {
+    this.setState({ checkedTags: tags });
+  };
 
-    this.setState({ checkedTags });
+  setCheckedTags = () => {
+    const { pageNum, pageSize } = this.state;
     this.onPaginatinChange(pageNum, pageSize);
   };
 
@@ -147,6 +149,20 @@ export class ArticleListComp extends React.Component<
             </div>
           </div>
         </Card>
+        <Card
+          hoverable={true}
+          className={styles.showAll}
+          onClick={() => {
+            this.setState({ checkedTags: [] });
+            this.props.loadArticleList(0, 10);
+          }}
+          title={
+            <>
+              <IconFont style={{ marginRight: 12 }} type="icon-books" />
+              所有文章
+            </>
+          }
+        />
         {/** 文章归档 */}
         <Card hoverable={true} className={styles.articleInfo}>
           <div className={styles.header}>
@@ -214,7 +230,12 @@ export class ArticleListComp extends React.Component<
         <div className={styles.articleList}>
           <div className={styles.selectTag}>
             <span>所属标签：</span>
-            <ArticleTag tagList={tagList} checkedTags={this.setCheckedTags} />
+            <ArticleTag
+              tagList={tagList}
+              checkedList={this.state.checkedTags}
+              onCheckedChange={this.setCheckedTags}
+              handleCheckedTags={this.handleCheckedTags}
+            />
             <Divider dashed={true} style={{ marginTop: 16 }} />
           </div>
           <div className={styles.content}>

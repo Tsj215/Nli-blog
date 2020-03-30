@@ -13,15 +13,15 @@ const { CheckableTag } = Tag;
 
 export interface ArticleTagProps extends RouteComponentProps {
   tagList: S.Tag[];
+  checkedList: S.Tag[];
 
-  checkedTags: (checkedTags: S.Tag[]) => void;
+  onCheckedChange: () => void;
+  handleCheckedTags: (tags: S.Tag[]) => void;
 }
 
 export interface ArticleTagState {
   // 是否全选
   checkedAll: boolean;
-  // 根据 length 判断是否已经全选
-  checkedList: S.Tag[];
 }
 
 export class ArticleTagComp extends React.Component<
@@ -33,47 +33,49 @@ export class ArticleTagComp extends React.Component<
 
     this.state = {
       checkedAll: false,
-      checkedList: [],
     };
   }
 
   onCheckedAll = async (checkedAll: boolean) => {
-    const { tagList, checkedTags } = this.props;
+    const { tagList, onCheckedChange, handleCheckedTags } = this.props;
 
     this.setState({ checkedAll });
 
     if (checkedAll) {
-      await this.setState({ checkedList: tagList });
+      await handleCheckedTags(tagList);
     } else {
-      await this.setState({ checkedList: [] });
+      await handleCheckedTags([]);
     }
 
-    checkedTags(this.state.checkedList);
+    onCheckedChange();
   };
 
   onCheckedChange = async (checked: boolean, value: S.Tag) => {
-    const { checkedList } = this.state;
-    const { tagList, checkedTags } = this.props;
+    const {
+      tagList,
+      onCheckedChange,
+      checkedList,
+      handleCheckedTags,
+    } = this.props;
 
     if (checked) {
       checkedList.push(value);
-      await this.setState({ checkedList });
+      await handleCheckedTags(checkedList);
     } else {
-      await this.setState({ checkedList: _.without(checkedList, value) });
+      await handleCheckedTags(_.without(checkedList, value));
     }
 
-    if (tagList.length === this.state.checkedList.length) {
+    if (tagList.length === this.props.checkedList.length) {
       await this.setState({ checkedAll: true });
     } else {
       await this.setState({ checkedAll: false });
     }
 
-    checkedTags(this.state.checkedList);
+    onCheckedChange();
   };
 
   render() {
-    const { tagList } = this.props;
-    const { checkedList } = this.state;
+    const { checkedList, tagList } = this.props;
 
     return (
       <>
