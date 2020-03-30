@@ -12,6 +12,8 @@ import {
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import QueueAnim from 'rc-queue-anim';
+import Texty from 'rc-texty';
+import 'rc-texty/assets/index.css';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
@@ -53,11 +55,15 @@ export interface ArticleListState {
   pageNum: number;
   pageSize: number;
   isHidden: boolean;
+  // 唯一数据源，控制 tag 的选中
   checkedTags: S.Tag[];
   isShowProfile: boolean;
   from: string;
   to: string;
   orderBy: 'createAt' | 'visiTime';
+
+  // 文章列表描述
+  listDesc: string;
 }
 
 export class ArticleListComp extends React.Component<
@@ -76,6 +82,7 @@ export class ArticleListComp extends React.Component<
       isHidden: true,
       checkedTags: [],
       isShowProfile: true,
+      listDesc: '所有文章',
     };
   }
 
@@ -174,13 +181,15 @@ export class ArticleListComp extends React.Component<
           className={styles.showAll}
           onClick={() => {
             const { orderBy } = this.state;
-            this.setState({ checkedTags: [] });
+            this.setState({ checkedTags: [], listDesc: '' }, () =>
+              this.setState({ listDesc: '所有文章' }),
+            );
             this.props.loadArticleList(0, 10, { orderBy });
           }}
           title={
             <>
               <IconFont style={{ marginRight: 12 }} type="icon-books" />
-              所有文章
+              全部文章
             </>
           }
         />
@@ -213,7 +222,12 @@ export class ArticleListComp extends React.Component<
                       .startOf('month')
                       .add(1, 'month')
                       .format('YYYY-MM-DD');
-                    await this.setState({ from, to });
+                    await this.setState({
+                      from,
+                      to,
+                      listDesc: '',
+                    });
+                    this.setState({ listDesc: `${a.date}发布的文章` });
                     this.onPaginatinChange(pageNum, pageSize);
                   }}
                 >
@@ -242,7 +256,9 @@ export class ArticleListComp extends React.Component<
       <div className={styles.listDesc}>
         <div className={styles.desc}>
           <IconFont type="icon-baozhi" style={{ marginRight: 12 }} />
-          <span>全部文章</span>
+          <span>
+            <Texty type="left">{this.state.listDesc}</Texty>
+          </span>
         </div>
         <div className={styles.order}>
           <span>文章排序</span>

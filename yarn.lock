@@ -14434,6 +14434,15 @@ rc-tabs@~9.7.0:
     resize-observer-polyfill "^1.5.1"
     warning "^4.0.3"
 
+rc-texty@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/rc-texty/-/rc-texty-0.2.0.tgz#79af813523bfc314ba74af2bc086cda8b3296458"
+  integrity sha512-hGaXs8ZsSL/m7LEuCySxLWZtmFJ7bwldgtH5V90v6uBfy5eTLxSVLK5TpS2DPQHZrjl4sHXjRbKsCDk6v9x29A==
+  dependencies:
+    babel-runtime "6.x"
+    classnames "^2.2.6"
+    rc-tween-one "^2.2.0"
+
 rc-time-picker@~3.7.1:
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/rc-time-picker/-/rc-time-picker-3.7.3.tgz#65a8de904093250ae9c82b02a4905e0f995e23e2"
@@ -14511,7 +14520,7 @@ rc-trigger@^3.0.0:
     rc-animate "^3.0.0-rc.1"
     rc-util "^4.15.7"
 
-rc-tween-one@^2.5.0:
+rc-tween-one@^2.2.0, rc-tween-one@^2.5.0:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/rc-tween-one/-/rc-tween-one-2.6.8.tgz#75edf141af491a28b18812dc419efa6b0238e2a7"
   integrity sha512-xb0gNGVq3LNMqT/VCvlEVlW4FQhvbe5LrcoMwGAn6LNcBZR6qzh3Ip8oIhx3iN4Lex2mKJ9HN9vopuxzSZRZGA==
