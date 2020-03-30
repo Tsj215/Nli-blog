@@ -1,5 +1,14 @@
 import Ellipsis from 'ant-design-pro/lib/Ellipsis';
-import { Avatar, BackTop, Button, Card, Divider, Icon, Pagination } from 'antd';
+import {
+  Avatar,
+  BackTop,
+  Button,
+  Card,
+  Divider,
+  Icon,
+  Pagination,
+  Radio,
+} from 'antd';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import QueueAnim from 'rc-queue-anim';
@@ -20,7 +29,7 @@ import { ArticleTag } from '../ArticleTags';
 import * as styles from './index.less';
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_os46vg6e9m7.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_vfvbb3azbwg.js',
 });
 
 export interface ArticleListProps extends RouteComponentProps {
@@ -46,6 +55,9 @@ export interface ArticleListState {
   isHidden: boolean;
   checkedTags: S.Tag[];
   isShowProfile: boolean;
+  from: string;
+  to: string;
+  orderBy: 'createAt' | 'visiTime';
 }
 
 export class ArticleListComp extends React.Component<
@@ -56,6 +68,9 @@ export class ArticleListComp extends React.Component<
     super(props);
 
     this.state = {
+      to: '',
+      from: '',
+      orderBy: 'createAt',
       pageNum: 1,
       pageSize: 10,
       isHidden: true,
@@ -73,7 +88,7 @@ export class ArticleListComp extends React.Component<
   onRefresh = () => {
     this.props.loadTagList();
     this.props.loadProfile(1);
-    this.props.loadArticleList(0, 10);
+    this.props.loadArticleList(0, 10, { orderBy: this.state.orderBy });
     this.props.loadArticleCntByCreateAt();
   };
 
@@ -99,10 +114,15 @@ export class ArticleListComp extends React.Component<
   };
 
   onPaginatinChange = async (pageNum: number, pageSize: number) => {
-    const { checkedTags } = this.state;
+    const { checkedTags, orderBy, from, to } = this.state;
 
     await this.setState({ pageNum, pageSize });
-    this.props.loadArticleList(pageNum - 1, pageSize, { tags: checkedTags });
+    this.props.loadArticleList(pageNum - 1, pageSize, {
+      to,
+      from,
+      orderBy,
+      tags: checkedTags,
+    });
   };
 
   /** 侧边信息 */
@@ -153,8 +173,9 @@ export class ArticleListComp extends React.Component<
           hoverable={true}
           className={styles.showAll}
           onClick={() => {
+            const { orderBy } = this.state;
             this.setState({ checkedTags: [] });
-            this.props.loadArticleList(0, 10);
+            this.props.loadArticleList(0, 10, { orderBy });
           }}
           title={
             <>
@@ -183,17 +204,18 @@ export class ArticleListComp extends React.Component<
                   key={i}
                   type="link"
                   className={styles.content}
-                  onClick={() =>
-                    this.props.loadArticleList(0, 10, {
-                      from: dayjs(a.date)
-                        .startOf('month')
-                        .format('YYYY-MM-DD'),
-                      to: dayjs(a.date)
-                        .startOf('month')
-                        .add(1, 'month')
-                        .format('YYYY-MM-DD'),
-                    })
-                  }
+                  onClick={async () => {
+                    const { pageNum, pageSize } = this.state;
+                    const from = dayjs(a.date)
+                      .startOf('month')
+                      .format('YYYY-MM-DD');
+                    const to = dayjs(a.date)
+                      .startOf('month')
+                      .add(1, 'month')
+                      .format('YYYY-MM-DD');
+                    await this.setState({ from, to });
+                    this.onPaginatinChange(pageNum, pageSize);
+                  }}
                 >
                   <span>{dayjs(a.date).format('YYYY 年 MM 月')}</span>
                   <span>{a.count} 篇</span>
@@ -215,6 +237,33 @@ export class ArticleListComp extends React.Component<
     );
   };
 
+  articleListDesc = () => {
+    return (
+      <div className={styles.listDesc}>
+        <div className={styles.desc}>
+          <IconFont type="icon-baozhi" style={{ marginRight: 12 }} />
+          <span>全部文章</span>
+        </div>
+        <div className={styles.order}>
+          <span>文章排序</span>
+          <Radio.Group
+            buttonStyle="solid"
+            defaultValue={this.state.orderBy}
+            onChange={async e => {
+              const { pageNum, pageSize } = this.state;
+              await this.setState({ orderBy: e.target.value });
+
+              this.onPaginatinChange(pageNum, pageSize);
+            }}
+          >
+            <Radio.Button value="createAt">时间</Radio.Button>
+            <Radio.Button value="visiTime">访问量</Radio.Button>
+          </Radio.Group>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     const { tagList, articleList, articleCount } = this.props;
 
@@ -229,14 +278,17 @@ export class ArticleListComp extends React.Component<
         {this.state.isShowProfile && this.renderProfile()}
         <div className={styles.articleList}>
           <div className={styles.selectTag}>
-            <span>所属标签：</span>
-            <ArticleTag
-              tagList={tagList}
-              checkedList={this.state.checkedTags}
-              onCheckedChange={this.setCheckedTags}
-              handleCheckedTags={this.handleCheckedTags}
-            />
+            {this.articleListDesc()}
             <Divider dashed={true} style={{ marginTop: 16 }} />
+            <div>
+              <span style={{ color: 'rgba(0,0,0,.65)' }}>所属标签：</span>
+              <ArticleTag
+                tagList={tagList}
+                checkedList={this.state.checkedTags}
+                onCheckedChange={this.setCheckedTags}
+                handleCheckedTags={this.handleCheckedTags}
+              />
+            </div>
           </div>
           <div className={styles.content}>
             <QueueAnim leaveReverse={true} type={['right', 'left']}>

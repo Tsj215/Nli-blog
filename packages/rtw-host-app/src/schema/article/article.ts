@@ -7,6 +7,7 @@ export interface ArticleParam {
   createAt: string;
   from: string;
   to: string;
+  orderBy: 'createAt' | 'visiTime';
 }
 
 export class CountArticle {
