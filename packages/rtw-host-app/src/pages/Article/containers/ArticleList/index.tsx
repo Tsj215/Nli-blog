@@ -257,7 +257,9 @@ export class ArticleListComp extends React.Component<
         <div className={styles.desc}>
           <IconFont type="icon-baozhi" style={{ marginRight: 12 }} />
           <span>
-            <Texty type="left">{this.state.listDesc}</Texty>
+            <Texty type="scaleBig" duration={220}>
+              {this.state.listDesc}
+            </Texty>
           </span>
         </div>
         <div className={styles.order}>
@@ -285,7 +287,7 @@ export class ArticleListComp extends React.Component<
 
     return (
       <div className={styles.container}>
-        <BackTop visibilityHeight={200} style={{ right: 40 }}>
+        <BackTop visibilityHeight={200} style={{ left: 140 }}>
           <IconFont
             type="icon-backTop"
             style={{ fontSize: 40, color: '#6874e2' }}
@@ -307,7 +309,11 @@ export class ArticleListComp extends React.Component<
             </div>
           </div>
           <div className={styles.content}>
-            <QueueAnim leaveReverse={true} type={['right', 'left']}>
+            <QueueAnim
+              duration={400}
+              leaveReverse={true}
+              type={['right', 'left']}
+            >
               {(articleList || []).map(a => (
                 <ArticleCard key={a.id} article={a} />
               ))}
