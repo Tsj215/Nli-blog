@@ -5,9 +5,9 @@ import { RouteComponentProps, withRouter } from 'react-router';
 
 import { loginByUsername } from '@/apis';
 import Cloud from '@/assets/cloud2.svg';
+import Illustration from '@/assets/illustration.svg';
 import { IState } from '@/ducks';
 import { userActions } from '@/pages/userCenter/ducks/profile';
-// import * as S from '@/schema';
 
 import * as styles from './index.less';
 
@@ -55,6 +55,7 @@ export class LoginPageComp extends React.Component<
 
     return (
       <div className={styles.container}>
+        <Illustration />
         <div className={styles.form}>
           <div className={styles.header}>
             <Cloud />

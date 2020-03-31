@@ -165,6 +165,7 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
         <PageHeader
           title="后台管理"
           subTitle={subTitle}
+          className={styles.pageHeader}
           onBack={() => history.goBack()}
         />
         {this.filter()}

@@ -1,15 +1,24 @@
 @import '~@/skeleton/styles/variables.less';
 
 .container {
-  .appContainer;
-
+  width: 100%;
+  padding: 12px;
+  border-radius: 4px;
   height: 85vh;
   overflow-y: auto;
+
+  .pageHeader {
+    background-color: #fff;
+    border-radius: 3px;
+  }
 
   .filter {
     .flexStart;
 
-    margin: 20px 0 15px;
+    margin-top: 12px;
+    padding: 20px 16px 15px;
+    border-radius: 3px 3px 0 0;
+    background-color: #fff;
   }
 }
 
@@ -30,5 +39,20 @@
 
   .ant-tabs-nav-animated {
     height: 50px;
+  }
+
+  .ant-tabs-tabpane {
+    .appContainer;
+
+    margin: 0;
+    padding: 12px 24px;
+    border-radius: 4px;
+  }
+
+  .ant-tabs-nav-container {
+    background: white;
+    padding-left: 24px;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
   }
 }
