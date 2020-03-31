@@ -5,8 +5,11 @@
 
   margin-bottom: 6px;
   background-color: #fff;
+  background-image: url('../../assets/whiteboard.svg');
+  background-repeat: no-repeat;
 
   .card {
+    background: none;
     flex: 1 1 1px;
 
     .header {
@@ -33,6 +36,14 @@
 
       > div {
         margin-right: 16px;
+      }
+    }
+
+    :global {
+      .ant-card-head-wrapper {
+        background: url('../../assets/lamp.svg');
+        background-repeat: no-repeat;
+        background-position: right top;
       }
     }
   }

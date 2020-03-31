@@ -257,7 +257,7 @@ export class ArticleListComp extends React.Component<
         <div className={styles.desc}>
           <IconFont type="icon-baozhi" style={{ marginRight: 12 }} />
           <span>
-            <Texty type="scaleBig" duration={220}>
+            <Texty type="scaleBig" duration={200}>
               {this.state.listDesc}
             </Texty>
           </span>

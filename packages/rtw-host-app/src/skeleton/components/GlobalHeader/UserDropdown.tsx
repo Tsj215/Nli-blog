@@ -1,5 +1,7 @@
-import { Avatar, Icon, Menu, Spin } from 'antd';
+import { Avatar, Icon, Menu, Modal, Spin } from 'antd';
 import { ClickParam } from 'antd/es/menu';
+import Texty from 'rc-texty';
+import 'rc-texty/assets/index.css';
 import * as React from 'react';
 import { FormattedMessage } from 'react-intl';
 
@@ -7,6 +9,7 @@ import { logout } from '@/apis';
 import { CurrentUser } from '@/models/UserModel';
 import { getToken } from '@/skeleton/auth/token';
 import { history } from '@/skeleton/env/history';
+import { LoginPage } from '@/pages/auth/containers/LoginPage';
 
 import HeaderDropdown from '../HeaderDropdown';
 
@@ -18,6 +21,11 @@ export interface GlobalHeaderRightProps {
 }
 
 export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
+  state = {
+    visible: false,
+    login: false,
+  };
+
   onMenuClick = (event: ClickParam) => {
     const { key } = event;
 
@@ -26,7 +34,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
       logout();
       return;
     } else if (key === 'login') {
-      history.push('/login');
+      this.setState({ visible: true });
       return;
     } else if (key === 'center') {
       history.push('/user/profile');
@@ -97,17 +105,61 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
     );
 
     return currentUser && currentUser.name ? (
-      <HeaderDropdown overlay={menuHeaderDropdown}>
-        <span className={`${styles.action} ${styles.account}`}>
-          <Avatar
-            size="small"
-            className={styles.avatar}
-            src={currentUser.avatarUrl}
-            alt="avatar"
-          />
-          <span className={styles.name}>{currentUser.name}</span>
-        </span>
-      </HeaderDropdown>
+      token ? (
+        <HeaderDropdown overlay={menuHeaderDropdown}>
+          <span className={`${styles.action} ${styles.account}`}>
+            <Avatar
+              size="small"
+              className={styles.avatar}
+              src={currentUser.avatarUrl}
+              alt="avatar"
+            />
+            <span className={styles.name}>{currentUser.name}</span>
+          </span>
+        </HeaderDropdown>
+      ) : (
+        <>
+          <span
+            className={`${styles.action} ${styles.account}`}
+            onClick={() => this.setState({ visible: true })}
+            onMouseEnter={() => this.setState({ login: true })}
+            onMouseLeave={() => this.setState({ login: false })}
+          >
+            {!this.state.login ? (
+              <div style={{ width: 70 }}>
+                <Avatar
+                  size="small"
+                  className={styles.avatar}
+                  src={currentUser.avatarUrl}
+                  alt="avatar"
+                />
+                <span className={styles.name}>{currentUser.name}</span>
+              </div>
+            ) : (
+              <span
+                style={{
+                  width: 70,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: 'rgba(0,0,0,.65)',
+                }}
+              >
+                <Icon style={{ marginRight: 6 }} type="login" />
+                <Texty>登录</Texty>
+              </span>
+            )}
+          </span>
+          <Modal
+            footer={false}
+            closable={false}
+            visible={this.state.visible}
+            onCancel={() => this.setState({ visible: false })}
+          >
+            <LoginPage />
+          </Modal>
+        </>
+      )
     ) : (
       <Spin size="small" style={{ marginLeft: 8, marginRight: 8 }} />
     );

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="73px" viewBox="0 0 54 73" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 58 (84663) - https://sketch.com -->
+    <title>Hanging Lamp</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Templates" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Web—Section-Right" transform="translate(-1180.000000, 0.000000)">
+            <g id="Hanging-Lamp" transform="translate(1180.000000, 0.000000)">
+                <g id="Light" transform="translate(25.000000, 50.000000)">
+                    <ellipse id="Hanging-Lamp-Light" fill="#F2F2F2" cx="14" cy="13" rx="12" ry="10"></ellipse>
+                    <path d="M29,18.125 C29,8.11483891 22.5081289,0 14.5,0 C6.49187113,0 -3.55271368e-15,8.11483891 -3.55271368e-15,18.125" id="Hanging-Lamp" fill="#DDE3E9"></path>
+                </g>
+                <rect id="Wire" fill="#DDE3E9" transform="translate(40.000000, 25.000000) scale(-1, 1) translate(-40.000000, -25.000000) " x="39" y="0" width="2" height="50"></rect>
+                <g transform="translate(15.000000, 28.500000) scale(-1, 1) translate(-15.000000, -28.500000) ">
+                    <g id="Light" transform="translate(0.000000, 31.000000)">
+                        <ellipse id="Hanging-Lamp-Light" fill="#F2F2F2" cx="15.5" cy="13.5384615" rx="12.5" ry="11.5384615"></ellipse>
+                        <path d="M30,20 C30,8.954305 23.3738143,0 15.2,0 C7.0261857,0 0.4,8.954305 0.4,20" id="Hanging-Lamp" fill="#DDE3E9"></path>
+                    </g>
+                    <rect id="Wire" fill="#DDE3E9" x="15" y="0" width="2" height="31"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
