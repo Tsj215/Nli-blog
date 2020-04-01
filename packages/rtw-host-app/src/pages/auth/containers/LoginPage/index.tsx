@@ -4,12 +4,14 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
 import { loginByUsername } from '@/apis';
-import Cloud from '@/assets/cloud2.svg';
-import Illustration from '@/assets/illustration.svg';
 import { IState } from '@/ducks';
 import { userActions } from '@/pages/userCenter/ducks/profile';
 
 import * as styles from './index.less';
+
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1261840_krnjkfohr6g.js',
+});
 
 export interface LoginPageProps extends RouteComponentProps {
   loadProfile: (id: number) => void;
@@ -55,28 +57,24 @@ export class LoginPageComp extends React.Component<
 
     return (
       <div className={styles.container}>
-        <Illustration />
         <div className={styles.form}>
-          <div className={styles.header}>
-            <Cloud />
-            <span>NLi's Blog</span>
-          </div>
-
-          <div style={{ marginBottom: 24 }}>
+          <div>
             <Input
-              prefix={<Icon type="user" />}
               value={username}
+              className={styles.input}
+              prefix={<IconFont type="icon-yonghuming" />}
               onChange={this.handleInputValue('username')}
             />
             <Input.Password
-              prefix={<Icon type="lock" />}
               value={password}
+              className={styles.input}
+              prefix={<IconFont type="icon-A-copy" />}
               onChange={this.handleInputValue('password')}
             />
           </div>
           <Button
             block={true}
-            style={{ height: 40 }}
+            className={styles.loginBtn}
             onClick={this.handleLogin}
           >
             登录

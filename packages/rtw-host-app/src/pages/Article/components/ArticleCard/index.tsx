@@ -15,7 +15,7 @@ import * as styles from './index.less';
 const format = 'YY/MM/DD HH:mm';
 
 const IconFont = Icon.createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_1261840_lnfedak82x.js',
+  scriptUrl: '//at.alicdn.com/t/font_1261840_z14lp53sgl.js',
 });
 
 const mdParser: MarkDownIt = new MarkDownIt({
@@ -73,7 +73,7 @@ export class ArticleCard extends React.Component<
           {article.title}
         </Link>
         <div className={styles.tagList}>
-          <Icon type="tags" />：
+          <IconFont type="icon-fabu-" />：
           {(article.tags || []).map(t => (
             <Tag key={t.id} style={{ marginBottom: 6 }}>
               <IconFont

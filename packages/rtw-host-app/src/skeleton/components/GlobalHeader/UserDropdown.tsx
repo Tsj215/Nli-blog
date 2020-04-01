@@ -7,9 +7,9 @@ import { FormattedMessage } from 'react-intl';
 
 import { logout } from '@/apis';
 import { CurrentUser } from '@/models/UserModel';
+import { LoginPage } from '@/pages/auth/containers/LoginPage';
 import { getToken } from '@/skeleton/auth/token';
 import { history } from '@/skeleton/env/history';
-import { LoginPage } from '@/pages/auth/containers/LoginPage';
 
 import HeaderDropdown from '../HeaderDropdown';
 

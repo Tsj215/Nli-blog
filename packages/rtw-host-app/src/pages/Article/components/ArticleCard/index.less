@@ -5,12 +5,13 @@
 
   margin-bottom: 6px;
   background-color: #fff;
-  background-image: url('../../assets/whiteboard.svg');
-  background-repeat: no-repeat;
 
   .card {
-    background: none;
     flex: 1 1 1px;
+    background-size: 12%;
+    background-repeat: no-repeat;
+    background-position: 85% 70%;
+    background-image: url('../../assets/dancing.svg');
 
     .header {
       font-size: 14px;
@@ -23,10 +24,17 @@
         color: #6874e2;
       }
       .tagList {
-        margin-top: 12px;
         display: flex;
         flex-wrap: wrap;
+        margin-top: 12px;
+        align-items: center;
         justify-content: flex-start;
+
+        :global {
+          .ant-tag {
+            margin-bottom: 0 !important;
+          }
+        }
       }
     }
 
@@ -43,7 +51,7 @@
       .ant-card-head-wrapper {
         background: url('../../assets/lamp.svg');
         background-repeat: no-repeat;
-        background-position: right top;
+        background-position: right 4px top;
       }
     }
   }
@@ -63,6 +71,9 @@
     .ant-card-actions {
       background-color: #fff;
       border: none;
+    }
+    .ant-card-body {
+      min-height: 200px;
     }
   }
 }
