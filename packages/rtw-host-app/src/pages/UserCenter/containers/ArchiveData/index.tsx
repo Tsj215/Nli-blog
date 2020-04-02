@@ -1,16 +1,24 @@
-import { Chart, Coord, Geom, Label, Legend, Tooltip } from 'bizcharts';
+import { Axis, Chart, Coord, Geom, Label, Legend, Tooltip } from 'bizcharts';
+import _ from 'lodash';
 import * as React from 'react';
+import { connect } from 'react-redux';
 
 import { archiveTags } from '@/apis';
+import { IState } from '@/ducks';
+import { articleActions } from '@/pages/article/ducks/blog';
 import * as S from '@/schema';
 
-interface ArchiveTagProps {}
+interface ArchiveTagProps {
+  countArticle: S.CountArticle[];
+
+  loadArticleCntByCreateAt: () => void;
+}
 
 interface ArchiveTagState {
   archiveData: S.ArchiveTag[];
 }
 
-export class ArchiveTag extends React.Component<
+export class ArchiveDataCom extends React.Component<
   ArchiveTagProps,
   ArchiveTagState
 > {
@@ -22,13 +30,15 @@ export class ArchiveTag extends React.Component<
   }
 
   async componentDidMount() {
+    this.props.loadArticleCntByCreateAt();
     const archiveData = await archiveTags();
     this.setState({ archiveData });
   }
 
   public render(): JSX.Element {
+    const { countArticle } = this.props;
     return (
-      <div>
+      <>
         <Chart
           height={400}
           forceFit={true}
@@ -48,14 +58,49 @@ export class ArchiveTag extends React.Component<
             position="标签*文章"
             style={{
               // stylelint-disable-next-line property-no-unknown
-              lineWidth: 2,
+              lineWidth: 1,
               stroke: '#fff',
             }}
           >
             <Label content="标签" offset={-15} />
           </Geom>
         </Chart>
-      </div>
+        <Chart
+          height={400}
+          style={{ width: 600 }}
+          data={(countArticle || []).map(c => ({
+            数量: _.toNumber(c.count),
+            日期: c.date,
+          }))}
+          forceFit={true}
+          scale={{ 数量: { tickInterval: 1 } }}
+          padding={[30, 70, 30, 50]}
+        >
+          <Axis name="日期" title={true} />
+          <Axis name="数量" title={true} />
+          <Legend position="right" />
+          <Tooltip />
+          <Geom
+            size={35}
+            type="interval"
+            position="日期*数量"
+            tooltip={[
+              '日期*数量',
+              (日期, 数量) => ({ name: 日期, value: `${数量} 篇文章` }),
+            ]}
+            color={['数量', '#1FA2FF-#A6FFCB']}
+          >
+            <Label content="数量" />
+          </Geom>
+        </Chart>
+      </>
     );
   }
 }
+
+export const ArchiveData = connect(
+  (state: IState) => ({
+    countArticle: state.blog.article.countArticle,
+  }),
+  { loadArticleCntByCreateAt: articleActions.loadArticleCntByCreateAt },
+)(ArchiveDataCom);
