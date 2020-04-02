@@ -98,7 +98,7 @@ export async function getArticleByTags(
 
 export async function getArticleCntByCreateAt() {
   const { data } = await umiRequest.get<{ data: any }>(
-    `${HOST}/article/count/createAt`,
+    `${HOST}/archive/createAt`,
   );
 
   return data;

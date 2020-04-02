@@ -38,7 +38,7 @@ export async function updateTag(tagId: number, _tagName: string) {
 /** 获取 tag 对应 articleId */
 export async function archiveTags() {
   const { data } = await umiRequest.get<{ data: S.ArchiveTag[] }>(
-    `${HOST}/tags/articleCount`,
+    `${HOST}/archive/tags`,
   );
   return data;
 }

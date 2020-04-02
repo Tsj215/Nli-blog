@@ -44,19 +44,13 @@ export class ArchiveTag extends React.Component<
           <Legend position="right" offsetX={-30} />
           <Geom
             type="interval"
-            color={[
-              '标签',
-              [
-                '#3fb1e3',
-                '#6be6c1',
-                '#626c91',
-                '#a0a7e6',
-                '#c4ebad',
-                '#96dee8',
-              ],
-            ]}
+            color={['标签', '#1FA2FF-#A6FFCB']}
             position="标签*文章"
-            style={{ stroke: '#fff' }}
+            style={{
+              // stylelint-disable-next-line property-no-unknown
+              lineWidth: 2,
+              stroke: '#fff',
+            }}
           >
             <Label content="标签" offset={-15} />
           </Geom>
