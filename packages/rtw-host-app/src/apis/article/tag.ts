@@ -1,8 +1,9 @@
+import * as S from '@/schema';
 import { HOST, umiRequest } from '@/skeleton';
 
 /** 获取所有标签 */
 export async function getTagList() {
-  const { data } = await umiRequest.get<{ data: string[] }>(`${HOST}/tags`);
+  const { data } = await umiRequest.get<{ data: S.Tag[] }>(`${HOST}/tags`);
 
   return data;
 }
@@ -32,4 +33,12 @@ export async function updateTag(tagId: number, _tagName: string) {
   );
 
   return status === 'ok';
+}
+
+/** 获取 tag 对应 articleId */
+export async function archiveTags() {
+  const { data } = await umiRequest.get<{ data: S.ArchiveTag[] }>(
+    `${HOST}/tags/articleCount`,
+  );
+  return data;
 }

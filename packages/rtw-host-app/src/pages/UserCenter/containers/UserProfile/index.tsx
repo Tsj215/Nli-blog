@@ -13,12 +13,18 @@ import { UploadChangeParam } from 'antd/lib/upload/interface';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { getDownloadUrl, getQiniuToken, updateProfile } from '@/apis';
+import {
+  archiveTags,
+  getDownloadUrl,
+  getQiniuToken,
+  updateProfile,
+} from '@/apis';
 import { IState } from '@/ducks';
 import * as S from '@/schema';
 import { PageHeader } from 'rtw-components/src';
 
 import { userActions } from '../../ducks/profile';
+import { ArchiveTag } from '../ArchiveData';
 
 import * as styles from './index.less';
 
@@ -49,8 +55,11 @@ export class UserProfileComp extends React.Component<
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.onRefresh();
+
+    const resp = await archiveTags();
+    console.log('resp', resp);
   }
 
   onRefresh = () => {
@@ -225,7 +234,7 @@ export class UserProfileComp extends React.Component<
           {this.renderSignature()}
         </div>
         <div className={styles.content}>
-          <Button>点击</Button>
+          <ArchiveTag />
         </div>
       </div>
     );
