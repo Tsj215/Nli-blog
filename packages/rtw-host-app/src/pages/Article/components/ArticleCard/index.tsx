@@ -1,4 +1,4 @@
-import { Card, Carousel, Icon, Skeleton, Tag } from 'antd';
+import { Avatar, Card, Carousel, Icon, Skeleton, Tag } from 'antd';
 import dayjs from 'dayjs';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
@@ -151,9 +151,10 @@ export class ArticleCard extends React.Component<
           <div className={styles.carousel}>
             <Carousel dots={true} easing="ease-out">
               {(article.images || []).map(i => (
-                <img
+                <Avatar
                   key={i.id}
-                  style={{ maxHeight: 200 }}
+                  size={200}
+                  shape="square"
                   src={`${i.url}?imageView2/2/h/200`}
                 />
               ))}
