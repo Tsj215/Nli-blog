@@ -8,8 +8,10 @@ import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
 import * as S from '@/schema';
 
+import * as styles from './index.less';
+
 interface ArchiveTagProps {
-  showInUserCenter: boolean;
+  showInBars: boolean;
   countArticle: S.CountArticle[];
 
   loadArticleCntByCreateAt: () => void;
@@ -37,14 +39,14 @@ export class ArchiveDataCom extends React.Component<
   }
 
   public render(): JSX.Element {
-    const { countArticle, showInUserCenter } = this.props;
+    const { countArticle, showInBars } = this.props;
     return (
-      <>
+      <div className={styles.container}>
         <Chart
-          height={showInUserCenter ? 400 : 340}
+          height={showInBars ? 400 : 340}
           forceFit={true}
           style={
-            showInUserCenter
+            showInBars
               ? { width: 500 }
               : {
                   width: 260,
@@ -53,7 +55,7 @@ export class ArchiveDataCom extends React.Component<
                   backgroundColor: '#fff',
                 }
           }
-          padding={showInUserCenter ? [20, 40, 0, -40] : [-95, 0, 0, 12]}
+          padding={showInBars ? [20, 40, 0, -40] : [-95, 0, 0, 12]}
           data={this.state.archiveData.map(a => ({
             标签: a.content,
             文章: a.articles.length,
@@ -61,7 +63,7 @@ export class ArchiveDataCom extends React.Component<
         >
           <Coord type="polar" innerRadius={0.1} />
           <Tooltip />
-          {showInUserCenter ? (
+          {showInBars ? (
             <Legend position="right" offsetX={-30} />
           ) : (
             <Legend position="bottom" offsetY={-90} />
@@ -79,7 +81,7 @@ export class ArchiveDataCom extends React.Component<
             <Label content="标签" offset={-15} />
           </Geom>
         </Chart>
-        {showInUserCenter && (
+        {showInBars && (
           <Chart
             height={400}
             style={{ width: 600 }}
@@ -109,7 +111,7 @@ export class ArchiveDataCom extends React.Component<
             </Geom>
           </Chart>
         )}
-      </>
+      </div>
     );
   }
 }

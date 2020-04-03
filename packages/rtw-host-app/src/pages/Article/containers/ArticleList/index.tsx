@@ -249,7 +249,7 @@ export class ArticleListComp extends React.Component<
           </div>
         </Card>
 
-        <ArchiveData showInUserCenter={false} />
+        <ArchiveData showInBars={false} />
       </div>
     );
   };
