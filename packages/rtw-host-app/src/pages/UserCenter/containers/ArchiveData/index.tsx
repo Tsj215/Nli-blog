@@ -55,7 +55,7 @@ export class ArchiveDataCom extends React.Component<
                   backgroundColor: '#fff',
                 }
           }
-          padding={showInBars ? [20, 40, 0, -40] : [-95, 0, 0, 12]}
+          padding={showInBars ? [20, 40, 0, -40] : [-65, 10, -25, 12]}
           data={this.state.archiveData.map(a => ({
             标签: a.content,
             文章: a.articles.length,

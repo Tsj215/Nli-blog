@@ -172,11 +172,7 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
         />
         {this.filter()}
         <Tabs defaultActiveKey="文章管理" onChange={this.onTabChange}>
-          <TabPane
-            tab="文章管理"
-            key="articleManagement"
-            style={{ paddingTop: 12 }}
-          >
+          <TabPane tab="文章管理" key="文章管理" style={{ paddingTop: 12 }}>
             {/* 文章管理 */}
             <ArticleListTable
               onRefresh={this.onRefresh}
@@ -184,11 +180,11 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
               pagination={pagination}
             />
           </TabPane>
-          <TabPane tab="标签管理" key="tagManagement">
+          <TabPane tab="标签管理" key="标签管理">
             {/* 标签管理 */}
             <TagsManagement />
           </TabPane>
-          <TabPane tab="统计分析" key="archive">
+          <TabPane tab="统计分析" key="统计分析">
             <ArchiveData showInBars={true} />
           </TabPane>
         </Tabs>

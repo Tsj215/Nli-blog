@@ -188,7 +188,7 @@ export class NewArticleComp extends React.Component<
         onOk={() => {
           this.props.form.validateFields(async (err, val) => {
             if (!err) {
-              const resp = await newTag(val);
+              const resp = await newTag(val.tagName);
 
               if (resp) {
                 this.onRefresh();
