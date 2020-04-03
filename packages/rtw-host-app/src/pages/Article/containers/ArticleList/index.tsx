@@ -22,6 +22,7 @@ import { getArticleCntByCreateAt } from '@/apis';
 import { IState } from '@/ducks';
 import { articleActions } from '@/pages/article/ducks/blog';
 import { tagActions } from '@/pages/article/ducks/tag';
+import { ArchiveData } from '@/pages/userCenter/containers/ArchiveData';
 import { userActions } from '@/pages/userCenter/ducks/profile';
 import * as S from '@/schema';
 
@@ -247,6 +248,8 @@ export class ArticleListComp extends React.Component<
             )}
           </div>
         </Card>
+
+        <ArchiveData showInUserCenter={false} />
       </div>
     );
   };

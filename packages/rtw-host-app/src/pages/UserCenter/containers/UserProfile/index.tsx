@@ -227,7 +227,7 @@ export class UserProfileComp extends React.Component<
           {this.renderSignature()}
         </div>
         <div className={styles.content}>
-          <ArchiveData />
+          <ArchiveData showInUserCenter={true} />
         </div>
       </div>
     );
