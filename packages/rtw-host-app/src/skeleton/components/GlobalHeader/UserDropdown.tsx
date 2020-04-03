@@ -153,6 +153,7 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
           <Modal
             footer={false}
             closable={false}
+            className={styles.loginModal}
             visible={this.state.visible}
             onCancel={() => this.setState({ visible: false })}
           >

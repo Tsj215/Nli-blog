@@ -104,6 +104,18 @@
   }
 }
 
+.loginModal {
+  :global {
+    .ant-modal-content {
+      overflow: hidden;
+      border-radius: 10px !important;
+    }
+    .ant-modal-body {
+      padding: 0 !important;
+    }
+  }
+}
+
 @media only screen and (max-width: @screen-md) {
   :global(.ant-divider-vertical) {
     vertical-align: unset;
@@ -132,15 +144,5 @@
         margin-right: 0;
       }
     }
-  }
-}
-
-:global {
-  .ant-modal-content {
-    overflow: hidden;
-    border-radius: 10px !important;
-  }
-  .ant-modal-body {
-    padding: 0 !important;
   }
 }

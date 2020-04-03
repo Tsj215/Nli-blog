@@ -1,5 +1,6 @@
 import { Tabs } from 'antd';
 import * as React from 'react';
+import Image from 'react-image';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
@@ -23,7 +24,7 @@ export class TestComComp extends React.Component<TestComProps, TestComState> {
       <div className={styles.container}>
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="tab1" key="1">
-            tab1
+            <Image src="http://tsj.zhoutao123.com/aaron-burden--IQGXSMLYJc.jpg" />
           </Tabs.TabPane>
           <Tabs.TabPane tab="tab2" key="2">
             tab2
