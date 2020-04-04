@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 // import styles from './index.less';
-import { Exception } from 'rtw-components';
+// import { Exception } from 'rtw-components';
 
 import { ResolvedModule } from '../../../manifest';
 
@@ -64,19 +64,19 @@ class AppContainer extends PureComponent<IProps, IState> {
     this.setState({ appError: { error, errorInfo } });
   }
 
-  renderErrorPage() {
-    const { appError } = this.state;
+  // renderErrorPage() {
+  //   const { appError } = this.state;
 
-    return <Exception type="-1" {...appError} />;
-  }
+  //   return <Exception type="-1" {...appError} />;
+  // }
 
   render() {
     const { className, fallback, appId } = this.props;
-    const { appError } = this.state;
+    // const { appError } = this.state;
 
-    if (appError) {
-      return this.renderErrorPage();
-    }
+    // if (appError) {
+    //   return this.renderErrorPage();
+    // }
 
     const App = this.loadApp();
 
