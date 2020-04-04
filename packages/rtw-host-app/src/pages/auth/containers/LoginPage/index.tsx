@@ -46,7 +46,7 @@ export class LoginPageComp extends React.Component<
 
     if (resp.data.token) {
       message.success('登录成功');
-      window.location.href = '/';
+      this.props.history.push(__dirname);
     } else if (resp.message.errors === 'User not found') {
       message.error('用户名或密码错误');
     }
