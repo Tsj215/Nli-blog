@@ -105,6 +105,7 @@ export class TagsManagementComp extends React.Component<
       <Card
         key={tag.id}
         actions={actions}
+        style={{ width: 200 }}
         className={styles.card}
         cover={
           <IconFont
