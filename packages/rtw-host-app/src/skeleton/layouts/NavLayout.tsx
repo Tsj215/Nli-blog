@@ -71,6 +71,7 @@ const NavLayoutCom: React.FC<Partial<NavLayoutProps>> = props => {
   const [collapse, toggleCollapse] = React.useState(true);
 
   const handleMenuCollapse = (payload: boolean): void => {
+    console.log('collapse', payload);
     toggleCollapse(payload);
   };
 
@@ -93,13 +94,14 @@ const NavLayoutCom: React.FC<Partial<NavLayoutProps>> = props => {
         <ProLayout
           className={styles.container}
           {...props}
+          title={"Nli's Blog"}
           collapsed={collapse}
           layout="topmenu"
           route={getMenus() as any}
           logo={
             <div className={styles.logo}>
               <Logo />
-              <span>Nli's Blog</span>
+              {collapse && <span>Nli's Blog</span>}
             </div>
           }
           siderWidth={240}
@@ -128,9 +130,7 @@ const NavLayoutCom: React.FC<Partial<NavLayoutProps>> = props => {
             return (
               <span>
                 <span>{defaultRenderCollapsedButton(_collapsed)}</span>
-                <span style={{ marginLeft: 8, fontSize: 16 }}>
-                  Custom App Breadcrumb Nav
-                </span>
+                <span style={{ marginLeft: 8, fontSize: 16 }}>展开菜单</span>
               </span>
             );
           }}

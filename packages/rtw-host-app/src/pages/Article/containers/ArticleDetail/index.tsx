@@ -145,7 +145,11 @@ class ArticleDetailCom extends React.Component<
 
     return (
       <QueueAnim duration={500} type={['right', 'left']}>
-        <div key="container" className={styles.container}>
+        <div
+          key="container"
+          className={styles.container}
+          style={{ minHeight: '82vh' }}
+        >
           <PageHeader
             title="文章详情"
             style={{ backgroundColor: '#fff' }}
