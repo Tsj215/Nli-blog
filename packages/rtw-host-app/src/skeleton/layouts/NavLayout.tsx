@@ -71,7 +71,6 @@ const NavLayoutCom: React.FC<Partial<NavLayoutProps>> = props => {
   const [collapse, toggleCollapse] = React.useState(true);
 
   const handleMenuCollapse = (payload: boolean): void => {
-    console.log('collapse', payload);
     toggleCollapse(payload);
   };
 
@@ -161,6 +160,7 @@ const NavLayoutCom: React.FC<Partial<NavLayoutProps>> = props => {
             <RightContent profile={profile} {...rightProps} />
           )}
           onCollapse={handleMenuCollapse}
+          onMenuHeaderClick={e => e.preventDefault()}
         >
           {children}
         </ProLayout>
