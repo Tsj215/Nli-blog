@@ -1,4 +1,4 @@
-import { Anchor, Card, Divider, Icon, Skeleton, Tag } from 'antd';
+import { Anchor, Card, Icon, Skeleton, Tag } from 'antd';
 import dayjs from 'dayjs';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/atom-one-dark.css';
@@ -183,7 +183,6 @@ class ArticleDetailCom extends React.Component<
                     <IconFont type="icon-mulu" style={{ marginRight: 8 }} />
                     目录
                   </span>
-                  <Divider style={{ margin: 0 }} />
                   {this.renderAnchor().map((a, i) => (
                     <Link
                       key={i}
