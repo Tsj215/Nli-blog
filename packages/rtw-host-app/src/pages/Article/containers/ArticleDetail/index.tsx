@@ -144,91 +144,79 @@ class ArticleDetailCom extends React.Component<
     const { article } = this.state;
 
     return (
-      <QueueAnim duration={500} type={['right', 'left']}>
-        <div
-          key="container"
-          className={styles.container}
-          style={{ minHeight: '82vh' }}
-        >
-          <PageHeader
-            title="文章详情"
-            style={{ backgroundColor: '#fff' }}
-            backIcon={<IconFont type="icon-back" />}
-            onBack={() => this.props.history.goBack()}
-          />
-          <div className={styles.content}>
-            {/** 侧边栏 */}
-            <div className={styles.left}>
-              <div style={{ backgroundColor: '#fff', marginBottom: 24 }}>
-                <Skeleton
-                  active={true}
-                  paragraph={{ width: 286 }}
-                  loading={_.isNil(this.state.article.id)}
-                >
-                  {this.renderArticleInfo()}
-                </Skeleton>
-              </div>
-              <div style={{ backgroundColor: '#fff' }}>
-                <Skeleton
-                  active={true}
-                  paragraph={{ width: 286 }}
-                  loading={
-                    _.isNull(this._divRef.current)
-                    // true
-                  }
-                >
-                  {this._divRef.current && !_.isEmpty(this.renderAnchor()) && (
-                    <QueueAnim type="bottom">
-                      <div key="anchor" className={styles.anchor}>
-                        <h3>
-                          <IconFont
-                            type="icon-mulu"
-                            style={{ marginRight: 8 }}
-                          />
-                          目录
-                        </h3>
-                        <Divider style={{ margin: 0 }} />
-                        <Anchor
-                          className={styles.content}
-                          onClick={e => e.preventDefault()}
-                        >
-                          {this.renderAnchor().map((a, i) => (
-                            <Link
-                              key={i}
-                              href={`#${a}`}
-                              title={_.truncate(a, { length: 16 })}
-                            />
-                          ))}
-                        </Anchor>
-                      </div>
-                    </QueueAnim>
-                  )}
-                </Skeleton>
-              </div>
-            </div>
-            <div style={{ backgroundColor: '#fff', width: '100%' }}>
+      <div
+        key="container"
+        className={styles.container}
+        style={{ minHeight: '82vh' }}
+      >
+        <PageHeader
+          title="文章详情"
+          style={{ backgroundColor: '#fff' }}
+          backIcon={<IconFont type="icon-back" />}
+          onBack={() => this.props.history.goBack()}
+        />
+        <div className={styles.content}>
+          {/** 侧边栏 */}
+          <div className={styles.left}>
+            <div style={{ backgroundColor: '#fff', marginBottom: 24 }}>
               <Skeleton
                 active={true}
-                paragraph={{ rows: 14 }}
-                loading={_.isNull(this.state.article.id)}
+                paragraph={{ width: 286 }}
+                loading={_.isNil(this.state.article.id)}
               >
-                <div
-                  ref={this._divRef}
-                  className="custom-html-style html-wrap"
-                  style={{
-                    flex: '1 1 1px',
-                    padding: 24,
-                    backgroundColor: '#fff',
-                  }}
-                  dangerouslySetInnerHTML={{
-                    __html: this.mdParser.render(_.get(article, 'content', '')),
-                  }}
-                />
+                {this.renderArticleInfo()}
               </Skeleton>
             </div>
+            <Skeleton
+              active={true}
+              paragraph={{ width: 286 }}
+              loading={_.isNull(this._divRef.current)}
+            >
+              {this._divRef.current && !_.isEmpty(this.renderAnchor()) && (
+                <Anchor
+                  affix={true}
+                  offsetTop={48}
+                  style={{ borderRadius: 4 }}
+                  onClick={e => e.preventDefault()}
+                >
+                  <span className={styles.catalog}>
+                    <IconFont type="icon-mulu" style={{ marginRight: 8 }} />
+                    目录
+                  </span>
+                  <Divider style={{ margin: 0 }} />
+                  {this.renderAnchor().map((a, i) => (
+                    <Link
+                      key={i}
+                      href={`#${a}`}
+                      title={_.truncate(a, { length: 16 })}
+                    />
+                  ))}
+                </Anchor>
+              )}
+            </Skeleton>
+          </div>
+          <div style={{ backgroundColor: '#fff', width: '100%' }}>
+            <Skeleton
+              active={true}
+              paragraph={{ rows: 14 }}
+              loading={_.isNull(this.state.article.id)}
+            >
+              <div
+                ref={this._divRef}
+                className="custom-html-style html-wrap"
+                style={{
+                  flex: '1 1 1px',
+                  padding: 24,
+                  backgroundColor: '#fff',
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: this.mdParser.render(_.get(article, 'content', '')),
+                }}
+              />
+            </Skeleton>
           </div>
         </div>
-      </QueueAnim>
+      </div>
     );
   }
 }
