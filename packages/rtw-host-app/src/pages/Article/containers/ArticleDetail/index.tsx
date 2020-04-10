@@ -175,7 +175,7 @@ class ArticleDetailCom extends React.Component<
               {this._divRef.current && !_.isEmpty(this.renderAnchor()) && (
                 <Anchor
                   affix={true}
-                  offsetTop={48}
+                  offsetTop={24}
                   style={{ borderRadius: 4 }}
                   onClick={e => e.preventDefault()}
                 >
