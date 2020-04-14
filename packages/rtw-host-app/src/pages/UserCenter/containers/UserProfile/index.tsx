@@ -23,6 +23,10 @@ import { ArchiveData } from '../ArchiveData';
 
 import * as styles from './index.less';
 
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1261840_kice0w2939.js',
+});
+
 export interface UserProfileProps {
   profile: S.UserProfile;
 
@@ -36,6 +40,7 @@ export interface UserProfileState {
   token?: string;
   signature?: string;
   avatarName?: string;
+  [key: string]: boolean | string;
 }
 
 export class UserProfileComp extends React.Component<
@@ -65,6 +70,70 @@ export class UserProfileComp extends React.Component<
     if (!profile) {
       return;
     }
+
+    const editProfile = (key: string) => (
+      <Icon
+        type="edit"
+        style={{ marginLeft: 12, cursor: 'pointer' }}
+        onClick={() => this.setState({ [`isEdit-${key}`]: true })}
+      />
+    );
+
+    const renderItem = (key: string) => (
+      <div
+        style={{
+          display: 'flex',
+          cursor: 'pointer',
+          padding: '2px 12px',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+        }}
+        onMouseEnter={() => this.setState({ [`show-${key}`]: true })}
+        onMouseLeave={() => this.setState({ [`show-${key}`]: false })}
+      >
+        <IconFont type={`icon-${key}`} style={{ marginRight: 8 }} />
+        {this.state[`isEdit-${key}`] ? (
+          <>
+            <Input
+              size="small"
+              defaultValue={profile[key]}
+              onChange={e => this.setState({ [key]: e.target.value })}
+            />
+            <IconFont
+              type="icon-check"
+              style={{ margin: '0 12px' }}
+              onClick={async () => {
+                const resp = await updateProfile({ [key]: this.state[key] });
+                if (resp) {
+                  await this.onRefresh();
+                  this.setState({
+                    [`show-${key}`]: false,
+                    [`isEdit-${key}`]: false,
+                  });
+                  message.success('修改成功');
+                } else {
+                  message.success('修改失败');
+                }
+              }}
+            />
+            <IconFont
+              type="icon-cancel"
+              onClick={() =>
+                this.setState({
+                  [`show-${key}`]: false,
+                  [`isEdit-${key}`]: false,
+                })
+              }
+            />
+          </>
+        ) : (
+          <>
+            {profile[key] || '-'}
+            {this.state[`show-${key}`] && editProfile(key)}
+          </>
+        )}
+      </div>
+    );
 
     const uploadButton = (
       <div>
@@ -103,22 +172,10 @@ export class UserProfileComp extends React.Component<
           style={{ width: 300, padding: '24px ' }}
           title={profile.username || '-'}
         >
-          <Descriptions.Item>
-            <Icon type="environment" style={{ marginRight: 8 }} />
-            {profile.address}
-          </Descriptions.Item>
-          <Descriptions.Item>
-            <Icon type="book" style={{ marginRight: 8 }} />
-            {profile.university}
-          </Descriptions.Item>
-          <Descriptions.Item>
-            <Icon type="mail" style={{ marginRight: 8 }} />
-            {profile.email}
-          </Descriptions.Item>
-          <Descriptions.Item>
-            <Icon type="github" style={{ marginRight: 8 }} />
-            {profile.github}
-          </Descriptions.Item>
+          <Descriptions.Item>{renderItem('address')}</Descriptions.Item>
+          <Descriptions.Item>{renderItem('university')}</Descriptions.Item>
+          <Descriptions.Item>{renderItem('email')}</Descriptions.Item>
+          <Descriptions.Item>{renderItem('github')}</Descriptions.Item>
         </Descriptions>
       </div>
     );

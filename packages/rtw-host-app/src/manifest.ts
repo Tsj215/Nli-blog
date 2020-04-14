@@ -4,7 +4,7 @@ import { ComponentType } from 'react';
 
 import { menu as articleMenu } from '@/pages/article/meta';
 // import { menu as moyunMenu } from '@/pages/moCloud/meta';
-import { menu as testMenu } from '@/pages/testModule/meta';
+// import { menu as testMenu } from '@/pages/testModule/meta';
 // import { getToken } from '@/skeleton';
 
 // import { menu as PageAmenu } from '@/pages/page-a/meta';
@@ -70,13 +70,13 @@ export const getMenus = () => {
     //   authority: ['admin'],
     //   children: mapMenus([...moyunMenu()]),
     // },
-    {
-      key: 'module',
-      icon: 'cloud',
-      name: '测试',
-      authority: ['admin'],
-      children: mapMenus([...testMenu()]),
-    },
+    // {
+    //   key: 'module',
+    //   icon: 'cloud',
+    //   name: '测试',
+    //   authority: ['admin'],
+    //   children: mapMenus([...testMenu()]),
+    // },
     // {
     //   key: 'page-home',
     //   icon: 'dashboard',
