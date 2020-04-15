@@ -109,3 +109,12 @@ export async function deleteByKey(key: string) {
 
   return status === 'ok';
 }
+
+// 获取指定前缀文件列表
+export async function getFileByPrefix(prefix: string) {
+  const { data } = await umiRequest.get<{ data: any[] }>(
+    `${HOST}/user/photoGallery/${prefix}`,
+  );
+
+  return data;
+}

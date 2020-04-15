@@ -19,7 +19,7 @@ import * as S from '@/schema';
 import { PageHeader } from 'rtw-components/src';
 
 import { userActions } from '../../ducks/profile';
-import { ArchiveData } from '../ArchiveData';
+import { PhotoGallery } from '../PhotoGallery';
 
 import * as styles from './index.less';
 
@@ -284,7 +284,7 @@ export class UserProfileComp extends React.Component<
           {this.renderSignature()}
         </div>
         <div className={styles.content}>
-          <ArchiveData showInBars={true} />
+          <PhotoGallery />
         </div>
       </div>
     );
