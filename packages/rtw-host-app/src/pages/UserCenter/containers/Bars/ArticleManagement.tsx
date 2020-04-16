@@ -3,6 +3,7 @@ import { Button, Divider, Popconfirm, Table, Tag, message } from 'antd';
 import { ColumnProps, PaginationConfig } from 'antd/es/table';
 import dayjs from 'dayjs';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { deleteArticle } from '@/apis';
 import * as S from '@/schema';
@@ -28,6 +29,13 @@ export const ArticleListTable: React.FC<ArticleListTableProps> = ({
       key: 'title',
       title: '标题',
       dataIndex: 'title',
+      render: (_, r) => (
+        <Link className={styles.link} to={`/article/detail/${r.id}`}>
+          <Ellipsis length={20} tooltip={true}>
+            {r.title}
+          </Ellipsis>
+        </Link>
+      ),
     },
     {
       align: 'center',
