@@ -1,3 +1,10 @@
+export interface Photo {
+  name: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
 export class UserProfile {
   id: number;
   username: string;
@@ -7,4 +14,5 @@ export class UserProfile {
   github: string;
   signature: string;
   avatarUrl: string;
+  photos: Photo[];
 }

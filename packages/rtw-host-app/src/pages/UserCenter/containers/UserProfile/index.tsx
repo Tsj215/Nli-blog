@@ -272,6 +272,8 @@ export class UserProfileComp extends React.Component<
   }
 
   render() {
+    const { profile } = this.props;
+
     return (
       <div className={styles.container}>
         <PageHeader
@@ -284,7 +286,7 @@ export class UserProfileComp extends React.Component<
           {this.renderSignature()}
         </div>
         <div className={styles.content}>
-          <PhotoGallery />
+          <PhotoGallery photos={profile.photos} onRefresh={this.onRefresh} />
         </div>
       </div>
     );

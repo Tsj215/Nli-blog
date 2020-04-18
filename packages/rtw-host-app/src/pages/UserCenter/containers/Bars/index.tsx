@@ -67,7 +67,13 @@ export class BarsComp extends React.Component<BarsProps, BarsState> {
     const { pageNum, pageSize, title, tags, from, to } = this.state;
 
     this.props.loadTagList();
-    this.props.loadArticleList(pageNum, pageSize, { title, tags, from, to });
+    this.props.loadArticleList(pageNum, pageSize, {
+      title,
+      tags,
+      from,
+      to,
+      orderBy: 'createAt',
+    });
   };
 
   onTabChange = (key: string) => {

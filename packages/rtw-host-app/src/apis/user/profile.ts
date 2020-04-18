@@ -118,3 +118,15 @@ export async function getFileByPrefix(prefix: string) {
 
   return data;
 }
+
+// 增加图片
+export async function addPhoto(name: string, url: string) {
+  const { status } = await umiRequest.post<{ status: string }>(
+    `${HOST}/user/addPhoto`,
+    {
+      data: { name, url },
+    },
+  );
+
+  return status === 'ok';
+}

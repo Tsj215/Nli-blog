@@ -130,6 +130,7 @@ export class TagsManagementComp extends React.Component<
 
   showModal = () => {
     const { visible, tagName } = this.state;
+
     return (
       <Modal
         title="创建标签"
