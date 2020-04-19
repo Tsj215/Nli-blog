@@ -1,4 +1,4 @@
-import { Icon, Upload, message } from 'antd';
+import { Button, Icon, Radio, Upload, message } from 'antd';
 import { RcFile, UploadChangeParam } from 'antd/lib/upload/interface';
 import _ from 'lodash';
 import * as React from 'react';
@@ -96,7 +96,7 @@ export class PhotoGalleryComp extends React.Component<
   };
 
   renderPhoto = ({ index, photo }: any) => {
-    const { selectedId } = this.state;
+    const { selectedId, isEditPhoto } = this.state;
     const imgStyle = {
       transition:
         'transform .135s cubic-bezier(0.0,0.0,0.2,1),opacity linear .15s',
@@ -129,7 +129,11 @@ export class PhotoGalleryComp extends React.Component<
           src={photo.src}
           width={photo.width}
           height={photo.height}
-          onClick={() => this.handlePhotoGallery(photo)}
+          onClick={
+            isEditPhoto
+              ? () => this.handlePhotoGallery(photo)
+              : () => this.handleLightBox(_, { index })
+          }
         />
       </div>
     );
@@ -141,6 +145,43 @@ export class PhotoGalleryComp extends React.Component<
 
     return (
       <div className={styles.container}>
+        <div style={{ margin: '4px 20px 12px' }}>
+          <Radio.Group
+            buttonStyle="solid"
+            defaultValue={false}
+            onChange={e =>
+              this.setState({
+                isEditPhoto: e.target.value,
+                selectedId: e.target.value ? this.state.selectedId : [],
+              })
+            }
+          >
+            <Radio.Button value={false}>预览</Radio.Button>
+            <Radio.Button value={true}>编辑</Radio.Button>
+          </Radio.Group>
+          {this.state.isEditPhoto && (
+            <Button type="danger" style={{ marginLeft: '20px' }}>
+              删除
+            </Button>
+          )}
+          <Upload
+            style={{ border: '1px solid red' }}
+            showUploadList={false}
+            action="http://upload.qiniup.com"
+            onChange={this.onUploadChange}
+            beforeUpload={this.beforeUpload}
+            data={{ token: uploadToken, key }}
+          >
+            <Button style={{ marginLeft: '20px' }}>
+              {this.state.isUploading ? (
+                <Icon type="loading" />
+              ) : (
+                <Icon type="upload" />
+              )}
+              上传图片
+            </Button>
+          </Upload>
+        </div>
         <Gallery
           margin={6}
           photos={(photos || []).map(p => ({
@@ -152,20 +193,7 @@ export class PhotoGalleryComp extends React.Component<
           }))}
           renderImage={this.renderPhoto}
         />
-        <Upload
-          listType="picture-card"
-          showUploadList={false}
-          action="http://upload.qiniup.com"
-          onChange={this.onUploadChange}
-          beforeUpload={this.beforeUpload}
-          data={{ token: uploadToken, key }}
-        >
-          {this.state.isUploading ? (
-            <Icon type="loading" />
-          ) : (
-            <Icon type="plus" />
-          )}
-        </Upload>
+
         <ModalGateway>
           {this.state.isShowLightBox && (
             <Modal
