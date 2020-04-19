@@ -1,3 +1,17 @@
 .container {
   padding: 12px;
+
+  .renderPhoto {
+    margin: 2;
+    background-color: #eee;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+  }
+
+  :global {
+    .react-photo-gallery--gallery > div {
+      justify-content: center;
+    }
+  }
 }
