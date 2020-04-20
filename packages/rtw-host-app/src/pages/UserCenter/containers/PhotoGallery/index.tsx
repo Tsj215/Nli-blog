@@ -7,7 +7,7 @@ import Gallery from 'react-photo-gallery';
 import { connect } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 
-import { addPhoto, getDownloadUrl, getQiniuToken } from '@/apis';
+import { addPhoto, deletePhotos, getDownloadUrl, getQiniuToken } from '@/apis';
 import { IState } from '@/ducks';
 import * as S from '@/schema';
 
@@ -30,8 +30,9 @@ export interface PhotoGalleryState {
   selectedId: number[];
   currentPhoto: number;
   isUploading: boolean;
-  isShowLightBox: boolean;
   isEditPhoto: boolean;
+  isShowLightBox: boolean;
+  selectedPhotoNames: string[];
 }
 
 export class PhotoGalleryComp extends React.Component<
@@ -44,9 +45,10 @@ export class PhotoGalleryComp extends React.Component<
     this.state = {
       selectedId: [],
       currentPhoto: 0,
-      isEditPhoto: false,
       isUploading: false,
+      isEditPhoto: false,
       isShowLightBox: false,
+      selectedPhotoNames: [],
     };
   }
 
@@ -57,6 +59,7 @@ export class PhotoGalleryComp extends React.Component<
       message.error('最大上传10M');
       return false;
     }
+
     const uploadToken = await getQiniuToken();
 
     this.setState({ uploadToken, key: file.name });
@@ -70,28 +73,34 @@ export class PhotoGalleryComp extends React.Component<
       this.setState({ isUploading: false });
     }
     if (info.file.status === 'done') {
-      message.success('上传成功');
+      const image = new Image();
       const url = await getDownloadUrl(info.file.response.key);
-      await addPhoto(info.file.name, url);
-      this.props.onRefresh();
+
+      image.src = url;
+      image.onload = async () => {
+        await addPhoto(info.file.name, url, image.width, image.height);
+        this.props.onRefresh();
+        message.success('上传成功');
+      };
     }
   };
 
   handleLightBox = (__: any, { index }: { index: number }) => {
-    console.log('index', index);
     this.setState({ isShowLightBox: true, currentPhoto: index });
   };
 
   handlePhotoGallery = (photo: any) => {
-    const { selectedId } = this.state;
+    const { selectedId, selectedPhotoNames } = this.state;
 
     if (_.includes(selectedId, photo.id)) {
-      this.setState({ selectedId: _.pull(selectedId, photo.id) }, () =>
-        console.log(this.state.selectedId),
-      );
+      this.setState({
+        selectedId: _.pull(selectedId, photo.id),
+        selectedPhotoNames: _.pull(selectedPhotoNames, photo.name),
+      });
     } else {
       selectedId.push(photo.id);
-      this.setState({ selectedId }, () => console.log(this.state.selectedId));
+      selectedPhotoNames.push(photo.name);
+      this.setState({ selectedId, selectedPhotoNames });
     }
   };
 
@@ -141,7 +150,7 @@ export class PhotoGalleryComp extends React.Component<
 
   render() {
     const { photos } = this.props;
-    const { uploadToken, key } = this.state;
+    const { uploadToken, key, selectedId, selectedPhotoNames } = this.state;
 
     return (
       <div className={styles.container}>
@@ -160,7 +169,15 @@ export class PhotoGalleryComp extends React.Component<
             <Radio.Button value={true}>编辑</Radio.Button>
           </Radio.Group>
           {this.state.isEditPhoto && (
-            <Button type="danger" style={{ marginLeft: '20px' }}>
+            <Button
+              type="danger"
+              style={{ marginLeft: '20px' }}
+              onClick={async () => {
+                const resp = await deletePhotos(selectedId, selectedPhotoNames);
+                resp && message.success('删除成功');
+                this.props.onRefresh();
+              }}
+            >
               删除
             </Button>
           )}
@@ -187,8 +204,9 @@ export class PhotoGalleryComp extends React.Component<
           photos={(photos || []).map(p => ({
             id: p.id,
             src: p.url,
-            width: 1,
-            height: 1,
+            name: p.name,
+            width: p.width,
+            height: p.height,
             sizes: ['(min-width: 480px) 50vw,(min-width: 1024px) 33.3vw,100vw'],
           }))}
           renderImage={this.renderPhoto}

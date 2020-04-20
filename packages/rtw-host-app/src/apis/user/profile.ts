@@ -120,11 +120,28 @@ export async function getFileByPrefix(prefix: string) {
 }
 
 // 增加图片
-export async function addPhoto(name: string, url: string) {
+export async function addPhoto(
+  name: string,
+  url: string,
+  width: number,
+  height: number,
+) {
   const { status } = await umiRequest.post<{ status: string }>(
     `${HOST}/user/addPhoto`,
     {
-      data: { name, url },
+      data: { name, url, width, height },
+    },
+  );
+
+  return status === 'ok';
+}
+
+// 批量删除图片
+export async function deletePhotos(ids: number[], names: string[]) {
+  const { status } = await umiRequest.delete<{ status: string }>(
+    `${HOST}/user/deletePhotos`,
+    {
+      data: { ids, names },
     },
   );
 
