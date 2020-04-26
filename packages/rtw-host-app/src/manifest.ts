@@ -37,11 +37,6 @@ export const getManifest = () => {
       type: 'app',
       loader: () => import('./pages/moCloud'),
     },
-    module: {
-      id: 'module',
-      type: 'app',
-      loader: () => import('./pages/testModule'),
-    },
     // 'page-home': {
     //   id: 'page-home',
     //   type: 'app',

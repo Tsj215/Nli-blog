@@ -76,15 +76,6 @@ export class UserDropdown extends React.Component<GlobalHeaderRightProps> {
           </Menu.Item>
         )}
         {menu && token && (
-          <Menu.Item key="settings">
-            <Icon type="setting" />
-            <FormattedMessage
-              id="menu.account.settings"
-              defaultMessage="个人设置"
-            />
-          </Menu.Item>
-        )}
-        {menu && token && (
           <Menu.Item key="bars">
             <Icon type="bars" />
             <FormattedMessage
