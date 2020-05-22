@@ -11,7 +11,6 @@ import {
 } from 'antd';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import QueueAnim from 'rc-queue-anim';
 import Texty from 'rc-texty';
 import 'rc-texty/assets/index.css';
 import * as React from 'react';
@@ -312,15 +311,9 @@ export class ArticleListComp extends React.Component<
             </div>
           </div>
           <div className={styles.content}>
-            <QueueAnim
-              duration={400}
-              leaveReverse={true}
-              type={['right', 'left']}
-            >
-              {(articleList || []).map(a => (
-                <ArticleCard key={a.id} article={a} />
-              ))}
-            </QueueAnim>
+            {(articleList || []).map(a => (
+              <ArticleCard key={a.id} article={a} />
+            ))}
           </div>
           <Pagination onChange={this.onPaginatinChange} total={articleCount} />
         </div>
